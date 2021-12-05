@@ -1,21 +1,22 @@
-import Header from "../Main/Header";
-import Promo from "../Main/Promo";
-import AboutProject from "../Main/AboutProject";
-import Techs from "../Main/Techs";
-import AboutMe from "../Main/AboutMe";
-import Footer from "../Main/Footer";
+// import { Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import React from "react";
+import Header from "../Header/Header";
+import Home from "../Home/Home";
+import Footer from "../Footer/Footer";
+import Register from "../Register/Register";
+import Login from "../Login/Login";
 
-const App = function () {
+export default function App() {
   return (
     <div className='root'>
       <Header />
-      <Promo />
-      <AboutProject />
-      <Techs />
-      <AboutMe />
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/register' element={<Register />} />
+        <Route path='/login' element={<Login />} />
+      </Routes>
       <Footer />
     </div>
   );
-};
-
-export default App;
+}

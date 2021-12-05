@@ -15,7 +15,9 @@ const Footer = function () {
           <p class='footer__copy'>© {year}</p>
           <ul class='footer__links'>
             <li>
-              <Link class='footer__link' to='https://practicum.yandex.ru/web/'>
+              <Link
+                class='footer__link'
+                to={`https://practicum.yandex.ru/web/`}>
                 Яндекс.Практикум
               </Link>
             </li>

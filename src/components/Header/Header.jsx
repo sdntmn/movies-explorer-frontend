@@ -8,10 +8,10 @@ const Header = function () {
       <header className='header'>
         <img className='logo' src={logoPath} alt='Логотип сайта' />
         <div className='header__nav'>
-          <Link className='header__link' to='/'>
+          <Link className='header__link' to='/register'>
             Регистрация
           </Link>
-          <Link className='header__button root__color-green' to='#'>
+          <Link className='header__button root__color-green' to='/login'>
             Войти
           </Link>
         </div>

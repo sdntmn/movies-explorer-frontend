@@ -19,7 +19,7 @@ const Promo = function () {
           </div>
           <img className='promo__img' src={promoPath} alt='Логотип сайта' />
         </div>
-        <Link className='promo__button' to=''>
+        <Link className='promo__button' to='/'>
           Узнать больше
         </Link>
       </section>
