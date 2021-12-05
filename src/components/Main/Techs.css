@@ -1,0 +1,124 @@
+.techs__section {
+  max-width: calc(1280px - 70px * 2);
+  padding: 100px 70px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .techs__section {
+    padding: 90px 50px;
+  }
+}
+
+@media (max-width: 640px) {
+  .techs__section {
+    padding: 70px 18px;
+  }
+}
+
+.techs__title-description {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.techs__subtitle {
+  margin: 0;
+  padding-top: 90px;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 50px;
+  line-height: 58px;
+  text-align: center;
+  letter-spacing: -0.04em;
+}
+
+@media (max-width: 768px) {
+  .techs__subtitle {
+    padding-top: 80px;
+  }
+}
+
+@media (max-width: 640px) {
+  .techs__subtitle {
+    padding-top: 60px;
+    font-size: 30px;
+    line-height: 36px;
+  }
+}
+
+.techs__subtitle-text {
+  margin: 0;
+  padding-top: 26px;
+  max-width: 460px;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+  letter-spacing: -0.04em;
+}
+
+@media (max-width: 768px) {
+  .techs__subtitle-text {
+    padding-top: 22px;
+    font-size: 12px;
+    line-height: 18px;
+  }
+}
+
+@media (max-width: 640px) {
+  .techs__subtitle-text {
+    padding-top: 24px;
+    font-size: 11px;
+    line-height: 16px;
+  }
+}
+
+.techs__progect-techs {
+  margin: 0;
+  display: grid;
+  justify-content: center;
+  list-style-type: none;
+  padding-left: 0;
+  grid-template-columns: repeat(7, 90px);
+  grid-template-rows: repeat(auto-fill, 60px);
+  gap: 10px;
+  padding-top: 100px;
+}
+
+@media (max-width: 768px) {
+  .techs__progect-techs {
+    padding-top: 83px;
+    grid-template-columns: repeat(auto-fill, 84px);
+    grid-template-rows: repeat(auto-fill, 57px);
+  }
+}
+
+@media (max-width: 640px) {
+  .techs__progect-techs {
+    padding-top: 50px;
+    grid-template-columns: repeat(2, 84px);
+  }
+}
+
+.techs__progect-techs-text {
+  text-align: center;
+  border-radius: 10px;
+  border-style: none;
+  letter-spacing: -0.04em;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 60px;
+}
+
+@media (max-width: 768px) {
+  .techs__progect-techs-text {
+    font-size: 12px;
+    line-height: 57px;
+  }
+}

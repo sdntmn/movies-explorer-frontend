@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import promoPath from "../images/promo.svg";
+import promoPath from "../../images/promo.svg";
 
 const Promo = function () {
   return (
