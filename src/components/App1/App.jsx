@@ -1,4 +1,4 @@
-import Header from "../header/Header";
+import Header from "../Main/Header";
 import Promo from "../Promo";
 
 const App = function () {
