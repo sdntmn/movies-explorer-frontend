@@ -1,41 +1,29 @@
 import React from "react";
+import Form from "../Form/Form";
+import Input from "../Input/Input";
 
-const Login = function () {
+const Login = function (name) {
   return (
-    <div className='form'>
-      <form className='form__data'>
-        <fieldset className='form__grouping'>
-          <legend className='form__title'>Рады видеть!</legend>
-          <span className='form__promp'>E-mail</span>
-          <input
-            className='form__input '
-            id='form-email-reg'
-            minLength='2'
-            maxLength='30'
-            placeholder='Email'
-            type='email'
-            name='email'
-            required
-          />
-          <span className='popup__input-error name-input-error'></span>
-          <span className='form__promp'>Пароль</span>
-          <input
-            className='form__input popup__input_value_link'
-            id='form-link-reg'
-            placeholder='Пароль'
-            type='password'
-            name='password'
-            required
-          />
-          <span className='popup__input-error link-input-error'></span>
-        </fieldset>
-        <button
-          type='submit'
-          className='form__button'
-          aria-label='Зарегистрироваться'>
-          Войти
-        </button>
-      </form>
+    <div className="form">
+      <Form
+        title="Рады видеть!"
+        btnName="Войти"
+        message=""
+        value=""
+        onSubmit=""
+        onChange=""
+        name=""
+        text="Ещё не зарегистрированы?"
+        linkText="Регистрация"
+        pathLink="/register"
+      >
+        <Input inputTitle="E-mail" idName={`${name}`} inputType="email"></Input>
+        <Input
+          inputTitle="Пароль"
+          idName={`${name}`}
+          inputType="password"
+        ></Input>
+      </Form>
     </div>
   );
 };

@@ -6,17 +6,26 @@ import Home from "../Home/Home";
 import Footer from "../Footer/Footer";
 import Register from "../Register/Register";
 import Login from "../Login/Login";
+import Navigation from "../Navigation/Navigation";
 
 export default function App() {
   return (
-    <div className='root'>
-      <Header />
+    <div className="root">
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/register' element={<Register />} />
-        <Route path='/login' element={<Login />} />
+        <Route
+          path="/"
+          element={
+            <>
+              <Header>{Navigation}</Header>
+              <Home />
+              <Footer />
+            </>
+          }
+        />
+
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
-      <Footer />
     </div>
   );
 }
