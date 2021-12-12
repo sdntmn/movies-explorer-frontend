@@ -11,31 +11,26 @@ export default function Form({
   name,
   children,
   pathLink,
+  sylesSection,
 }) {
   return (
-    <div className="form">
+    <div className='form'>
       <form
-        className="form__data"
+        className='form__data'
         id={`form_${name}`}
         name={`${name}`}
-        onSubmit={onSubmit}
-      >
-        <fieldset className="form__grouping">
-          <legend className="form__title">{title}</legend>
+        onSubmit={onSubmit}>
+        <fieldset className='form__grouping'>
+          <legend className='form__title'>{title}</legend>
         </fieldset>
         {children}
-        <button
-          type="submit"
-          className="form__button"
-          aria-label="Зарегистрироваться"
-        >
-          {btnName}
-        </button>
+
         <FormLinkEnter
+          sylesSection={sylesSection}
           pathLink={pathLink}
           text={text}
           linkText={linkText}
-        ></FormLinkEnter>
+          btnName={btnName}></FormLinkEnter>
       </form>
     </div>
   );

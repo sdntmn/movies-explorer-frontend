@@ -12,3 +12,10 @@
 @import url(./components/Main/Techs.css);
 @import url(./components/Main/AboutMe.css);
 @import url(./components/Footer/Footer.css);
+
+/* Стили перенапрвления*/
+@import url(./components/FormLinkEnter/FormLinkEnter.css);
+@import url(./components/Form/Form.css);
+
+/* Инпуты */
+@import url(./components/Input/Input.css);

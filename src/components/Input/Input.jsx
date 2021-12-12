@@ -1,8 +1,8 @@
 import React from "react";
 
-const Register = function ({ inputTitle, inputType, message, idName }) {
+const Input = function ({ inputTitle, inputType, message, idName }) {
   return (
-    <>
+    <div className='form__inputs'>
       <span className='form__promp'>{inputTitle}</span>
       <input
         className='form__input popup__input_value_link'
@@ -10,9 +10,11 @@ const Register = function ({ inputTitle, inputType, message, idName }) {
         type={inputType}
         required
       />
-      <span className='popup__input-error link-input-error'>{message}</span>
-    </>
+      <span className='form__input-error link-input-error'>
+        Что-то пошло не так...
+      </span>
+    </div>
   );
 };
 
-export default Register;
+export default Input;

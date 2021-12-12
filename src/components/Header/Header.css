@@ -20,6 +20,27 @@
   }
 }
 
+.header__auth {
+  max-width: 396px;
+  margin: 0 auto;
+  padding-top: 70px;
+  padding-bottom: 40px;
+}
+
+@media (max-width: 768px) {
+  .header__auth {
+    padding-top: 232px;
+  }
+}
+
+@media (max-width: 640px) {
+  .header__auth {
+    max-width: 38px;
+    padding-top: 56px;
+    padding-bottom: 50px;
+  }
+}
+
 .header__nav {
   max-width: min-content;
   display: flex;
