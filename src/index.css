@@ -4,14 +4,18 @@
 
 /* Стили общие */
 @import url(./components/App/App.css);
+/* Стили Header */
+@import url(./components/Header/Header.css);
+/* Стили Footer */
+@import url(./components/Footer/Footer.css);
 
 /* Стили главной страницы Header, Promo, AboutProject, Techs, AboutMe, Footer*/
-@import url(./components/Header/Header.css);
-@import url(./components/Main/Promo.css);
-@import url(./components/Main/AboutProject.css);
-@import url(./components/Main/Techs.css);
-@import url(./components/Main/AboutMe.css);
-@import url(./components/Footer/Footer.css);
+
+@import url(./components/Home/Promo.css);
+@import url(./components/Home/AboutProject.css);
+@import url(./components/Home/Techs.css);
+@import url(./components/Home/AboutMe.css);
+
 
 /* Стили перенапрвления*/
 @import url(./components/FormLinkEnter/FormLinkEnter.css);
@@ -19,3 +23,4 @@
 
 /* Инпуты */
 @import url(./components/Input/Input.css);
+@import url(./components/SearchForm/SearchForm.css);

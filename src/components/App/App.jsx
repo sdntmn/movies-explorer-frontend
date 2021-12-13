@@ -1,18 +1,19 @@
 // import { Routes, Route } from "react-router-dom";
-import { Routes, Route } from "react-router-dom";
-import React from "react";
-import Header from "../Header/Header";
-import Home from "../Home/Home";
-import Footer from "../Footer/Footer";
-import Register from "../Register/Register";
-import Login from "../Login/Login";
+import { Routes, Route } from "react-router-dom"
+import React from "react"
+import Home from "../Home/Home"
+import Footer from "../Footer/Footer"
+import Register from "../Register/Register"
+import Login from "../Login/Login"
+import Profile from "../Profile/Profile"
+import Main from "../Main/Main"
 
 export default function App() {
   return (
-    <div className='root'>
+    <div className="root">
       <Routes>
         <Route
-          path='/'
+          path="/"
           element={
             <>
               <Home />
@@ -21,16 +22,19 @@ export default function App() {
           }
         />
 
+        <Route path="/register" element={<Register />} />
+        <Route path="/profile" element={<Profile />} />
         <Route
-          path='/register'
+          path="/movies"
           element={
             <>
-              <Register />
+              <Main />
+              <Footer />
             </>
           }
         />
-        <Route path='/login' element={<Login />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </div>
-  );
+  )
 }

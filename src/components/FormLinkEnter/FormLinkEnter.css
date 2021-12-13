@@ -8,21 +8,71 @@
 .form__text {
   margin: 0;
   color: rgba(139, 139, 139, 1);
+  font-style: normal;
+font-weight: normal;
   font-size: 14px;
   line-height: 17px;
   padding-right: 6px;
 }
 
+@media (max-width: 640px) {
+  .form__text {
+  font-size: 12px;
+  line-height: 15px;
+  }
+}
+
 .form__link {
   margin: 0;
-
   max-width: max-content;
   color: rgba(66, 133, 244, 1);
   text-decoration: none;
+  font-style: normal;
+  font-weight: normal;
   font-size: 14px;
   line-height: 17px;
 }
 
+@media (max-width: 640px) {
+  .form__link {
+  font-size: 12px;
+  line-height: 15px;
+  }
+}
+
 .form__link:hover {
-  opacity: 80%;
+  opacity: 0.8;
+}
+
+.form__button {
+  background-color: transparent;
+  cursor: pointer;
+  max-width: 396px;
+  width: 100%;
+  min-height: 45px;
+  border: none;
+  background: rgba(66, 133, 244, 1);
+  border-radius: 3px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  color: rgba(255, 255, 255, 1);
+}
+
+@media (max-width: 640px) {
+  .form__button {
+    max-width: 260px;
+    font-size: 12px;
+line-height: 15px;
+  }
+}
+
+.form__button:hover {
+  opacity: 0.8;
+}
+
+.form__button:disabled {
+  opacity: 0.2;
+  cursor: default;
 }

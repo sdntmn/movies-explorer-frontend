@@ -1,33 +1,39 @@
-import React from "react";
-import Header from "../Header/Header";
-import Form from "../Form/Form";
-import Input from "../Input/Input";
+import { useNavigate } from "react-router-dom"
+import React from "react"
+import Header from "../Header/Header"
+import Form from "../Form/Form"
+import Input from "../Input/Input"
 
 const Login = function (name) {
+  const navigate = useNavigate()
+  const profile = () => navigate("/profile")
+
   return (
     <>
-      <Header stylesHider='header__auth'></Header>
-
+      <Header stylesHider="header__auth">
+        <p className="header__title-auth">Рады видеть!</p>
+      </Header>
       <Form
-        title='Рады видеть!'
-        btnName='Войти'
-        message=''
-        value=''
-        onSubmit=''
-        onChange=''
-        name=''
-        text='Ещё не зарегистрированы?'
-        linkText='Регистрация'
-        pathLink='/register'
-        sylesSection='form__section-log'>
-        <Input inputTitle='E-mail' idName={`${name}`} inputType='email'></Input>
+        title="Рады видеть!"
+        btnName="Войти"
+        message=""
+        value=""
+        onClick={profile}
+        onChange=""
+        name=""
+        text="Ещё не зарегистрированы?"
+        linkText="Регистрация"
+        pathLink="/register"
+      >
+        <Input inputTitle="E-mail" idName={`${name}`} inputType="email"></Input>
         <Input
-          inputTitle='Пароль'
+          inputTitle="Пароль"
           idName={`${name}`}
-          inputType='password'></Input>
+          inputType="password"
+        ></Input>
       </Form>
     </>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

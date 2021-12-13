@@ -1,0 +1,108 @@
+.searchForm {
+  max-width: calc(1280px - 70px * 2);
+  margin: 0 auto;
+  padding: 0 70px;
+  padding-top: 70px;
+  padding-bottom: 10px;
+}
+
+.searchForm__section {
+  display: flex;
+  flex-direction: column;  
+  border-bottom: 1px solid rgba(170, 170, 170, 1);
+}
+
+.searchForm__movies {
+  border: 1.5px solid rgba(170, 170, 170, 1);
+  box-sizing: border-box;
+  border-radius: 8px;
+  
+  
+
+}
+
+.searchForm__movies-input {
+  padding: 0;
+  padding-left: 25px;
+  height: 72px;
+  width: calc(100% - 25px - 10px - 100px);
+  background: inherit;
+  border: none;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 20px;
+  color: rgba(139, 139, 139, 1);
+
+}
+
+.searchForm__movies-button {
+  min-height: 52px;
+  min-width: 100px;
+  background: rgba(66, 133, 244, 1);
+  border-radius: 5px;
+  border: none;
+}
+
+/* Блок тумблера  searchForm__section-tumb*/
+
+
+.searchForm__tumb {
+  display: grid;
+  grid-template-columns: min-content min-content;
+  column-gap: 14px;
+  align-items: center;
+  padding-top: 27px;
+  padding-bottom: 44px;
+}
+
+/* Блок инпута */
+.searchForm__tumb-span {
+  position: relative;
+  display: inline-block;
+  box-sizing: border-box;
+  width: 36px;	
+  height: 20px;
+  border: none;
+  border-radius: 25%/50%;	
+  vertical-align: top;
+  background: rgba(52, 52, 52, 1);
+  transition: .2s;
+}
+
+.searchForm__tumb-text {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 18px;
+  color: rgba(255, 255, 255, 1);
+}
+
+/* Шарик */
+.searchForm__tumb-span:before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;	
+  display: inline-block;
+  width: 16px;	
+  height: 16px;
+  border-radius: 50%;
+  background: rgba(160, 160, 160, 1);
+  transition: .15s;
+  border: 1px solid #FFFFFF;
+  box-sizing: border-box;
+}
+.searchForm__tumb-input {
+  display: block;
+  width: 0;
+  height: 0;
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+}
+
+.searchForm__tumb-input:checked + .searchForm__tumb-span:before {
+  transform:translateX(16px);
+  background: rgba(43, 224, 128, 1);
+}

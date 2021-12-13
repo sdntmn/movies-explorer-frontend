@@ -1,4 +1,5 @@
 .form__inputs {
+  margin: 0;
   max-height: 68px;
   height: 100%;
 }
@@ -13,10 +14,6 @@
   font-size: 10px;
   line-height: 12px;
   color: rgba(139, 139, 139, 1);
-}
-
-.form__promp:not(:first-child) {
-  padding-top: 24px;
 }
 
 .form__input {
@@ -43,11 +40,7 @@ input:-webkit-autofill:focus {
   transition: background-color 600000s 0s, color 600000s 0s;
 }
 
-@media (max-width: 560px) {
-  .form__input {
-    margin-top: 30px;
-  }
-}
+
 
 .form__input-error {
   font-style: normal;
