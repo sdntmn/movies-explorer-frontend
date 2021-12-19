@@ -1,6 +1,7 @@
 import React from "react"
+import FilterCheckbox from "../FilterCheckbox/FilterCheckbox"
 
-const SearchForm = function ({ inputTitle, inputType, message, idName }) {
+const SearchForm = function ({ idName }) {
   return (
     <div className="searchForm">
       <form className="searchForm__section">
@@ -15,17 +16,7 @@ const SearchForm = function ({ inputTitle, inputType, message, idName }) {
             Поиск
           </button>
         </div>
-        <div className="searchForm__tumb">
-          <label>
-            <input
-              for={`form_${idName}`}
-              className="searchForm__tumb-input"
-              type="checkbox"
-            />
-            <span className="searchForm__tumb-span"></span>
-          </label>
-          <p className="searchForm__tumb-text">Короткометражки</p>
-        </div>
+        <FilterCheckbox />
       </form>
     </div>
   )

@@ -1,43 +1,56 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from "react"
 
 const Footer = function () {
-  const today = new Date();
-  let year = today.getFullYear();
+  const today = new Date()
+  let year = today.getFullYear()
+  const urlYpraktikum = "https://practicum.yandex.ru/profile/web"
+  const urlGitHub = "https://github.com/sdntmn/movies-explorer-frontend"
+  const urlVk = "https://vk.com/sdntmn"
   return (
     <>
-      <footer class='footer root__color-white'>
-        <p class='footer__title root__text-color-gray'>
+      <footer className="footer root__color-white">
+        <p className="footer__title root__text-color-gray">
           Учебный проект Яндекс.Практикум х BeatFilm.
         </p>
-        <hr class='root__line' />
-        <div class='footer__block'>
-          <p class='footer__copy'>© {year}</p>
-          <ul class='footer__links'>
+        <hr className="root__line" />
+        <div className="footer__block">
+          <p className="footer__copy">© {year}</p>
+          <ul className="footer__links">
             <li>
-              <Link
-                class='footer__link'
-                to={`https://practicum.yandex.ru/web/`}>
+              <a
+                className="footer__link"
+                target="_blank"
+                rel="noopener noreferrer"
+                href={urlYpraktikum}
+              >
                 Яндекс.Практикум
-              </Link>
+              </a>
             </li>
             <li>
-              <Link
-                class='footer__link'
-                to='https://github.com/sdntmn/movies-explorer-frontend'>
+              <a
+                className="footer__link"
+                target="_blank"
+                rel="noopener noreferrer"
+                href={urlGitHub}
+              >
                 Github
-              </Link>
+              </a>
             </li>
             <li>
-              <Link class='footer__link' to='https://vk.com/feed'>
+              <a
+                className="footer__link"
+                target="_blank"
+                rel="noopener noreferrer"
+                href={urlVk}
+              >
                 Vk
-              </Link>
+              </a>
             </li>
           </ul>
         </div>
       </footer>
     </>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer

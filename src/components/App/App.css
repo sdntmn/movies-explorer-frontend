@@ -6,6 +6,10 @@
   min-height: 100vh;
 }
 
+.page {
+  min-height: calc(100vh - 262px);
+}
+
 .root__conteiner-hider-footer {
   max-width: calc(1280px - 70px * 2);
   margin: 0 auto;
@@ -27,11 +31,17 @@
   min-width: 320px;
   max-width: calc(1280px - 70px * 2);
   margin: 0 auto;
+  padding: 0 70px;
+}
+
+.root__content-footer {
+  margin-top: calc(100vh - 261.99px - 165px - 398.98px - 245.2px - 73.98px);
 }
 
 @media (max-width: 768px) {
   .root__section {
     max-width: calc(768px - 50px * 2);
+    margin-top: auto;
   }
 }
 

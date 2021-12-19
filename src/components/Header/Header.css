@@ -44,6 +44,12 @@
   }
 }
 
+.header__icon-link {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+}
+
 .header__profile {
   min-height: 74px;
   max-width: calc(1280px - 70px * 2);
@@ -82,12 +88,12 @@
   text-decoration: underline;
 }
 
-
 .header__profile-icons {
   display: grid;
   grid-template-columns: max-content max-content;
   column-gap: 17px;
   align-items: center;
+  text-decoration: none;
 }
 
 .header__profile-acaunt {
@@ -120,8 +126,6 @@
     padding-top: 50px;
   }
 }
-
-
 
 .header__nav {
   max-width: min-content;
