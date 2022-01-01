@@ -1,0 +1,12 @@
+.moviesCardList {
+  max-width: calc(1280px - 70px * 2);
+  margin: 0 auto;
+  padding: 0 70px 10px;
+}
+
+@media (max-width: 768px) {
+  .moviesCardList {
+    max-width: calc(768px - 30px * 2);
+    padding: 0 30px 30px;
+  }
+}

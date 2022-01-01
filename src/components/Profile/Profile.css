@@ -14,12 +14,38 @@
   color: rgba(255, 255, 255, 1);
 }
 
+@media (max-width: 768px) {
+  .profile__title {
+    padding-top: 236px;
+  }
+}
+
+@media (max-width: 320px) {
+  .profile__title {
+    padding-top: 70px;
+  }
+}
+
 .profile__section {
   margin: 0;
   padding-top: 123px;
   padding-bottom: 220px;
   max-width: 410px;
   width: 100%;
+}
+
+@media (max-width: 768px) {
+  .profile__section {
+    padding-top: 96px;
+    padding-bottom: 220px;
+  }
+}
+
+@media (max-width: 320px) {
+  .profile__section {
+    padding-top: 80px;
+    padding-bottom: 379px;
+  }
 }
 
 .profile__block {

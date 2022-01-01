@@ -20,7 +20,7 @@ const Profile = function () {
           </div>
         </div>
         <div className="profile__links">
-          <Link to="/profile" className="profile__link">
+          <Link to="edit" className="profile__link">
             Редактировать
           </Link>
           <Link to="/login" className="profile__link-out">

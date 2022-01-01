@@ -1,34 +1,3 @@
-.moviesCard {
-  max-width: calc(1280px - 70px * 2);
-  margin: 0 auto;
-  padding: 0 70px 10px;
-}
-
-.moviesCard__add {
-  max-width: calc(1280px - 70px * 2);
-  margin: 0 auto;
-  text-align: center;
-  padding: 50px 70px 80px;
-}
-
-.moviesCard__button {
-  display: inline-block;
-  max-width: 320px;
-  width: 100%;
-  max-height: 36px;
-  height: 100%;
-  text-decoration: none;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 36px;
-  background: inherit;
-  color: rgba(255, 255, 255, 1);
-  outline: 1px solid rgba(66, 66, 66, 1);
-  border: none;
-  border-radius: 6px;
-}
-
 .elements {
   margin: 0;
   display: grid;
@@ -41,6 +10,14 @@
   box-sizing: border-box;
 }
 
+@media (max-width: 1040px) {
+  .elements {
+    grid-template-columns: repeat(2, auto);
+    row-gap: 35px;
+    column-gap: 24px;
+  }
+}
+
 .element {
   position: relative;
   list-style: none;
@@ -51,6 +28,12 @@
   background: rgba(34, 34, 34, 1);
   box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.08);
   border-radius: 6px;
+}
+
+@media (max-width: 768px) {
+  .element {
+    grid-template-rows: 54px 190px 65px;
+  }
 }
 
 .element__title {
@@ -83,6 +66,17 @@
   text-align: right;
 }
 
+.element__img {
+  max-width: 360px;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .element__img {
+    max-width: 342px;
+  }
+}
+
 .element__button-active {
   margin: 0;
   padding: 0;
@@ -102,8 +96,12 @@
 }
 
 .element__button-not-active {
-  width: 100px;
-  height: 29px;
+  margin: 0;
+  padding: 0;
+  max-width: 100px;
+  width: 100%;
+  max-height: 29px;
+  height: 100%;
   border-radius: 30px;
   background: rgba(49, 49, 49, 1);
   border: none;

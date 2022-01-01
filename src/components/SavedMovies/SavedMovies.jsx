@@ -4,6 +4,9 @@ import MoviesCard from "../MoviesCard/MoviesCard"
 import MoviesCardList from "../MoviesCardList/MoviesCardList"
 import Footer from "../Footer/Footer"
 
+import pathDeleteIcon from "../../images/delete-movie.svg"
+import MoviesButton from "../Movies/MoviesButton"
+
 const SavedMovies = function () {
   return (
     <>
@@ -11,9 +14,15 @@ const SavedMovies = function () {
         <HeaderProfile />
         <SearchForm />
         <MoviesCardList>
-          <MoviesCard />
-          <MoviesCard />
-          <MoviesCard />
+          <MoviesCard>
+            <MoviesButton className={"element__button-not-active"}>
+              <img
+                className="element__icon"
+                src={pathDeleteIcon}
+                alt="иконка сохранения"
+              />
+            </MoviesButton>
+          </MoviesCard>
         </MoviesCardList>
       </div>
       <Footer />

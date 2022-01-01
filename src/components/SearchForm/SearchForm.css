@@ -6,6 +6,16 @@
   padding-bottom: 10px;
 }
 
+@media (max-width: 768px) {
+  .searchForm {
+    max-width: calc(768px - 30px * 2);
+    padding: 0 30px;
+    padding-top: 70px;
+    padding-bottom: 10px;
+    margin-top: auto;
+  }
+}
+
 .searchForm__section {
   margin: 0;
   padding: 0;
@@ -35,6 +45,7 @@
   font-size: 18px;
   line-height: 20px;
   color: rgba(139, 139, 139, 1);
+  outline: none;
 }
 
 .searchForm__movies-button {
@@ -45,4 +56,9 @@
   background: rgba(66, 133, 244, 1);
   border-radius: 5px;
   border: none;
+  color: rgba(255, 255, 255, 1);
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 18px;
 }

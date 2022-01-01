@@ -8,7 +8,7 @@ const Footer = function () {
   const urlVk = "https://vk.com/sdntmn"
   return (
     <>
-      <footer className="footer root__color-white">
+      <footer className="footer root__color-white ">
         <p className="footer__title root__text-color-gray">
           Учебный проект Яндекс.Практикум х BeatFilm.
         </p>

@@ -1,13 +1,31 @@
-import React from "react"
+import { React, useState } from "react"
 import { Link } from "react-router-dom"
 import Header from "../Header/Header"
 import Navigation from "../Navigation/Navigation"
+import Popup from "../Popup/Popup"
 import iconPath from "../../images/icon__COLOR_icon-main.svg"
+import navPath from "../../images/icon__tree_poloski.png"
 
 const HeaderProfile = function () {
+  const [isPopupOpen, setIsPopupOpen] = useState(false)
+
+  function handleNavClick() {
+    setIsPopupOpen(true)
+  }
+
+  function closeAllPopups() {
+    setIsPopupOpen(false)
+  }
   return (
     <>
       <Header stylesHider="header__profile">
+        <img
+          onClick={handleNavClick}
+          className="header__nav-icons"
+          src={navPath}
+          alt="Логотип сайта"
+        />
+
         <div className="header__profile-nav">
           <div className="header__profile-links">
             <Navigation
@@ -31,6 +49,7 @@ const HeaderProfile = function () {
           </Link>
         </div>
       </Header>
+      <Popup visible={isPopupOpen} onClose={closeAllPopups} />
     </>
   )
 }

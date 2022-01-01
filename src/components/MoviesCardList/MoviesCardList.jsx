@@ -4,7 +4,7 @@ import Preloader from "../Preloader/Preloader"
 const MoviesCardList = function ({ children }) {
   return (
     <>
-      <section className="moviesCard ">
+      <section className="moviesCardList">
         {children ? <ul className="elements">{children}</ul> : <Preloader />}
       </section>
     </>

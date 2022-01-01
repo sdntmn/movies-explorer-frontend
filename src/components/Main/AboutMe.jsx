@@ -1,5 +1,5 @@
 import React from "react"
-import { Link } from "react-router-dom"
+import Portfolio from "./Portfolio"
 import FotoPatch from "../../images/1970-01-01 05-00-00_1603392151327.JPG"
 
 const AboutMe = function () {
@@ -53,30 +53,7 @@ const AboutMe = function () {
             </div>
             <img class="about-me__img" src={FotoPatch} alt="Фото" />
           </div>
-
-          <h3 class="about-me__portfolio root__text-color-gray">Портфолио</h3>
-          <ul class="about-me__portfolio-links">
-            <li class="about-me__portfolio-name">
-              Статичный сайт
-              <Link class="about-me__portfolio-link" to="">
-                &#8599;
-              </Link>
-            </li>
-
-            <li class="about-me__portfolio-name">
-              Адаптивный сайт
-              <Link class="about-me__portfolio-link" to="">
-                &#8599;
-              </Link>
-            </li>
-
-            <li class="about-me__portfolio-name">
-              Одностраничное приложение
-              <Link class="about-me__portfolio-link" to="">
-                &#8599;
-              </Link>
-            </li>
-          </ul>
+          <Portfolio />
         </div>
       </section>
     </>

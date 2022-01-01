@@ -1,6 +1,6 @@
 // import { Routes, Route } from "react-router-dom";
 import { Routes, Route } from "react-router-dom"
-import React from "react"
+import { React } from "react"
 import Main from "../Main/Main"
 import Register from "../Register/Register"
 import Login from "../Login/Login"
@@ -16,7 +16,8 @@ export default function App() {
         <Route path="/" element={<Main />} />
         <Route path="register" element={<Register />} />
         <Route path="login" element={<Login />} />
-        <Route path="profile" element={<Profile />} />
+        <Route path="profile" element={<Profile />}></Route>
+
         <Route path="movies" element={<Movies />} />
         <Route path="saved-movies" element={<SavedMovies />} />
         <Route path="not-found" element={<PageNotFound />} />
