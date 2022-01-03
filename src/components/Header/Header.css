@@ -50,107 +50,6 @@
   text-decoration: none;
 }
 
-.header__profile {
-  min-height: 74px;
-  max-width: calc(1280px - 70px * 2);
-  margin: 0 auto;
-  padding: 0 70px;
-  display: grid;
-  grid-template-columns: 38px 1fr;
-  column-gap: 44px;
-  align-items: center;
-}
-
-@media (max-width: 768px) {
-  .header__profile {
-    justify-items: end;
-    max-width: calc(768px - 30px * 2);
-    padding: 0 30px;
-  }
-}
-
-@media (max-width: 320px) {
-  .header__profile {
-    max-width: calc(320px - 14px * 2);
-    padding: 0 14px;
-  }
-}
-
-.header__profile-nav {
-  display: grid;
-  grid-template-columns: max-content max-content;
-  justify-content: space-between;
-  align-items: center;
-}
-
-@media (max-width: 768px) {
-  .header__profile-nav {
-    display: none;
-  }
-}
-
-.header__nav-icons {
-  display: none;
-}
-
-@media (max-width: 768px) {
-  .header__nav-icons {
-    display: flex;
-  }
-}
-
-@media (max-width: 320px) {
-  .header__nav-icons {
-    margin: 0;
-    padding: 0;
-    width: 40px;
-    height: 43px;
-  }
-}
-
-.header__profile-links {
-  display: grid;
-  grid-template-columns: max-content max-content;
-  column-gap: 16px;
-}
-
-.header__profile-link {
-  min-width: max-content;
-  text-decoration: none;
-  color: rgba(255, 255, 255, 1);
-  font-style: normal;
-  font-weight: 500;
-  font-size: 13px;
-  line-height: 18px;
-}
-
-.header__profile-link:active {
-  text-decoration: underline;
-}
-
-.header__profile-icons {
-  display: grid;
-  grid-template-columns: max-content max-content;
-  column-gap: 17px;
-  align-items: center;
-  text-decoration: none;
-}
-
-.header__profile-acaunt {
-  min-width: max-content;
-  color: rgba(255, 255, 255, 1);
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 16px;
-}
-
-.header__profile-icon {
-  background: rgba(49, 49, 49, 1);
-  border-radius: 4px;
-  padding: 8px 7.25px;
-}
-
 .header__title-auth {
   margin: 0;
   padding-top: 40px;
@@ -175,8 +74,13 @@
   column-gap: 30px;
 }
 
+@media (max-width: 320px) {
+  .header__nav {
+    column-gap: 14px;
+  }
+}
+
 .header__link {
-  /*margin-right: 30px;*/
   min-width: max-content;
   text-decoration: none;
   color: rgba(255, 255, 255, 1);
@@ -215,5 +119,13 @@
     min-width: 54px;
     min-height: 26px;
     font-size: 10px;
+    line-height: 26px;
+  }
+}
+
+@media (max-width: 320px) {
+  .header__button {
+    min-width: 54px;
+    max-height: 26px;
   }
 }

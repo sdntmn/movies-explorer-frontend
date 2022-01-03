@@ -16,6 +16,16 @@
   }
 }
 
+@media (max-width: 320px) {
+  .searchForm {
+    max-width: calc(320px - 14px * 2);
+    padding: 0 14px;
+    padding-top: 70px;
+    padding-bottom: 10px;
+    margin-top: auto;
+  }
+}
+
 .searchForm__section {
   margin: 0;
   padding: 0;
@@ -48,6 +58,14 @@
   outline: none;
 }
 
+@media (max-width: 320px) {
+  .searchForm__movies-input {
+    height: 56px;
+    max-width: 180px;
+    width: 100%;
+  }
+}
+
 .searchForm__movies-button {
   margin: 0;
   padding: 0;
@@ -61,4 +79,11 @@
   font-weight: 500;
   font-size: 14px;
   line-height: 18px;
+}
+
+@media (max-width: 320px) {
+  .searchForm__movies-button {
+    min-height: 44px;
+    min-width: 80px;
+  }
 }

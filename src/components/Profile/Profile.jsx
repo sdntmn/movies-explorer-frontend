@@ -1,11 +1,9 @@
 import React from "react"
 import { Link } from "react-router-dom"
-import HeaderProfile from "../Header/HeaderProfile"
 
 const Profile = function () {
   return (
     <>
-      <HeaderProfile />
       <div className="profile root__section">
         <h2 className="profile__title">Привет, Виталий!</h2>
         <div className="profile__section">

@@ -39,6 +39,12 @@
   color: rgba(255, 255, 255, 1);
 }
 
+@media (max-width: 320px) {
+  .searchForm__tumb-text {
+    font-size: 11px;
+  }
+}
+
 
 /* Шарик */
 

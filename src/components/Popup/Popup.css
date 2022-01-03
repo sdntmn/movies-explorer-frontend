@@ -7,17 +7,25 @@
   top: 0;
   bottom: 0;
   right: 0;
-  left: 248px;
+  left: 33%;
   z-index: 1;
-  transition: visibility 1s, opacity 1s;
+  transition: visibility 0.5s, opacity 0.5s;
   visibility: hidden;
   opacity: 0;
 }
 
-.popup__is-opened {
-  visibility: visible;
-  opacity: 1;
-  z-index: 1;
+@media (max-width: 520px) {
+  .popup {
+    left: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .popup__is-opened {
+    visibility: visible;
+    opacity: 1;
+    z-index: 1;
+  }
 }
 
 .popup__icon-close {

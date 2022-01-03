@@ -16,13 +16,13 @@ const Popup = function ({ visible = false, onClose }) {
         />
       </button>
       <nav className="popup__nav">
-        <NavLink to="/" className={setActive}>
+        <NavLink to="/" className={setActive} onClick={onClose}>
           Главная
         </NavLink>
-        <NavLink to="/movies" className={setActive}>
+        <NavLink to="/movies" className={setActive} onClick={onClose}>
           Фильмы
         </NavLink>
-        <NavLink to="/saved-movies" className={setActive}>
+        <NavLink to="/saved-movies" className={setActive} onClick={onClose}>
           Сохранённые фильмы
         </NavLink>
       </nav>
@@ -31,37 +31,3 @@ const Popup = function ({ visible = false, onClose }) {
 }
 
 export default Popup
-
-/* <nav className="popup__links">
-        <NavLink
-          to="/"
-          className="popup__link"
-          style={({ isActive }) => {
-            return {
-              display: "block",
-              color: isActive ? "red" : "",
-            }
-          }}
-        >
-          Главная
-        </NavLink>
-        <NavLink
-          to="/movies"
-          className={({ isActive }) => (isActive ? "red" : "blue")}
-        >
-          Фильмы
-        </NavLink>
-        <NavLink
-          to="/saved-movies"
-          className="popup__link"
-          style={({ isActive }) => {
-            return {
-              display: "block",
-              color: isActive ? "red" : "",
-            }
-          }}
-        >
-          Сохранённые фильмы
-        </NavLink>
-      </nav>
-      */

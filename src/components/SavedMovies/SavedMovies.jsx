@@ -1,20 +1,26 @@
-import HeaderProfile from "../Header/HeaderProfile.jsx"
 import SearchForm from "../SearchForm/SearchForm"
 import MoviesCard from "../MoviesCard/MoviesCard"
 import MoviesCardList from "../MoviesCardList/MoviesCardList"
 import Footer from "../Footer/Footer"
-
 import pathDeleteIcon from "../../images/delete-movie.svg"
-import MoviesButton from "../Movies/MoviesButton"
+import MoviesButton from "../MoviesButton/MoviesButton"
 
-const SavedMovies = function () {
+const SavedMovies = function ({ isOpen }) {
   return (
     <>
       <div className="page">
-        <HeaderProfile />
         <SearchForm />
         <MoviesCardList>
-          <MoviesCard>
+          <MoviesCard isOpen={isOpen}>
+            <MoviesButton className={"element__button-not-active"}>
+              <img
+                className="element__icon"
+                src={pathDeleteIcon}
+                alt="иконка сохранения"
+              />
+            </MoviesButton>
+          </MoviesCard>
+          <MoviesCard isOpen={isOpen}>
             <MoviesButton className={"element__button-not-active"}>
               <img
                 className="element__icon"

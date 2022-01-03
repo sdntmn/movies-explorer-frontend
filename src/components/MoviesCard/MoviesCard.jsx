@@ -1,11 +1,9 @@
 import React from "react"
-import { useState } from "react"
-import exportIconPath from "../../images/export icon.svg"
 import fotoPath from "../../images/foto.jpg"
 
-function MoviesCard({ children }) {
+function MoviesCard({ children, isOpen }) {
   return (
-    <li className="element">
+    <li className={`element ${isOpen && "element__color"}`}>
       <div className="element__title">
         <h2 className="element__name">Фильм</h2>
         <span className="element__time">27 минут</span>

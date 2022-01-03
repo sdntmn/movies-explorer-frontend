@@ -1,14 +1,13 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
-import HeaderProfile from "../Header/HeaderProfile.jsx"
 import SearchForm from "../SearchForm/SearchForm"
 import MoviesCard from "../MoviesCard/MoviesCard"
 import MoviesCardList from "../MoviesCardList/MoviesCardList"
 import Footer from "../Footer/Footer"
-import MoviesButton from "../Movies/MoviesButton"
+import MoviesButton from "../MoviesButton/MoviesButton"
 import exportIconPath from "../../images/export icon.svg"
 
-const Movies = function () {
+const Movies = function ({ isOpen }) {
   const [savedIn, setSavedIn] = useState(false)
 
   function savedInMovies() {
@@ -19,10 +18,9 @@ const Movies = function () {
   return (
     <>
       <div className="page">
-        <HeaderProfile />
         <SearchForm />
         <MoviesCardList>
-          <MoviesCard>
+          <MoviesCard isOpen={isOpen}>
             <MoviesButton
               onClick={savedInMovies}
               className={

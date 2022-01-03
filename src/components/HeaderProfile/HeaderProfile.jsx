@@ -1,4 +1,4 @@
-import { React, useState } from "react"
+import { React } from "react"
 import { Link } from "react-router-dom"
 import Header from "../Header/Header"
 import Navigation from "../Navigation/Navigation"
@@ -6,50 +6,41 @@ import Popup from "../Popup/Popup"
 import iconPath from "../../images/icon__COLOR_icon-main.svg"
 import navPath from "../../images/icon__tree_poloski.png"
 
-const HeaderProfile = function () {
-  const [isPopupOpen, setIsPopupOpen] = useState(false)
-
-  function handleNavClick() {
-    setIsPopupOpen(true)
-  }
-
-  function closeAllPopups() {
-    setIsPopupOpen(false)
-  }
+const HeaderProfile = function ({ isOpen, onClickIcon, onClickClose }) {
   return (
     <>
-      <Header stylesHider="header__profile">
+      <Header stylesHider="headerProfile">
         <img
-          onClick={handleNavClick}
-          className="header__nav-icons"
+          onClick={onClickIcon}
+          className="headerProfile__nav-icons"
           src={navPath}
           alt="Логотип сайта"
         />
 
-        <div className="header__profile-nav">
-          <div className="header__profile-links">
+        <div className="headerProfile__nav">
+          <div className="headerProfile__links">
             <Navigation
               pathLink="/movies"
-              styles="header__profile-link"
+              styles="headerProfile__link"
               textLink="Фильмы"
             ></Navigation>
             <Navigation
               pathLink="/saved-movies"
-              styles="header__profile-link"
+              styles="headerProfile__link"
               textLink="Сохранённые фильмы"
             ></Navigation>
           </div>
-          <Link to="/profile" className="header__profile-icons">
-            <span className="header__profile-acaunt">Аккаунт</span>
+          <Link to="/profile" className="headerProfile__icons">
+            <span className="headerProfile__acaunt">Аккаунт</span>
             <img
-              className="header__profile-icon"
+              className="headerProfile__icon"
               src={iconPath}
               alt="Логотип сайта"
             />
           </Link>
         </div>
       </Header>
-      <Popup visible={isPopupOpen} onClose={closeAllPopups} />
+      <Popup visible={isOpen} onClose={onClickClose} />
     </>
   )
 }
