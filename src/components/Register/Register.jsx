@@ -6,9 +6,9 @@ import Header from "../Header/Header"
 const Register = function (name) {
   return (
     <>
-      <Header stylesHider="header__auth">
+      <div className="header__auth">
         <p className="header__title-auth">Добро пожаловать!</p>
-      </Header>
+      </div>
       <Form
         title="Добро пожаловать!"
         btnName="Зарегистрироваться"

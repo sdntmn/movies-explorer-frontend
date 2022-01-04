@@ -10,8 +10,10 @@ import Profile from "../Profile/Profile"
 import Movies from "../Movies/Movies"
 import SavedMovies from "../SavedMovies/SavedMovies"
 import PageNotFound from "../Page404/Page404"
-import HeaderProfile from "../HeaderProfile/HeaderProfile"
+import HeaderProfile from "../LinkProfile/LinkProfile"
 import Header from "../Header/Header"
+import LinkProfile from "../LinkProfile/LinkProfile"
+import Navigation from "../Navigation/Navigation"
 import Popup from "../Popup/Popup"
 
 import { CurrentUserContext } from "../../contexts/CurrentUserContext"
@@ -43,22 +45,63 @@ export default function App() {
   return (
     <CurrentUserContext.Provider value={value}>
       <div className={`root ${isPopupOpen && "root__color"}`}>
-        <Header
-          isLoggedIn={isLoggedIn}
-          pathName={pathName}
-          visible={isPopupOpen}
-          onClose={closeAllPopups}
-          isOpen={handleNavClick}
-        />
-
         <Routes>
-          <Route path="/" element={<Main />} />
+          <Route
+            path="/"
+            element={
+              <>
+                <Header
+                  styleAuth={`${isLoggedIn ? "header__profile" : "header"}`}
+                  styleHeader="root__cover"
+                  isLoggedIn={isLoggedIn}
+                  pathName={pathName}
+                  visible={isPopupOpen}
+                  onClose={closeAllPopups}
+                  isOpen={handleNavClick}
+                >
+                  {!isLoggedIn ? (
+                    <>
+                      <div className="header__nav">
+                        <Navigation
+                          pathLink="/register"
+                          styles="header__link"
+                          textLink="Регистрация"
+                        />
+                        <Navigation
+                          pathLink="/login"
+                          styles="header__button root__color-green"
+                          textLink="Войти"
+                        />
+                      </div>
+                    </>
+                  ) : (
+                    <LinkProfile pathLink="/profile" />
+                  )}
+                </Header>
+                <Main />
+              </>
+            }
+          />
 
           <Route
             path="profile"
             element={
               <ProtectedRoute isLoggedIn={isLoggedIn}>
-                <Profile />
+                {
+                  <>
+                    <Header
+                      styleAuth={`${isLoggedIn ? "header__profile" : "header"}`}
+                      isLoggedIn={isLoggedIn}
+                      pathName={pathName}
+                      visible={isPopupOpen}
+                      onClose={closeAllPopups}
+                      isOpen={handleNavClick}
+                    >
+                      <LinkProfile pathLink="/profile" />
+                    </Header>
+                    <Profile />
+                  </>
+                }
               </ProtectedRoute>
             }
           ></Route>
@@ -66,7 +109,21 @@ export default function App() {
             path="movies"
             element={
               <ProtectedRoute isLoggedIn={isLoggedIn}>
-                <Movies />
+                {
+                  <>
+                    <Header
+                      styleAuth={`${isLoggedIn ? "header__profile" : "header"}`}
+                      isLoggedIn={isLoggedIn}
+                      pathName={pathName}
+                      visible={isPopupOpen}
+                      onClose={closeAllPopups}
+                      isOpen={handleNavClick}
+                    >
+                      <LinkProfile pathLink="/profile" />
+                    </Header>
+                    <Movies />
+                  </>
+                }
               </ProtectedRoute>
             }
           />
@@ -74,14 +131,45 @@ export default function App() {
             path="saved-movies"
             element={
               <ProtectedRoute isLoggedIn={isLoggedIn}>
+                {
+                  <>
+                    <Header
+                      styleAuth={`${isLoggedIn ? "header__profile" : "header"}`}
+                      isLoggedIn={isLoggedIn}
+                      pathName={pathName}
+                      visible={isPopupOpen}
+                      onClose={closeAllPopups}
+                      isOpen={handleNavClick}
+                    >
+                      <LinkProfile pathLink="/profile" />
+                    </Header>
+                    <SavedMovies />
+                  </>
+                }
                 <SavedMovies />
               </ProtectedRoute>
             }
           />
 
           <Route path="not-found" element={<PageNotFound />} />
-          <Route path="register" element={<Register />} />
-          <Route path="login" element={<Login />} />
+          <Route
+            path="register"
+            element={
+              <>
+                <Header styleAuth="header__auth" />
+                <Register />
+              </>
+            }
+          />
+          <Route
+            path="login"
+            element={
+              <>
+                <Header styleAuth="header__auth" />
+                <Login />
+              </>
+            }
+          />
         </Routes>
       </div>
     </CurrentUserContext.Provider>
