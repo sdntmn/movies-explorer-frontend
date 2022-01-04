@@ -65,31 +65,21 @@ export default function App() {
           <Route
             path="movies"
             element={
-              <>
-                <HeaderProfile
-                  isOpen={isPopupOpen}
-                  onClickIcon={handleNavClick}
-                  onClickClose={closeAllPopups}
-                />
-                <Movies isOpen={isPopupOpen} />
-              </>
+              <ProtectedRoute isLoggedIn={isLoggedIn}>
+                <Movies />
+              </ProtectedRoute>
             }
           />
           <Route
             path="saved-movies"
             element={
-              <>
-                <HeaderProfile
-                  isOpen={isPopupOpen}
-                  onClickIcon={handleNavClick}
-                  onClickClose={closeAllPopups}
-                />
-                <SavedMovies isOpen={isPopupOpen} />
-              </>
+              <ProtectedRoute isLoggedIn={isLoggedIn}>
+                <SavedMovies />
+              </ProtectedRoute>
             }
           />
-          <Route path="not-found" element={<PageNotFound />} />
 
+          <Route path="not-found" element={<PageNotFound />} />
           <Route path="register" element={<Register />} />
           <Route path="login" element={<Login />} />
         </Routes>
