@@ -10,9 +10,6 @@ const Login = function (name) {
 
   return (
     <>
-      <Header stylesHider="header__auth">
-        <p className="header__title-auth">Рады видеть!</p>
-      </Header>
       <Form
         title="Рады видеть!"
         btnName="Войти"

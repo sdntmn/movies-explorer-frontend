@@ -33,7 +33,7 @@ const HeaderProfile = function ({ isOpen, onClickIcon, onClickClose }) {
           <Link to="/profile" className="headerProfile__icons">
             <span className="headerProfile__acaunt">Аккаунт</span>
             <img
-              className="headerProfile__icon"
+              className="headerProfileicon"
               src={iconPath}
               alt="Логотип сайта"
             />
