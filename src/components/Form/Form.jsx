@@ -10,6 +10,7 @@ export default function Form({
   children,
   pathLink,
   onClick,
+  title,
 }) {
   return (
     <div className="form">
@@ -19,7 +20,10 @@ export default function Form({
         name={`${name}`}
         onSubmit={onSubmit}
       >
-        {children}
+        <fieldset className="form__grouping">
+          <legend className="form__title">{title}</legend>
+          {children}
+        </fieldset>
       </form>
       <FormLinkEnter
         pathLink={pathLink}

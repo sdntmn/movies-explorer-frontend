@@ -10,17 +10,15 @@ import Profile from "../Profile/Profile"
 import Movies from "../Movies/Movies"
 import SavedMovies from "../SavedMovies/SavedMovies"
 import PageNotFound from "../Page404/Page404"
-import HeaderProfile from "../LinkProfile/LinkProfile"
 import Header from "../Header/Header"
 import LinkProfile from "../LinkProfile/LinkProfile"
 import Navigation from "../Navigation/Navigation"
-import Popup from "../Popup/Popup"
 
 import { CurrentUserContext } from "../../contexts/CurrentUserContext"
 
 export default function App() {
   const [currentUser, setCurrentUser] = useState({})
-  const [isLoggedIn, setIsLoggedIn] = useState(true)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [isPopupOpen, setIsPopupOpen] = useState(false)
 
   const signin = (newUser, cb) => {

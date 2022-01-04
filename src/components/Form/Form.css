@@ -8,12 +8,11 @@
 
 .form__data {
   margin: 0;
-  padding: 0;
+  padding-bottom: 179px;
   display: flex;
   flex-direction: column;
   align-items: stretch;
   max-width: 396px;
-  min-height: 335px;
   width: 100%;
 }
 
@@ -25,8 +24,10 @@
 }
 
 .form__grouping {
+  min-height: 335px;
   border: none;
   padding: 0;
+  margin: 0;
 }
 
 @media (max-width: 640px) {
@@ -38,7 +39,7 @@
 .form__title {
   margin: 0;
   padding: 0;
-  padding-bottom: 40px;
+  margin-bottom: 40px;
   font-style: normal;
   font-weight: 500;
   font-size: 24px;
