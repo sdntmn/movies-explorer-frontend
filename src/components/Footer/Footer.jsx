@@ -12,7 +12,9 @@ const Footer = function () {
         <p className="footer__title root__text-color-gray">
           Учебный проект Яндекс.Практикум х BeatFilm.
         </p>
+
         <hr className="root__line" />
+
         <div className="footer__block">
           <p className="footer__copy">© {year}</p>
           <ul className="footer__links">
