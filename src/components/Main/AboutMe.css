@@ -56,11 +56,18 @@
   flex-direction: column;
   justify-content: space-between;
   max-width: 600px;
+  margin-right: 49px;
 }
 
 @media (max-width: 768px) {
   .about-me__block-description {
     max-width: 364px;
+  }
+}
+
+@media (max-width: 640px) {
+  .about-me__block-description {
+    margin-right: 0;
   }
 }
 

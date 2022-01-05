@@ -11,6 +11,7 @@ const SearchForm = function ({ idName }) {
             type="text"
             placeholder="Фильм"
             id={`form_${idName}`}
+            required
           />
           <button className="searchForm__movies-button" type="submit">
             Поиск

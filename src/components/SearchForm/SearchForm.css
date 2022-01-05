@@ -42,6 +42,10 @@
   border-radius: 8px;
 }
 
+.searchForm__movies:hover {
+  border: 1.5px solid rgba(66, 133, 244, 1);
+}
+
 .searchForm__movies-input {
   margin: 0;
   padding: 0;
@@ -56,6 +60,10 @@
   line-height: 20px;
   color: rgba(139, 139, 139, 1);
   outline: none;
+}
+
+.searchForm__movies-input:focus {
+  color: rgba(66, 133, 244, 1);
 }
 
 @media (max-width: 320px) {
