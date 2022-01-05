@@ -7,23 +7,30 @@ const FormLinkEnter = function ({
   linkText,
   btnName,
   onClick,
+  isEditState,
 }) {
   return (
     <>
+      {isEditState ? (
+        <div className="form__link-wrapper">
+        <p className="form__text-edit">При обновлении профиля произошла ошибка.</p>
+      </div>):("")}
       <button
-        type="submit"
-        className="form__button"
+        className=
+        {isEditState ? "form__button-edit" : "form__button"}
+        type="submit" 
         aria-label={btnName}
         onClick={onClick}
       >
         {btnName}
       </button>
-      <div className="form__link-wrapper">
+      {!isEditState ? (<div className="form__link-wrapper">
         <p className="form__text">{text}</p>
         <Link to={pathLink} className="form__link">
           {linkText}
         </Link>
-      </div>
+      </div>):("")}
+      
     </>
   );
 };

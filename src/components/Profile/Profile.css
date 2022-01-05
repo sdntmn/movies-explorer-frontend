@@ -112,3 +112,58 @@
   line-height: 16px;
   color: rgba(238, 52, 101, 1);
 }
+
+.profile__input {
+  margin: 0;
+  display: flex;
+  max-width: 410px;
+  width: 100%;
+  max-height: 17px;
+  border: none;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 11px;
+  line-height: 13px;
+  background: inherit;
+  outline: none;
+  transition: 1s;
+  color: rgba(255, 255, 255, 1);
+  text-align: right;
+}
+
+.profile__line {
+  margin: 0;
+  max-width: 410px;
+  border-bottom: 1px solid rgba(66, 66, 66, 1);
+}
+
+@media (max-width: 640px) {
+  .profile__line {
+    max-width: 260px;
+  }
+}
+
+.profile__gruping {
+  display: flex;
+  align-items: center;
+  padding-bottom: 16px;
+  padding-top: 17px;
+  max-width: 410px;
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+  .profile__gruping {
+    max-width: 260px;
+  }
+}
+
+.profile__input-text {
+  max-width: 141px;
+  width: 100%;
+  color: rgba(255, 255, 255, 1);
+  font-style: normal;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 1
+}

@@ -22,6 +22,23 @@
   }
 }
 
+.form__text-edit {
+  margin: 0;
+  color: rgba(255, 0, 76, 1);
+  font-style: normal;
+  font-weight: normal;
+  font-size: 11px;
+  line-height: 13px;
+  padding-bottom: 20px;
+}
+
+@media (max-width: 640px) {
+  .form__text-edit {
+    font-size: 12px;
+    line-height: 15px;
+  }
+}
+
 .form__link {
   margin: 0;
   max-width: max-content;
@@ -75,4 +92,28 @@
 .form__button:disabled {
   opacity: 0.2;
   cursor: default;
+}
+
+.form__button-edit {
+  background-color: transparent;
+  cursor: pointer;
+  max-width: 410px;
+  width: 100%;
+  min-height: 45px;
+  border: none;
+  background: rgba(66, 133, 244, 1);
+  border-radius: 3px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  color: rgba(255, 255, 255, 1);
+}
+
+@media (max-width: 640px) {
+  .form__button-edit {
+    max-width: 260px;
+    font-size: 12px;
+    line-height: 15px;
+  }
 }

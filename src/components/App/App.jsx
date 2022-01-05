@@ -20,6 +20,7 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isEdit, setIsEdit] = useState(true);
 
   const signin = (newUser, cb) => {
     setCurrentUser(newUser);
@@ -30,6 +31,14 @@ export default function App() {
     cb();
   };
   const value = { currentUser, signin, signout };
+
+  function handleEditStateActive() {
+    setIsEdit(true);
+  }
+
+  function handleEditStateNotActive() {
+    setIsEdit(false);
+  }
 
   function handleNavClick() {
     setIsPopupOpen(true);
@@ -93,7 +102,9 @@ export default function App() {
                     >
                       <LinkProfile pathLink="/profile" />
                     </Header>
-                    <Profile />
+                    <Profile isEditState={isEdit}
+                      isActive={handleEditStateActive}
+                      isNotActive={handleEditStateNotActive} />
                   </>
                 }
               </ProtectedRoute>

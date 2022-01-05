@@ -11,21 +11,23 @@ export default function Form({
   pathLink,
   onClick,
   title,
+  isEditState,
 }) {
   return (
-    <div className="form">
+    <div className={isEditState ? "form__edit" : "form"}>
       <form
-        className="form__data"
+        className={isEditState ? "form__data-edit" : "form__data"}
         id={`form_${name}`}
         name={`${name}`}
         onSubmit={onSubmit}
       >
-        <fieldset className="form__grouping">
-          <legend className="form__title">{title}</legend>
+        <fieldset className={isEditState ? "form__grouping-edit" : "form__grouping"}>
+          <legend className={isEditState ? "form__title-edit" : "form__title"}>{title}</legend>
           {children}
         </fieldset>
       </form>
       <FormLinkEnter
+        isEditState={isEditState}
         pathLink={pathLink}
         text={text}
         linkText={linkText}
