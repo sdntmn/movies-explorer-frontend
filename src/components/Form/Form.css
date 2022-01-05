@@ -58,8 +58,14 @@
   border: none;
   padding: 0;
   margin: 0 auto;
-  max-width: 260px;
+  max-width: 410px;
   width: 100%;
+}
+
+@media (max-width: 640px) {
+  .form__grouping-edit {
+    max-width: 260px;
+  }
 }
 
 .form__title {
