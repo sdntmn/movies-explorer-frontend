@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Popup from "../Popup/Popup";
 import Navigation from "../Navigation/Navigation";
 import logoPath from "../../images/logo.svg";
-import navPath from "../../images/icon__tree_poloski.png";
+import navPath from "../../images/three-poloski.svg";
 
 export default function Header({
   onClose,
