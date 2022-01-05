@@ -49,14 +49,21 @@
   line-height: 28px;
 }
 
-.popup__nav-link-profile {
-  margin-top: 621px;
-}
-
 .popup__link {
   margin: 0;
   text-decoration: none;
   color: rgba(255, 255, 255, 1);
+}
+
+.popup__nav-link-profile {
+  margin-top: calc(100vh - 258px - 178px);
+  ;
+}
+
+@media (max-width: 320px) {
+  .popup__nav-link-profile {
+    margin-top: calc(100vh - 258px - 178px);
+  }
 }
 
 .popup__link-activ {
