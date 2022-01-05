@@ -1,5 +1,5 @@
-import React from "react"
-import FormLinkEnter from "../FormLinkEnter/FormLinkEnter"
+import React from "react";
+import FormLinkEnter from "../FormLinkEnter/FormLinkEnter";
 
 export default function Form({
   btnName,
@@ -31,7 +31,7 @@ export default function Form({
         linkText={linkText}
         btnName={btnName}
         onClick={onClick}
-      ></FormLinkEnter>
+      />
     </div>
-  )
+  );
 }

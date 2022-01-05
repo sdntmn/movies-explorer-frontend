@@ -1,6 +1,6 @@
-import React from "react"
-import Form from "../Form/Form"
-import Input from "../Input/Input"
+import React from "react";
+import Form from "../Form/Form";
+import Input from "../Input/Input";
 
 const Register = function (name) {
   return (
@@ -17,16 +17,12 @@ const Register = function (name) {
         linkText="Войти"
         pathLink="/login"
       >
-        <Input inputTitle="Имя" idName={`${name}`} inputType="Text"></Input>
-        <Input inputTitle="E-mail" idName={`${name}`} inputType="email"></Input>
-        <Input
-          inputTitle="Пароль"
-          idName={`${name}`}
-          inputType="password"
-        ></Input>
+        <Input inputTitle="Имя" idName={`${name}`} inputType="Text" />
+        <Input inputTitle="E-mail" idName={`${name}`} inputType="email" />
+        <Input inputTitle="Пароль" idName={`${name}`} inputType="password" />
       </Form>
     </>
-  )
-}
+  );
+};
 
-export default Register
+export default Register;

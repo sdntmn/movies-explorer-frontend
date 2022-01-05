@@ -5,6 +5,7 @@ import "./index.css";
 import App from "./components/App/App";
 import reportWebVitals from "./reportWebVitals";
 
+// prettier-ignore
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>

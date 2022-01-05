@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 function MoviesButton({ children, onClick, className }) {
   return (
@@ -12,7 +12,7 @@ function MoviesButton({ children, onClick, className }) {
         {children}
       </button>
     </>
-  )
+  );
 }
 
-export default MoviesButton
+export default MoviesButton;

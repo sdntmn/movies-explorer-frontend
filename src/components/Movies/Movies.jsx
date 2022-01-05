@@ -1,19 +1,19 @@
-import { useState } from "react"
-import { Link } from "react-router-dom"
-import SearchForm from "../SearchForm/SearchForm"
-import MoviesCard from "../MoviesCard/MoviesCard"
-import MoviesCardList from "../MoviesCardList/MoviesCardList"
-import Footer from "../Footer/Footer"
-import MoviesButton from "../MoviesButton/MoviesButton"
-import exportIconPath from "../../images/export icon.svg"
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import SearchForm from "../SearchForm/SearchForm";
+import MoviesCard from "../MoviesCard/MoviesCard";
+import MoviesCardList from "../MoviesCardList/MoviesCardList";
+import Footer from "../Footer/Footer";
+import MoviesButton from "../MoviesButton/MoviesButton";
+import exportIconPath from "../../images/export icon.svg";
 
 const Movies = function ({ isOpen }) {
-  const [savedIn, setSavedIn] = useState(false)
+  const [savedIn, setSavedIn] = useState(false);
 
   function savedInMovies() {
     setSavedIn((state) =>
       state === false ? setSavedIn(true) : setSavedIn(false)
-    )
+    );
   }
   return (
     <>
@@ -54,7 +54,7 @@ const Movies = function ({ isOpen }) {
       </div>
       <Footer />
     </>
-  )
-}
+  );
+};
 
-export default Movies
+export default Movies;

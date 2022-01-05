@@ -1,5 +1,5 @@
-import React from "react"
-import Preloader from "../Preloader/Preloader"
+import React from "react";
+import Preloader from "../Preloader/Preloader";
 
 const MoviesCardList = function ({ children }) {
   return (
@@ -8,7 +8,7 @@ const MoviesCardList = function ({ children }) {
         {children ? <ul className="elements">{children}</ul> : <Preloader />}
       </section>
     </>
-  )
-}
+  );
+};
 
-export default MoviesCardList
+export default MoviesCardList;

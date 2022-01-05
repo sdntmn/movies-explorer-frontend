@@ -1,9 +1,9 @@
-import { React } from "react"
-import { NavLink } from "react-router-dom"
-import pachIconClose from "../../images/icon_close.svg"
+import { React } from "react";
+import { NavLink } from "react-router-dom";
+import pachIconClose from "../../images/icon_close.svg";
 
 const setActive = ({ isActive }) =>
-  isActive ? "popup__link-activ" : "popup__link"
+  isActive ? "popup__link-activ" : "popup__link";
 
 const Popup = function ({ visible = false, onClose }) {
   return (
@@ -27,7 +27,7 @@ const Popup = function ({ visible = false, onClose }) {
         </NavLink>
       </nav>
     </div>
-  )
-}
+  );
+};
 
-export default Popup
+export default Popup;

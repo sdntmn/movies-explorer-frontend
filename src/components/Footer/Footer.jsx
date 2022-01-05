@@ -1,11 +1,11 @@
-import React from "react"
+import React from "react";
 
 const Footer = function () {
-  const today = new Date()
-  let year = today.getFullYear()
-  const urlYpraktikum = "https://practicum.yandex.ru/profile/web"
-  const urlGitHub = "https://github.com/sdntmn/movies-explorer-frontend"
-  const urlVk = "https://vk.com/sdntmn"
+  const today = new Date();
+  let year = today.getFullYear();
+  const urlYpraktikum = "https://practicum.yandex.ru/profile/web";
+  const urlGitHub = "https://github.com/sdntmn/movies-explorer-frontend";
+  const urlVk = "https://vk.com/sdntmn";
   return (
     <>
       <footer className="footer root__color-white ">
@@ -50,7 +50,7 @@ const Footer = function () {
         </div>
       </footer>
     </>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

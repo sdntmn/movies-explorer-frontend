@@ -1,5 +1,5 @@
-import React from "react"
-import FilterCheckbox from "../FilterCheckbox/FilterCheckbox"
+import React from "react";
+import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 
 const SearchForm = function ({ idName }) {
   return (
@@ -19,7 +19,7 @@ const SearchForm = function ({ idName }) {
         <FilterCheckbox />
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default SearchForm
+export default SearchForm;

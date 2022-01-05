@@ -1,5 +1,5 @@
-import React from "react"
-import fotoPath from "../../images/foto.jpg"
+import React from "react";
+import fotoPath from "../../images/foto.jpg";
 
 function MoviesCard({ children, isOpen }) {
   return (
@@ -11,7 +11,7 @@ function MoviesCard({ children, isOpen }) {
       <img className="element__img" src={fotoPath} alt="{card.name}" />
       {children}
     </li>
-  )
+  );
 }
 
-export default MoviesCard
+export default MoviesCard;

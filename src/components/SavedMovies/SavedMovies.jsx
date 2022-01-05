@@ -1,9 +1,9 @@
-import SearchForm from "../SearchForm/SearchForm"
-import MoviesCard from "../MoviesCard/MoviesCard"
-import MoviesCardList from "../MoviesCardList/MoviesCardList"
-import Footer from "../Footer/Footer"
-import pathDeleteIcon from "../../images/delete-movie.svg"
-import MoviesButton from "../MoviesButton/MoviesButton"
+import SearchForm from "../SearchForm/SearchForm";
+import MoviesCard from "../MoviesCard/MoviesCard";
+import MoviesCardList from "../MoviesCardList/MoviesCardList";
+import Footer from "../Footer/Footer";
+import pathDeleteIcon from "../../images/delete-movie.svg";
+import MoviesButton from "../MoviesButton/MoviesButton";
 
 const SavedMovies = function ({ isOpen }) {
   return (
@@ -33,7 +33,7 @@ const SavedMovies = function ({ isOpen }) {
       </div>
       <Footer />
     </>
-  )
-}
+  );
+};
 
-export default SavedMovies
+export default SavedMovies;

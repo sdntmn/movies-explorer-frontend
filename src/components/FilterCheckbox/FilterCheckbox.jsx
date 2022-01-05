@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 const FilterCheckbox = function ({ idName }) {
   return (
@@ -13,7 +13,7 @@ const FilterCheckbox = function ({ idName }) {
       </label>
       <p className="searchForm__tumb-text">Короткометражки</p>
     </div>
-  )
-}
+  );
+};
 
-export default FilterCheckbox
+export default FilterCheckbox;

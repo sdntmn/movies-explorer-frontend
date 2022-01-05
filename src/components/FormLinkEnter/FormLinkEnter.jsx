@@ -1,5 +1,5 @@
-import React from "react"
-import { Link } from "react-router-dom"
+import React from "react";
+import { Link } from "react-router-dom";
 
 const FormLinkEnter = function ({
   pathLink,
@@ -25,7 +25,7 @@ const FormLinkEnter = function ({
         </Link>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default FormLinkEnter
+export default FormLinkEnter;

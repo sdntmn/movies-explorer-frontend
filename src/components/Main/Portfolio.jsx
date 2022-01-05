@@ -1,11 +1,11 @@
-import React from "react"
+import React from "react";
 
 const Portfolio = function () {
-  const urlStaticSite = "https://sdntmn.github.io/russian-travel/"
+  const urlStaticSite = "https://sdntmn.github.io/russian-travel/";
 
-  const urlMestoSite = "https://place-tmn.students.nomoredomains.work/"
+  const urlMestoSite = "https://place-tmn.students.nomoredomains.work/";
 
-  const urlAdaptiveSite = "https://ycomanda.github.io/band-project-first/"
+  const urlAdaptiveSite = "https://ycomanda.github.io/band-project-first/";
 
   return (
     <>
@@ -49,7 +49,7 @@ const Portfolio = function () {
         </li>
       </ul>
     </>
-  )
-}
+  );
+};
 
-export default Portfolio
+export default Portfolio;

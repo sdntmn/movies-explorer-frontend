@@ -1,12 +1,11 @@
-import { useNavigate } from "react-router-dom"
-import React from "react"
-import Header from "../Header/Header"
-import Form from "../Form/Form"
-import Input from "../Input/Input"
+import { useNavigate } from "react-router-dom";
+import React from "react";
+import Form from "../Form/Form";
+import Input from "../Input/Input";
 
 const Login = function (name) {
-  const navigate = useNavigate()
-  const profile = () => navigate("/profile")
+  const navigate = useNavigate();
+  const profile = () => navigate("/profile");
 
   return (
     <>
@@ -22,15 +21,11 @@ const Login = function (name) {
         linkText="Регистрация"
         pathLink="/register"
       >
-        <Input inputTitle="E-mail" idName={`${name}`} inputType="email"></Input>
-        <Input
-          inputTitle="Пароль"
-          idName={`${name}`}
-          inputType="password"
-        ></Input>
+        <Input inputTitle="E-mail" idName={`${name}`} inputType="email" />
+        <Input inputTitle="Пароль" idName={`${name}`} inputType="password" />
       </Form>
     </>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

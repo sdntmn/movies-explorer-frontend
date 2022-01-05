@@ -1,44 +1,42 @@
 // import { Routes, Route } from "react-router-dom";
-import { Routes, Route } from "react-router-dom"
-import { React, useState } from "react"
+import { Routes, Route } from "react-router-dom";
+import { React, useState } from "react";
 // Компоненты ========================================
-import ProtectedRoute from "../../contexts/ProtectedRoute"
-import Main from "../Main/Main"
-import Register from "../Register/Register"
-import Login from "../Login/Login"
-import Profile from "../Profile/Profile"
-import Movies from "../Movies/Movies"
-import SavedMovies from "../SavedMovies/SavedMovies"
-import PageNotFound from "../Page404/Page404"
-import Header from "../Header/Header"
-import LinkProfile from "../LinkProfile/LinkProfile"
-import Navigation from "../Navigation/Navigation"
+import ProtectedRoute from "../../contexts/ProtectedRoute";
+import Main from "../Main/Main";
+import Register from "../Register/Register";
+import Login from "../Login/Login";
+import Profile from "../Profile/Profile";
+import Movies from "../Movies/Movies";
+import SavedMovies from "../SavedMovies/SavedMovies";
+import PageNotFound from "../Page404/Page404";
+import Header from "../Header/Header";
+import LinkProfile from "../LinkProfile/LinkProfile";
+import Navigation from "../Navigation/Navigation";
 
-import { CurrentUserContext } from "../../contexts/CurrentUserContext"
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 export default function App() {
-  const [currentUser, setCurrentUser] = useState({})
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [isPopupOpen, setIsPopupOpen] = useState(false)
+  const [currentUser, setCurrentUser] = useState({});
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const signin = (newUser, cb) => {
-    setCurrentUser(newUser)
-    cb()
-  }
+    setCurrentUser(newUser);
+    cb();
+  };
   const signout = (cb) => {
-    setCurrentUser(null)
-    cb()
-  }
-  const value = { currentUser, signin, signout }
-
-  const pathName = "/"
+    setCurrentUser(null);
+    cb();
+  };
+  const value = { currentUser, signin, signout };
 
   function handleNavClick() {
-    setIsPopupOpen(true)
+    setIsPopupOpen(true);
   }
 
   function closeAllPopups() {
-    setIsPopupOpen(false)
+    setIsPopupOpen(false);
   }
   return (
     <CurrentUserContext.Provider value={value}>
@@ -52,7 +50,6 @@ export default function App() {
                   styleAuth={`${isLoggedIn ? "header__profile" : "header"}`}
                   styleHeader="root__cover"
                   isLoggedIn={isLoggedIn}
-                  pathName={pathName}
                   visible={isPopupOpen}
                   onClose={closeAllPopups}
                   isOpen={handleNavClick}
@@ -90,7 +87,6 @@ export default function App() {
                     <Header
                       styleAuth={`${isLoggedIn ? "header__profile" : "header"}`}
                       isLoggedIn={isLoggedIn}
-                      pathName={pathName}
                       visible={isPopupOpen}
                       onClose={closeAllPopups}
                       isOpen={handleNavClick}
@@ -112,7 +108,6 @@ export default function App() {
                     <Header
                       styleAuth={`${isLoggedIn ? "header__profile" : "header"}`}
                       isLoggedIn={isLoggedIn}
-                      pathName={pathName}
                       visible={isPopupOpen}
                       onClose={closeAllPopups}
                       isOpen={handleNavClick}
@@ -134,7 +129,6 @@ export default function App() {
                     <Header
                       styleAuth={`${isLoggedIn ? "header__profile" : "header"}`}
                       isLoggedIn={isLoggedIn}
-                      pathName={pathName}
                       visible={isPopupOpen}
                       onClose={closeAllPopups}
                       isOpen={handleNavClick}
@@ -144,7 +138,6 @@ export default function App() {
                     <SavedMovies />
                   </>
                 }
-                <SavedMovies />
               </ProtectedRoute>
             }
           />
@@ -171,5 +164,5 @@ export default function App() {
         </Routes>
       </div>
     </CurrentUserContext.Provider>
-  )
+  );
 }
