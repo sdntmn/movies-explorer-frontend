@@ -110,6 +110,15 @@
   color: rgba(255, 255, 255, 1);
 }
 
+.form__button-edit:hover {
+  opacity: 0.8;
+}
+
+.form__button-edit:disabled {
+  opacity: 0.2;
+  cursor: default;
+}
+
 @media (max-width: 640px) {
   .form__button-edit {
     max-width: 260px;

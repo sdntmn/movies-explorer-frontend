@@ -84,6 +84,12 @@
   max-width: 29px;
   letter-spacing: -0.04em;
   color: rgba(255, 255, 255, 1);
+  transition: all .5s;
+}
+
+.portfolio__link:hover {
+  color: rgba(255, 255, 255, 0.7);
+  transform: scale(1.5) rotate(45deg);
 }
 
 @media (max-width: 768px) {

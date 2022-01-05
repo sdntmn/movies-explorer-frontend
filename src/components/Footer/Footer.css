@@ -94,6 +94,12 @@
   font-weight: normal;
   font-size: 13px;
   line-height: 16px;
+  transition: all .5s;
+  text-align: center;
+}
+
+.footer__link:hover {
+  font-weight: 600;
 }
 
 @media (max-width: 640px) {

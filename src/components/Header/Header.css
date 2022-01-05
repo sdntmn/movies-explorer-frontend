@@ -192,6 +192,7 @@
   display: grid;
   grid-template-columns: max-content max-content;
   column-gap: 16px;
+  transition: all .5s;
 }
 
 .header__profile-link {
@@ -202,6 +203,10 @@
   font-weight: 500;
   font-size: 13px;
   line-height: 18px;
+}
+
+.header__profile-link:hover {
+  font-weight: 600;
 }
 
 .header__profile-link:active {

@@ -79,6 +79,11 @@
   font-weight: 500;
   font-size: 14px;
   line-height: 18px;
+  cursor: pointer;
+}
+
+.searchForm__movies-button:hover {
+  opacity: 0.8;
 }
 
 @media (max-width: 320px) {

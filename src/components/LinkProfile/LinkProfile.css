@@ -13,10 +13,20 @@
   font-weight: 500;
   font-size: 14px;
   line-height: 16px;
+  transition: all .5s;
+}
+
+.header__profile-acaunt:hover {
+  font-weight: 600;
 }
 
 .header__profile-icon {
   background: rgba(49, 49, 49, 1);
   border-radius: 4px;
   padding: 8px 7.25px;
+  transition: all .5s;
+}
+
+.header__profile-icon:hover {
+  padding: 10px 10px;
 }

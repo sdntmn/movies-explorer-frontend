@@ -23,7 +23,7 @@ const Footer = function () {
                 rel="noopener noreferrer"
                 href={urlYpraktikum}
               >
-                Яндекс.Практикум
+               <span>Яндекс.Практикум</span> 
               </a>
             </li>
             <li>

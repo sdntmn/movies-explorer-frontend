@@ -101,4 +101,9 @@
   max-width: 38px;
   margin: 0;
   padding: 0;
+  transition: all 1s;
+}
+
+.logo:hover {
+  transform: translate(5px, -5px) rotate(360deg);
 }
