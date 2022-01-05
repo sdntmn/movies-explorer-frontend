@@ -49,6 +49,10 @@
   line-height: 28px;
 }
 
+.popup__nav-link-profile {
+  margin-top: 621px;
+}
+
 .popup__link {
   margin: 0;
   text-decoration: none;

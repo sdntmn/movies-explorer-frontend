@@ -1,5 +1,6 @@
 import { React } from "react";
 import { NavLink } from "react-router-dom";
+import LinkProfile from "../LinkProfile/LinkProfile";
 import pachIconClose from "../../images/icon_close.svg";
 
 const setActive = ({ isActive }) =>
@@ -25,7 +26,11 @@ const Popup = function ({ visible = false, onClose }) {
         <NavLink to="/saved-movies" className={setActive} onClick={onClose}>
           Сохранённые фильмы
         </NavLink>
+        
       </nav>
+      <div className="popup__nav popup__nav-link-profile">
+        <LinkProfile pathLink="/profile" onClose={onClose}/>
+        </div>
     </div>
   );
 };

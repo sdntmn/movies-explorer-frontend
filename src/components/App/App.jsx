@@ -18,7 +18,7 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 export default function App() {
   const [currentUser, setCurrentUser] = useState({});
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const signin = (newUser, cb) => {
@@ -114,7 +114,7 @@ export default function App() {
                     >
                       <LinkProfile pathLink="/profile" />
                     </Header>
-                    <Movies />
+                    <Movies isOpen={handleNavClick}/>
                   </>
                 }
               </ProtectedRoute>
@@ -135,7 +135,7 @@ export default function App() {
                     >
                       <LinkProfile pathLink="/profile" />
                     </Header>
-                    <SavedMovies />
+                    <SavedMovies isOpen={handleNavClick}/>
                   </>
                 }
               </ProtectedRoute>
