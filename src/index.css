@@ -1,0 +1,38 @@
+@import url(./vendor/normalize.css);
+@import url(./vendor/fonts/inter.css);
+
+/* Стили общие */
+
+@import url(./components/App/App.css);
+
+/* Стили Header */
+
+@import url(./components/Header/Header.css);
+
+/* Стили Footer */
+
+@import url(./components/Footer/Footer.css);
+
+/* Стили главной страницы */
+
+@import url(./components/Main/AboutMe.css);
+@import url(./components/Main/AboutProject.css);
+@import url(./components/Main/Portfolio.css);
+@import url(./components/Main/Promo.css);
+@import url(./components/Main/Techs.css);
+
+/* Стили компанентов */
+
+@import url(./components/FormLinkEnter/FormLinkEnter.css);
+@import url(./components/Form/Form.css);
+@import url(./components/Input/Input.css);
+@import url(./components/LinkProfile/LinkProfile.css);
+@import url(./components/SearchForm/SearchForm.css);
+@import url(./components/MoviesCard/MoviesCard.css);
+@import url(./components/FilterCheckbox/FilterCheckbox.css);
+@import url(./components/Page404/Page404.css);
+@import url(./components/Profile/Profile.css);
+@import url(./components/Popup/Popup.css);
+@import url(./components/Movies/Movies.css);
+@import url(./components/MoviesButton/MoviesButton.css);
+@import url(./components/MoviesCardList/MoviesCardList.css);

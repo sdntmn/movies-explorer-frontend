@@ -1,0 +1,6 @@
+.moviesCard__add {
+  max-width: calc(1280px - 70px * 2);
+  margin: 0 auto;
+  text-align: center;
+  padding: 50px 70px 80px;
+}
