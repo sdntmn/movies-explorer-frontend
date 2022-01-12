@@ -9,7 +9,6 @@ export default function Form({
   name,
   children,
   pathLink,
-  onClick,
   title,
   isEditState,
 }) {
@@ -17,12 +16,15 @@ export default function Form({
     <div className={isEditState ? "form__edit" : "form"}>
       <form
         className={isEditState ? "form__data-edit" : "form__data"}
-        id={`form_${name}`}
         name={`${name}`}
         onSubmit={onSubmit}
       >
-        <fieldset className={isEditState ? "form__grouping-edit" : "form__grouping"}>
-          <legend className={isEditState ? "form__title-edit" : "form__title"}>{title}</legend>
+        <fieldset
+          className={isEditState ? "form__grouping-edit" : "form__grouping"}
+        >
+          <legend className={isEditState ? "form__title-edit" : "form__title"}>
+            {title}
+          </legend>
           {children}
         </fieldset>
       </form>
@@ -32,7 +34,7 @@ export default function Form({
         text={text}
         linkText={linkText}
         btnName={btnName}
-        onClick={onClick}
+        onSubmit={onSubmit}
       />
     </div>
   );

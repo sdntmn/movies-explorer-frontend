@@ -1,7 +1,7 @@
 .elements {
   margin: 0;
   display: grid;
-  grid-template-columns: repeat(3, auto);
+  grid-template-columns: repeat(3, 1fr);
   row-gap: 28px;
   column-gap: 32px;
   list-style: none;
@@ -34,6 +34,7 @@
 
 .element {
   max-width: 360px;
+  width: 100%;
   position: relative;
   list-style: none;
   display: grid;
@@ -68,7 +69,8 @@
 .element__title {
   display: flex;
   align-items: center;
-  width: calc(100% - 18px * 2);
+  max-width: calc(360px - 18px * 2);
+  width: 100%;
   justify-content: space-between;
 }
 
@@ -110,6 +112,8 @@
 .element__img {
   max-width: 360px;
   width: 100%;
+  max-height: 200px;
+  background-image: cover;
 }
 
 @media (max-width: 768px) {

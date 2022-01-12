@@ -13,6 +13,7 @@ export default function Header({
   styleHeader,
   styleAuth,
   children,
+  isNotActive,
 }) {
   return (
     <div className={styleHeader}>
@@ -24,6 +25,7 @@ export default function Header({
         >
           <img className="logo" src={logoPath} alt="Логотип сайта" />
         </Link>
+        {/*Авторизированный пользователь ? при разрешении 768 + бургер : останутся кнопки рег. и войти  */}
         {isLoggedIn ? (
           <img
             onClick={isOpen}
@@ -34,6 +36,7 @@ export default function Header({
         ) : (
           ""
         )}
+        {/*Авторизированный пользователь ? + btn "Фильмы" и "Сохр. фильмы" + link на профиль : останутся кнопки рег. и войти  */}
         {isLoggedIn ? (
           <div className="header__profile-nav">
             <div className="header__profile-links">
@@ -53,7 +56,7 @@ export default function Header({
         ) : (
           <>{children}</>
         )}
-        <Popup visible={visible} onClose={onClose} />
+        <Popup visible={visible} onClose={onClose} isNotActive={isNotActive} />
       </header>
     </div>
   );

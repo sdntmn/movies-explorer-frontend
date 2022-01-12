@@ -2,33 +2,24 @@ import SearchForm from "../SearchForm/SearchForm";
 import MoviesCard from "../MoviesCard/MoviesCard";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Footer from "../Footer/Footer";
-import pathDeleteIcon from "../../images/delete-movie.svg";
-import MoviesButton from "../MoviesButton/MoviesButton";
 
-const SavedMovies = function ({ isOpen }) {
+const SavedMovies = function ({ isOpen, isSaveMovies }) {
   return (
     <>
       <div className="page">
         <SearchForm />
         <MoviesCardList>
-          <MoviesCard isOpen={isOpen}>
-            <MoviesButton className={"element__button-not-active"}>
-              <img
-                className="element__icon"
-                src={pathDeleteIcon}
-                alt="иконка сохранения"
-              />
-            </MoviesButton>
-          </MoviesCard>
-          <MoviesCard isOpen={isOpen}>
-            <MoviesButton className={"element__button-not-active"}>
-              <img
-                className="element__icon"
-                src={pathDeleteIcon}
-                alt="иконка сохранения"
-              />
-            </MoviesButton>
-          </MoviesCard>
+          {isSaveMovies.map((movie) => (
+            <MoviesCard
+              isSaveMovies={isSaveMovies}
+              movie={movie}
+              key={movie.id}
+              movieTitle={movie.nameRU}
+              isOpen={isOpen}
+              src={movie.image}
+              time={movie.duration}
+            />
+          ))}
         </MoviesCardList>
       </div>
       <Footer />
