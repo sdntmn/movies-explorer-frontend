@@ -71,15 +71,15 @@ export const changeDataUser = (data) => {
 };
 
 // Добавить карточку (POST) ================================================
-export const setMoviesUser = (movies) => {
-  console.log(movies);
+export const setMoviesUser = (movie) => {
+  console.log();
   return fetch(`${SERVER_URL}/movies`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${localStorage.getItem("jwt")}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(movies),
+    body: JSON.stringify(movie),
   }).then(checkRespons);
 };
 

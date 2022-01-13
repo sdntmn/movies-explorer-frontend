@@ -1,4 +1,4 @@
-import { React, useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCard from "../MoviesCard/MoviesCard";
@@ -10,70 +10,58 @@ const Movies = function ({
   isOpen,
   arrayMovies,
   isMoviesLoading,
-  filter,
-  searchMovies,
+  setArrayLastSearchMovies,
   lastData,
   onAddCollecnion,
 }) {
-  console.log(lastData);
-
+  const [result, setResult] = useState(lastData);
   const [inputMovies, setInputMovies] = useState("");
+  const [inputResult, setInputResult] = useState(false);
+  const [stateFilterCheckBox, setStateFilterCheckBox] = useState(false);
+  let getlastInputData = localStorage.getItem("lastSearch");
+  console.log(inputResult);
+  console.log(result.length);
+
+  // Преключение чекбокса
+  const handleInChackBox = useCallback(() => {
+    setStateFilterCheckBox(true);
+  });
+
+  const handleOffChackBox = useCallback(() => {
+    setStateFilterCheckBox(false);
+  });
 
   // Обработчик изменения инпута обновляет стейт
   function handleInputMoies(evt) {
     setInputMovies(evt.target.value);
   }
 
-  const [result, setResult] = useState(lastData);
-  console.log(result);
+  const time = 45;
+
+  //console.log(lastData);
 
   async function handleSubmit(evt) {
     evt.preventDefault();
-
+    localStorage.setItem("lastSearch", inputMovies);
     setResult(filtredMovies);
+    setArrayLastSearchMovies(filtredMovies);
   }
 
-  const filtredMovies = arrayMovies.filter((movie) => {
-    return movie.nameRu
+  useEffect(() => {});
+  // поиск по массиву
+  let filtredMovies = arrayMovies.filter((movie) => {
+    return movie.nameRU
       .toLowerCase()
       .trim()
       .includes(inputMovies.toLowerCase().trim());
   });
-
-  /*
-
-  const filtredMovies = useCallback(
-    return movie.nameRu
-      .toLowerCase()
-      .trim()
-      .includes(inputMovies.toLowerCase().trim());
-      },
-      [setResult, searchMovies]
-    )
-  );
-  */
-
-  var sValue = localStorage["lastSearch"] || 0; /* for strings */
-  localStorage.setItem("lastSearch", inputMovies);
-
-  let textT = "Ничего не найдено";
-
-  const setLocal = useCallback(() => {
-    if (sValue === 0) {
-      return (textT = "");
-    } else {
-      return textT;
-    }
-  });
-  console.log(setLocal());
 
   //============================= НУЖЕН ЛИ ?
   useEffect(() => {
-    if (result.length === 0) {
-      setLocal();
+    if (lastData.length !== 0 || result.length !== 0) {
+      setInputResult(true);
     }
-  }, [filtredMovies, result, result.length, setLocal, textT]);
-  //=============================
+  }, [lastData.length, result.length]);
 
   return (
     <>
@@ -87,33 +75,34 @@ const Movies = function ({
         {isMoviesLoading && <Preloader></Preloader>}
         {!isMoviesLoading && (
           <MoviesCardList>
-            {result.length === 0 ? (
-              <span>{textT}</span>
-            ) : (
+            {inputResult &&
               result.map((movie) => (
                 <MoviesCard
                   key={movie.id}
                   movie={movie}
                   arrayMovies={arrayMovies}
-                  movieTitle={movie.nameRu}
+                  movieTitle={movie.nameRU}
                   isOpen={isOpen}
                   src={movie.image}
                   time={movie.duration}
                   onAddCollecnion={onAddCollecnion}
                 />
-              ))
-            )}
+              ))}
           </MoviesCardList>
         )}
         <section className="moviesCard__add">
-          <Link
-            to=""
-            className="moviesCard__button"
-            type="button"
-            aria-label="Кнопка еще"
-          >
-            Ещё
-          </Link>
+          {inputResult ? (
+            <Link
+              to=""
+              className="moviesCard__button"
+              type="button"
+              aria-label="Кнопка еще"
+            >
+              Ещё
+            </Link>
+          ) : (
+            <span>Ничего не найдено</span>
+          )}
         </section>
       </div>
       <Footer />

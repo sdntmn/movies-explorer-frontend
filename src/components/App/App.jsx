@@ -20,20 +20,11 @@ import { BASE_URL } from "../../utils/config";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import Preloader from "../Preloader/Preloader";
 
-/*
-if (isLastData) {
-          const arrMoviesLastData = arrMovies.filter(function (lastSearchData) {
-            // eslint-disable-next-line array-callback-return
-            return arrMoviesLastData;
-          });
-          setSaveMovies(arrMoviesLastData);
-        }
-        */
-
 export default function App() {
   const [currentUser, setCurrentUser] = useState({});
+  const [localContext, setLocalContex] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [saveMovies, setSaveMovies] = useState([]);
+  const [arrayLastSearchMovies, setArrayLastSearchMovies] = useState([]);
 
   const [isMoviesLoading, setIsMoviesLoading] = useState(false);
   const [arrayMovies, setArrayMovies] = useState([]);
@@ -44,12 +35,27 @@ export default function App() {
 
   const [isLastData, setIsLastData] = useState("");
 
+  function onLogin({ email, password }) {
+    mainApi
+      .authorize(email, password)
+      .then((res) => {
+        if (res.token) {
+          goHome();
+          localStorage.setItem("jwt", res.token);
+          localStorage.setItem("lastSearch", isLastData);
+        }
+      })
+      .catch((error) => {
+        console.log(`Ошибка данных ${error}`);
+      });
+  }
+
   // получение данных пользователя
   useEffect(() => {
     let arrMovies;
     let arrMoviesLastData;
-    let lastSearchData = localStorage.getItem("lastSearch");
-    setIsLastData(lastSearchData);
+    setIsLastData(localStorage.getItem("lastSearch"));
+
     if (isLoggedIn) {
       mainApi
         .getDataUser()
@@ -66,6 +72,7 @@ export default function App() {
       api
         .getMovies()
         .then((res) => {
+          console.log(res);
           arrMovies = res.map((item) => {
             return {
               country: item.country,
@@ -76,8 +83,8 @@ export default function App() {
               image: `${BASE_URL}${item.image.url}`,
               trailer: item.trailerLink,
               thumbnail: `${BASE_URL}${item.image.formats.thumbnail.url}`,
-              moviedId: item.id,
-              nameRu: item.nameRU,
+              movieId: item.id,
+              nameRU: item.nameRU,
               nameEn: item.nameEN,
             };
           });
@@ -88,12 +95,13 @@ export default function App() {
         .catch((error) => setIsErrorLoaderMovies(error))
         .finally(() => setIsMoviesLoading(false));
 
-      if (isLastData) {
+      if (isLastData.length !== null) {
         arrMoviesLastData = arrayMovies.filter((item) => {
-          return item.nameRu.includes(lastSearchData);
+          return item.nameRU.includes(isLastData);
         });
-        setSaveMovies(arrMoviesLastData);
+        setArrayLastSearchMovies(arrMoviesLastData);
       }
+      console.log(isLastData);
     }
   }, [isLastData, isLoggedIn]);
 
@@ -127,21 +135,6 @@ export default function App() {
         }
       })
       .finally(() => {});
-  }
-
-  function onLogin({ email, password }) {
-    mainApi
-      .authorize(email, password)
-      .then((res) => {
-        if (res.token) {
-          goHome();
-          localStorage.setItem("jwt", res.token);
-          localStorage.setItem("lastSearch");
-        }
-      })
-      .catch((error) => {
-        console.log(`Ошибка данных ${error}`);
-      });
   }
 
   // Выход пользователя
@@ -209,29 +202,29 @@ export default function App() {
         year: movies.year || "Нет данных",
         description: movies.description || "Нет данных",
         image: movies.image || "Нет данных",
-        trailer: movies.trailer || "Нет данных",
-        thumbnail: movies.thumbnail || "Нет данных",
-        movieId: movies.moviedId || "Нет данных",
-        nameEN: movies.nameEn || "Нет данных",
-        nameRU: movies.nameRu || "Нет данных",
+        trailer: movies.trailer,
+        thumbnail: movies.thumbnail,
+        movieId: movies.movieId,
+        nameEN: movies.nameEN || "Нет данных",
+        nameRU: movies.nameRU || "Нет данных",
       })
-      .then((newArrCard) => {
-        setIsAddMovies([newArrCard, ...isAddMovies]);
+      .then((movie) => {
+        setIsAddMovies(movie);
       })
       .catch((error) => {
         console.log(`Ошибка данных карточки ${error}`);
       });
   }
 
-  // Сохранение фильма в коллекцию =========================================
-  const [isSaveMovies, setIsSaveMovies] = useState("");
-  console.log(isSaveMovies);
+  // Получить список сохраненных фильмов User (GET)  =========================================
+  const [arraySaveMovies, setarraySaveMovies] = useState("");
+  //console.log(arraySaveMovies);
   useEffect(() => {
     mainApi
       .getSaveMovies()
       .then((movies) => {
         console.log(movies);
-        setIsSaveMovies(movies);
+        setarraySaveMovies(movies);
       })
       .catch((error) => {
         console.log(`Ошибка получения данных ${error}`);
@@ -254,6 +247,9 @@ export default function App() {
     setIsPopupOpen(false);
     setIsEdit(false);
   }, []);
+
+  // console.log(arraySaveMovies);
+  // console.log(arrayMovies);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -346,10 +342,11 @@ export default function App() {
                     <LinkProfile pathLink="/profile" />
                   </Header>
                   <Movies
+                    setArrayLastSearchMovies={setArrayLastSearchMovies}
                     isMoviesLoading={isMoviesLoading}
                     arrayMovies={arrayMovies}
                     isOpen={handleNavClick}
-                    lastData={saveMovies}
+                    lastData={arrayLastSearchMovies}
                     onAddCollecnion={handleAddMovie}
                   />
                 </>
@@ -372,7 +369,7 @@ export default function App() {
                       <LinkProfile pathLink="/profile" />
                     </Header>
                     <SavedMovies
-                      isSaveMovies={isSaveMovies}
+                      arraySaveMovies={arraySaveMovies}
                       isOpen={handleNavClick}
                     />
                   </>

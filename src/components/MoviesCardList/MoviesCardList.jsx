@@ -2,7 +2,7 @@ import React from "react";
 import Preloader from "../Preloader/Preloader";
 
 const MoviesCardList = function ({ children, isLoading }) {
-  console.log(isLoading);
+  //console.log(isLoading);
   return (
     <>
       <section className="moviesCardList">

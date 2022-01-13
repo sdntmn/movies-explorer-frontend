@@ -7,19 +7,17 @@ function MoviesButton({
   className,
   onAddCollecnion,
   movie,
-  isSaveMovies,
-  inSave,
+  arraySaveMovies,
+  saveMovie,
+  arrayMovies,
 }) {
   let locations = useLocation();
   const currentUser = React.useContext(CurrentUserContext);
 
   const movieButtonClassName = `card__like-button ${"card__like-button_is-active"}`;
 
-  console.log(movie.movieId);
-
-  console.log(isSaveMovies);
   /*
-  const addMovie = movie.movieId.some((i) => i.duration === isSaveMovies.moviedId);
+  const addMovie = movie.movieId.some((i) => i.duration === arraySaveMovies.moviedId);
   const cardLikeButtonClassName = `card__like-button ${
     addMovie && "card__like-button_is-active"
   }`;
@@ -28,7 +26,7 @@ function MoviesButton({
   function handleSaveMovie() {
     onAddCollecnion(movie);
   }
-  console.log(movie);
+
   return (
     <>
       <button

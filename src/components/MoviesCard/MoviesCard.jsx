@@ -10,8 +10,10 @@ function MoviesCard({
   src,
   movieTitle,
   movie,
+  saveMovie,
   onAddCollecnion,
-  isSaveMovies,
+  arraySaveMovies,
+  arrayMovies,
 }) {
   let location = useLocation();
   const [isSavedIn, setIsSavedIn] = useState(true);
@@ -56,9 +58,11 @@ function MoviesCard({
         <img className="element__img" src={src} alt="{card.name}" />
         {location.pathname === "/movies" && (
           <MoviesButton
-            isSaveMovies={isSaveMovies}
+            arraySaveMovies={arraySaveMovies}
             onAddCollecnion={onAddCollecnion}
             movie={movie}
+            saveMovie={saveMovie}
+            arrayMovies={arrayMovies}
             className={
               isSavedIn
                 ? "element__button-not-active"
@@ -79,7 +83,7 @@ function MoviesCard({
         {location.pathname === "/saved-movies" && (
           <MoviesButton
             movie={movie}
-            isSaveMovies={isSaveMovies}
+            arraySaveMovies={arraySaveMovies}
             onAddCollecnion={onAddCollecnion}
             className={"element__button-not-active"}
           >

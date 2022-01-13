@@ -3,21 +3,21 @@ import MoviesCard from "../MoviesCard/MoviesCard";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Footer from "../Footer/Footer";
 
-const SavedMovies = function ({ isOpen, isSaveMovies }) {
+const SavedMovies = function ({ isOpen, arraySaveMovies }) {
   return (
     <>
       <div className="page">
         <SearchForm />
         <MoviesCardList>
-          {isSaveMovies.map((movie) => (
+          {arraySaveMovies.map((saveMovie) => (
             <MoviesCard
-              isSaveMovies={isSaveMovies}
-              movie={movie}
-              key={movie.id}
-              movieTitle={movie.nameRU}
+              arraySaveMovies={arraySaveMovies}
+              saveMovie={saveMovie}
+              key={saveMovie.id}
+              movieTitle={saveMovie.nameRU}
               isOpen={isOpen}
-              src={movie.image}
-              time={movie.duration}
+              src={saveMovie.image}
+              time={saveMovie.duration}
             />
           ))}
         </MoviesCardList>
