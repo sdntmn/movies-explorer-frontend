@@ -23,8 +23,9 @@ function MoviesButton({
   }`;
 
 */
+
   function handleSaveMovie() {
-    onAddCollecnion(movie);
+    onAddCollecnion(movie, arraySaveMovies);
   }
 
   return (

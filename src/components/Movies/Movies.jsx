@@ -6,6 +6,12 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Footer from "../Footer/Footer";
 import Preloader from "../Preloader/Preloader";
 
+// arrayMovies - все фильмы
+// isMoviesLoading - включает прелоадер
+// setArrayLastSearchMovies - функция последнего запроса
+// lastData = мфссив данных последнего запроса
+// onAddCollecnion - функция добавления в сохраненные для button сохранения
+// arraySaveMovies - массив сохраненных фильмов
 const Movies = function ({
   isOpen,
   arrayMovies,
@@ -13,55 +19,83 @@ const Movies = function ({
   setArrayLastSearchMovies,
   lastData,
   onAddCollecnion,
+  arraySaveMovies,
 }) {
+  console.log();
   const [result, setResult] = useState(lastData);
   const [inputMovies, setInputMovies] = useState("");
   const [inputResult, setInputResult] = useState(false);
   const [stateFilterCheckBox, setStateFilterCheckBox] = useState(false);
   let getlastInputData = localStorage.getItem("lastSearch");
-  console.log(inputResult);
-  console.log(result.length);
-
-  // Преключение чекбокса
-  const handleInChackBox = useCallback(() => {
-    setStateFilterCheckBox(true);
-  });
-
-  const handleOffChackBox = useCallback(() => {
-    setStateFilterCheckBox(false);
-  });
 
   // Обработчик изменения инпута обновляет стейт
   function handleInputMoies(evt) {
     setInputMovies(evt.target.value);
   }
 
-  const time = 45;
+  // Преключение чекбокса
+  const handleInChackBox = useCallback(() => {
+    setStateFilterCheckBox((state) =>
+      state === false
+        ? setStateFilterCheckBox(true)
+        : setStateFilterCheckBox(false)
+    );
+  }, []);
 
-  //console.log(lastData);
+  console.log(stateFilterCheckBox);
+
+  const filterInputData = useCallback(
+    (movie) => {
+      if (
+        movie.nameRU
+          .toLowerCase()
+          .trim()
+          .includes(inputMovies.toLowerCase().trim())
+      ) {
+        return true;
+      }
+      return false;
+    },
+    [inputMovies]
+  );
+
+  const filterDuration = useCallback((movie) => {
+    if (Number.isFinite(movie.duration) && movie.duration <= 45) {
+      return true;
+    }
+
+    return false;
+  }, []);
+  // результат поиска
+  let resultSearch = arrayMovies.filter(filterInputData);
+  // фильтрация результата / короткометражки/
+  let arrAllFilter = resultSearch.filter(filterDuration);
 
   async function handleSubmit(evt) {
     evt.preventDefault();
     localStorage.setItem("lastSearch", inputMovies);
-    setResult(filtredMovies);
-    setArrayLastSearchMovies(filtredMovies);
+    if (stateFilterCheckBox) {
+      setResult(arrAllFilter);
+      setArrayLastSearchMovies(arrAllFilter);
+    }
+    if (!stateFilterCheckBox) {
+      setResult(resultSearch);
+      setArrayLastSearchMovies(resultSearch);
+    }
   }
 
-  useEffect(() => {});
-  // поиск по массиву
-  let filtredMovies = arrayMovies.filter((movie) => {
-    return movie.nameRU
-      .toLowerCase()
-      .trim()
-      .includes(inputMovies.toLowerCase().trim());
-  });
+  console.log(result);
+  console.log(inputResult);
+  console.log(inputMovies);
 
   //============================= НУЖЕН ЛИ ?
   useEffect(() => {
-    if (lastData.length !== 0 || result.length !== 0) {
+    if (result.length !== 0) {
       setInputResult(true);
+    } else {
+      setInputResult(false);
     }
-  }, [lastData.length, result.length]);
+  }, [result.length]);
 
   return (
     <>
@@ -69,6 +103,7 @@ const Movies = function ({
         <SearchForm
           onSubmit={handleSubmit}
           onChange={handleInputMoies}
+          checkBox={handleInChackBox}
           value={inputMovies}
           idName="movies"
         />
@@ -81,6 +116,7 @@ const Movies = function ({
                   key={movie.id}
                   movie={movie}
                   arrayMovies={arrayMovies}
+                  arraySaveMovies={arraySaveMovies}
                   movieTitle={movie.nameRU}
                   isOpen={isOpen}
                   src={movie.image}
@@ -101,7 +137,7 @@ const Movies = function ({
               Ещё
             </Link>
           ) : (
-            <span>Ничего не найдено</span>
+            <span className="moviesCard__text">Ничего не найдено</span>
           )}
         </section>
       </div>

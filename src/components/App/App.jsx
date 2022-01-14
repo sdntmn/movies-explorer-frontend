@@ -191,34 +191,55 @@ export default function App() {
       });
   }
 
+  const filterMoviesId = useCallback((movie) => {
+    if (Number.isFinite(movie.movieId) && movie.duration <= 45) {
+      return true;
+    }
+
+    return false;
+  }, []);
+
+  const [arraySaveMovies, setarraySaveMovies] = useState("");
+
   // Сохранение фильма в коллекцию =========================================
   const [isAddMovies, setIsAddMovies] = useState(false);
-  function handleAddMovie(movies) {
-    mainApi
-      .setMoviesUser({
-        country: movies.country || "Нет данных",
-        director: movies.director || "Нет данных",
-        duration: movies.duration || "Нет данных",
-        year: movies.year || "Нет данных",
-        description: movies.description || "Нет данных",
-        image: movies.image || "Нет данных",
-        trailer: movies.trailer,
-        thumbnail: movies.thumbnail,
-        movieId: movies.movieId,
-        nameEN: movies.nameEN || "Нет данных",
-        nameRU: movies.nameRU || "Нет данных",
-      })
-      .then((movie) => {
-        setIsAddMovies(movie);
-      })
-      .catch((error) => {
-        console.log(`Ошибка данных карточки ${error}`);
-      });
+
+  function handleAddMovie(movies, arraySaveMovies) {
+    const isCollection = arraySaveMovies.find(
+      (movie) => movie.movieId === movies.movieId
+    );
+    console.log(isCollection);
+    console.log(arraySaveMovies);
+    console.log(movies.movieId);
+
+    if (!isCollection) {
+      mainApi
+        .setMoviesUser({
+          country: movies.country || "Нет данных",
+          director: movies.director || "Нет данных",
+          duration: movies.duration || "Нет данных",
+          year: movies.year || "Нет данных",
+          description: movies.description || "Нет данных",
+          image: movies.image || "Нет данных",
+          trailer: movies.trailer,
+          thumbnail: movies.thumbnail,
+          movieId: movies.movieId,
+          nameEN: movies.nameEN || "Нет данных",
+          nameRU: movies.nameRU || "Нет данных",
+        })
+        .then((movie) => {
+          setIsAddMovies(movie);
+        })
+        .catch((error) => {
+          console.log(`Ошибка данных карточки ${error}`);
+        });
+    }
+    console.log("уже в коллекции");
   }
 
   // Получить список сохраненных фильмов User (GET)  =========================================
-  const [arraySaveMovies, setarraySaveMovies] = useState("");
-  //console.log(arraySaveMovies);
+
+  console.log(arraySaveMovies);
   useEffect(() => {
     mainApi
       .getSaveMovies()
@@ -348,6 +369,7 @@ export default function App() {
                     isOpen={handleNavClick}
                     lastData={arrayLastSearchMovies}
                     onAddCollecnion={handleAddMovie}
+                    arraySaveMovies={arraySaveMovies}
                   />
                 </>
               </ProtectedRoute>
