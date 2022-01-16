@@ -2,11 +2,10 @@ import React from "react";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 
 const SearchForm = function ({
-  idName,
+  shortFilmsSave,
   onChange,
   value,
   onSubmit,
-  checkBox,
   hendleShortFilms,
 }) {
   return (
@@ -32,8 +31,8 @@ const SearchForm = function ({
           </button>
         </div>
         <FilterCheckbox
-          checkBox={checkBox}
           hendleShortFilms={hendleShortFilms}
+          shortFilmsSave={shortFilmsSave}
         />
       </form>
     </div>

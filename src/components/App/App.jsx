@@ -238,7 +238,7 @@ export default function App() {
         })
         .then((movie) => {
           setArraySaveMovies((state) =>
-            state.filter((m) => m._id === movie._id)
+            state.filter((m) => m._id !== movie._id)
           );
           //setIsSavedStateMovies(true);
         })
@@ -293,17 +293,6 @@ export default function App() {
   const closeAllPopups = useCallback(() => {
     setIsPopupOpen(false);
     setIsEdit(false);
-  }, []);
-
-  const [isStateFilterShortFilms, setIsStateFilterShortFilms] = useState(false);
-
-  // Преключение чекбокса
-  const handleChackBoxShortFilms = useCallback(() => {
-    setIsStateFilterShortFilms((state) =>
-      state === false
-        ? setIsStateFilterShortFilms(true)
-        : setIsStateFilterShortFilms(false)
-    );
   }, []);
 
   // Обработчик изменения инпута обновляет стейт
@@ -419,14 +408,13 @@ export default function App() {
                   </Header>
                   <Movies
                     setArrayLastSearchMovies={setArrayLastSearchMovies}
+                    setArraySaveMovies={setArraySaveMovies}
                     isMoviesLoading={isMoviesLoading}
                     arrayMovies={arrayMovies}
                     isOpen={handleNavClick}
                     lastData={arrayLastSearchMovies}
                     onAddCollecnion={handleAddMovie}
                     arraySaveMovies={arraySaveMovies}
-                    hendleShortFilms={handleChackBoxShortFilms}
-                    stateShortFilms={isStateFilterShortFilms}
                     shortFilms={filterDuration}
                     setInputMovies={setInputMovies}
                     inputMovies={inputMovies}
@@ -459,9 +447,7 @@ export default function App() {
                       isOpen={handleNavClick}
                       lastData={arrayLastSearchMovies}
                       arrayMovies={arrayMovies}
-                      shortFilms={filterDuration} //?
-                      hendleShortFilms={handleChackBoxShortFilms}
-                      stateShortFilms={isStateFilterShortFilms}
+                      shortFilms={filterDuration}
                       setInputMovies={setInputMovies}
                       inputMovies={inputMovies}
                       handleInputMoies={handleInputMoies}

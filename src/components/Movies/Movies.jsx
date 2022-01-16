@@ -23,6 +23,7 @@ const Movies = function ({
   lastData,
   onAddCollecnion,
   arraySaveMovies,
+  setArraySaveMovies,
   shortFilms,
   hendleShortFilms,
   stateShortFilms,
@@ -35,6 +36,16 @@ const Movies = function ({
   const [inputResult, setInputResult] = useState(false);
   let getlastInputData = localStorage.getItem("lastSearch");
 
+  // Преключение чекбокса
+  const [isStateFilterShortFilms, setIsStateFilterShortFilms] = useState(false);
+  const handleChackBoxShortFilms = useCallback(() => {
+    setIsStateFilterShortFilms((state) =>
+      state === false
+        ? setIsStateFilterShortFilms(true)
+        : setIsStateFilterShortFilms(false)
+    );
+  }, []);
+
   // Обработчик изменения инпута обновляет стейт
   handleInputMoies = (evt) => {
     setInputMovies(evt.target.value);
@@ -42,21 +53,17 @@ const Movies = function ({
 
   // результат поиска
   let resultSearch = arrayMovies.filter(filterInputData);
-  // фильтрация результата / короткометражки/
-  let arrAllFilter = resultSearch.filter(shortFilms);
 
   async function handleSubmit(evt) {
     evt.preventDefault();
     localStorage.setItem("lastSearch", inputMovies);
-    if (stateShortFilms) {
-      res();
+    if (isStateFilterShortFilms) {
       setResult(filterResultSave);
       setArrayLastSearchMovies(filterResultSave);
     }
-    if (!stateShortFilms) {
-      res();
-      setResult(filterResultSave);
-      setArrayLastSearchMovies(filterResultSave);
+    if (!isStateFilterShortFilms) {
+      setResult(arrAllFilter);
+      setArrayLastSearchMovies(arrAllFilter);
     }
   }
 
@@ -69,23 +76,30 @@ const Movies = function ({
     }
   }, [result.length]);
 
-  let positiveArr = arraySaveMovies.map(function (number) {
+  let arrayMovieIdSaveMovies = arraySaveMovies.map(function (number) {
     return number.movieId;
   });
 
   let filterResultSave = resultSearch;
 
-  function res() {
-    let filterResultSave = resultSearch.filter((movie) => {
-      let stateInCollection = positiveArr.some((el) => el === movie.movieId);
+  useEffect(() => {
+    function res() {
+      let filterResultSave = resultSearch.filter((movie) => {
+        let stateInCollection = arrayMovieIdSaveMovies.some(
+          (el) => el === movie.movieId
+        );
 
-      movie.state = stateInCollection;
+        movie.state = stateInCollection;
 
-      return movie;
-    });
+        return movie;
+      });
 
-    return filterResultSave;
-  }
+      return filterResultSave;
+    }
+    res();
+  }, [arrayMovieIdSaveMovies, resultSearch]);
+  // фильтрация результата / короткометражки/
+  let arrAllFilter = filterResultSave.filter(shortFilms);
 
   return (
     <>
@@ -93,34 +107,34 @@ const Movies = function ({
         <SearchForm
           onSubmit={handleSubmit}
           onChange={handleInputMoies}
-          hendleShortFilms={hendleShortFilms}
+          hendleShortFilms={handleChackBoxShortFilms}
           value={inputMovies}
         />
         {isMoviesLoading && <Preloader></Preloader>}
         {!isMoviesLoading && (
           <MoviesCardList>
             {inputResult &&
-              result.map((movie) => (
+              result.map((film) => (
                 <>
                   <MoviesCard
-                    key={movie.movieId}
-                    movie={movie}
-                    movieTitle={movie.nameRU}
+                    arraySaveMovies={arraySaveMovies}
+                    key={film.movieId}
+                    movieTitle={film.nameRU}
                     isOpen={isOpen}
-                    src={movie.image}
-                    time={movie.duration}
+                    src={film.image}
+                    time={film.duration}
                   >
                     <MoviesButton
                       onAddCollecnion={onAddCollecnion}
-                      movie={movie}
-                      arrayMovies={arrayMovies}
+                      film={film}
+                      setArraySaveMovies={setArraySaveMovies}
                       className={
-                        !movie.state
+                        !film.state
                           ? "element__button-not-active"
                           : "element__button-active"
                       }
                     >
-                      {!movie.state ? (
+                      {!film.state ? (
                         "Сохранить"
                       ) : (
                         <img

@@ -1,6 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-const FilterCheckbox = function ({ idName, checkBox, hendleShortFilms }) {
+const FilterCheckbox = function ({
+  idName,
+  hendleShortFilms,
+
+  shortFilmsSave,
+}) {
+  useEffect(() => {
+    hendleShortFilms();
+  }, [hendleShortFilms]);
+  console.log(hendleShortFilms);
   return (
     <div className="searchForm__tumb">
       <label>

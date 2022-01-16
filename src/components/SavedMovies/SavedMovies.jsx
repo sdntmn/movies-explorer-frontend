@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCard from "../MoviesCard/MoviesCard";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
@@ -25,6 +25,17 @@ const SavedMovies = function ({
   const [saveResult, setSaveResult] = useState(lastData);
   const [inputSaveResult, setInputSaveResult] = useState(false);
 
+  // Преключение чекбокса
+  const [isStateFilterShortFilmsSave, setIsStateFilterShortFilmsSave] =
+    useState(false);
+  const handleChackBoxShortFilmsSave = useCallback(() => {
+    setIsStateFilterShortFilmsSave((state) =>
+      state === false
+        ? setIsStateFilterShortFilmsSave(true)
+        : setIsStateFilterShortFilmsSave(false)
+    );
+  }, []);
+
   // Обработчик изменения инпута обновляет стейт
   handleInputMoies = (evt) => {
     setInputMovies(evt.target.value);
@@ -42,11 +53,11 @@ const SavedMovies = function ({
   async function handleSubmit(evt) {
     evt.preventDefault();
 
-    if (stateShortFilms) {
+    if (!isStateFilterShortFilmsSave) {
       setSaveResult(arrAllSaveFilter);
       setArrayLastSearchMovies(arrAllSaveFilter);
     }
-    if (!stateShortFilms) {
+    if (isStateFilterShortFilmsSave) {
       setSaveResult(resultSaveSearch);
       setArrayLastSearchMovies(resultSaveSearch);
     }
@@ -67,20 +78,21 @@ const SavedMovies = function ({
         <SearchForm
           onSubmit={handleSubmit}
           onChange={handleInputMoies}
-          hendleShortFilms={hendleShortFilms}
+          hendleShortFilms={handleChackBoxShortFilmsSave}
           value={inputMovies}
         />
         <MoviesCardList>
           {saveResult.map((saveMovie) => (
             <MoviesCard
-              arraySaveMovies={arraySaveMovies}
               key={saveMovie.movieId}
+              arraySaveMovies={arraySaveMovies}
               movieTitle={saveMovie.nameRU}
               isOpen={isOpen}
               src={saveMovie.image}
               time={saveMovie.duration}
             >
               <MoviesButton
+                arraySaveMovies={arraySaveMovies}
                 deletMovie={deletMovie}
                 saveMovie={saveMovie}
                 className="element__button-not-active"

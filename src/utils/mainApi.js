@@ -72,7 +72,7 @@ export const changeDataUser = (data) => {
 
 // Добавить фильма в коллекцию (POST) ========================================
 export const setMoviesUser = (movie) => {
-  console.log();
+  console.log(movie);
   return fetch(`${SERVER_URL}/movies`, {
     method: "POST",
     headers: {

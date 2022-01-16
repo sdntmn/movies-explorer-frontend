@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
@@ -7,31 +7,53 @@ function MoviesButton({
   className,
   onAddCollecnion,
   movie,
-
+  film,
+  arraySaveMovies,
+  setArraySaveMovies,
   deletMovie,
   saveMovie,
 }) {
+  const [isSave, setIsSave] = useState(false);
   let locations = useLocation();
   const currentUser = React.useContext(CurrentUserContext);
 
   const movieButtonClassName = `card__like-button ${"card__like-button_is-active"}`;
-
   /*
+  useEffect(() => {
+    setArraySaveMovies(arraySaveMovies);
+  }, [arraySaveMovies, setArraySaveMovies]);
+
   const addMovie = movie.movieId.some((i) => i.duration === arraySaveMovies.moviedId);
   const cardLikeButtonClassName = `card__like-button ${
     addMovie && "card__like-button_is-active"
   }`;
 
-*/
+
+
+    useEffect(() => {
+      if (movie. !== 0) {
+        setInputResult(true);
+      } else {
+        setInputResult(false);
+      }
+    }, [result.length]);
+    */
 
   function handleSaveMovie() {
-    onAddCollecnion(movie);
+    console.log(film);
+
+    onAddCollecnion(film);
+    setIsSave(true);
   }
+
+  console.log(onAddCollecnion);
 
   function getDeleteMovie() {
     deletMovie(saveMovie);
   }
 
+  console.log(saveMovie);
+  console.log(movie);
   return (
     <>
       {locations.pathname === "/movies" && (
