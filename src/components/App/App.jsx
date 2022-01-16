@@ -25,7 +25,12 @@ export default function App() {
   const [localContext, setLocalContex] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [arrayLastSearchMovies, setArrayLastSearchMovies] = useState([]);
-
+  // Состояние сохранен или нет фильм
+  //!const [isSavedStateMovies, setIsSavedStateMovies] = useState(false);
+  // массив сохраненных фильмов
+  const [arraySaveMovies, setArraySaveMovies] = useState("");
+  // Является ли короткометражным
+  const [isShortFilms, setIsShortFilms] = useState(false);
   const [isMoviesLoading, setIsMoviesLoading] = useState(false);
   const [arrayMovies, setArrayMovies] = useState([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -72,7 +77,12 @@ export default function App() {
       api
         .getMovies()
         .then((res) => {
-          console.log(res);
+          if (isLastData.length !== null) {
+            arrMoviesLastData = arrayMovies.filter((item) => {
+              return item.nameRU.includes(isLastData);
+            });
+            setArrayLastSearchMovies(arrMoviesLastData);
+          }
           arrMovies = res.map((item) => {
             return {
               country: item.country,
@@ -86,21 +96,16 @@ export default function App() {
               movieId: item.id,
               nameRU: item.nameRU,
               nameEn: item.nameEN,
+              state: "",
             };
           });
-
+          console.log(arrMovies);
           setArrayMovies(arrMovies);
         })
 
         .catch((error) => setIsErrorLoaderMovies(error))
         .finally(() => setIsMoviesLoading(false));
 
-      if (isLastData.length !== null) {
-        arrMoviesLastData = arrayMovies.filter((item) => {
-          return item.nameRU.includes(isLastData);
-        });
-        setArrayLastSearchMovies(arrMoviesLastData);
-      }
       console.log(isLastData);
     }
   }, [isLastData, isLoggedIn]);
@@ -120,7 +125,6 @@ export default function App() {
 
   // Регистрация нового пользователя =======================================
   function onRegister({ name, email, password }) {
-    console.log(name);
     return mainApi
       .register({ name, email, password })
       .then((res) => {
@@ -163,8 +167,20 @@ export default function App() {
       authToken(jwt); //функция авторизации
     }
   });
-
   /*
+  const [stateInColLection, setStateInColLection] = useState(false);
+  function checkStateSaveInCollection() {
+    arrayMovies.map((movie) => {
+      const colLection = arraySaveMovies.some((el) => el === movie.movieId);
+
+      movie.state = colLection;
+
+      return setStateInColLection(movie.state);
+    });
+  }
+  console.log(stateInColLection);
+  console.log(checkStateSaveInCollection());
+
 
    useEffect(() => {
      const jwt = localStorage.getItem("jwt");
@@ -191,7 +207,7 @@ export default function App() {
       });
   }
 
-  const filterMoviesId = useCallback((movie) => {
+  const filterDuration = useCallback((movie) => {
     if (Number.isFinite(movie.movieId) && movie.duration <= 45) {
       return true;
     }
@@ -199,20 +215,13 @@ export default function App() {
     return false;
   }, []);
 
-  const [arraySaveMovies, setarraySaveMovies] = useState("");
-
   // Сохранение фильма в коллекцию =========================================
-  const [isAddMovies, setIsAddMovies] = useState(false);
 
-  function handleAddMovie(movies, arraySaveMovies) {
-    const isCollection = arraySaveMovies.find(
+  function handleAddMovie(movies) {
+    const inCollection = arraySaveMovies.find(
       (movie) => movie.movieId === movies.movieId
     );
-    console.log(isCollection);
-    console.log(arraySaveMovies);
-    console.log(movies.movieId);
-
-    if (!isCollection) {
+    if (!inCollection) {
       mainApi
         .setMoviesUser({
           country: movies.country || "Нет данных",
@@ -228,24 +237,41 @@ export default function App() {
           nameRU: movies.nameRU || "Нет данных",
         })
         .then((movie) => {
-          setIsAddMovies(movie);
+          setArraySaveMovies((state) =>
+            state.filter((m) => m._id === movie._id)
+          );
+          //setIsSavedStateMovies(true);
         })
         .catch((error) => {
           console.log(`Ошибка данных карточки ${error}`);
         });
     }
-    console.log("уже в коллекции");
+    if (inCollection) {
+      handleCardDelete(inCollection);
+      console.log("уже в коллекции");
+    }
+  }
+
+  // Удаление фильма из коллекции ============================================
+  function handleCardDelete(movie) {
+    console.log(movie);
+    mainApi
+      .deleteMovieUser(movie._id)
+      .then(() => {
+        setArraySaveMovies((state) => state.filter((m) => m !== movie));
+        //setIsSavedStateMovies(false);
+      })
+      .catch((error) => {
+        console.log(`Ошибка удаления карточки ${error}`);
+      });
   }
 
   // Получить список сохраненных фильмов User (GET)  =========================================
-
-  console.log(arraySaveMovies);
   useEffect(() => {
     mainApi
       .getSaveMovies()
       .then((movies) => {
-        console.log(movies);
-        setarraySaveMovies(movies);
+        setArraySaveMovies(movies);
       })
       .catch((error) => {
         console.log(`Ошибка получения данных ${error}`);
@@ -269,8 +295,37 @@ export default function App() {
     setIsEdit(false);
   }, []);
 
-  // console.log(arraySaveMovies);
-  // console.log(arrayMovies);
+  const [isStateFilterShortFilms, setIsStateFilterShortFilms] = useState(false);
+
+  // Преключение чекбокса
+  const handleChackBoxShortFilms = useCallback(() => {
+    setIsStateFilterShortFilms((state) =>
+      state === false
+        ? setIsStateFilterShortFilms(true)
+        : setIsStateFilterShortFilms(false)
+    );
+  }, []);
+
+  // Обработчик изменения инпута обновляет стейт
+  const [inputMovies, setInputMovies] = useState("");
+  function handleInputMoies(evt) {
+    setInputMovies(evt.target.value);
+  }
+
+  const filterInputData = useCallback(
+    (movie) => {
+      if (
+        movie.nameRU
+          .toLowerCase()
+          .trim()
+          .includes(inputMovies.toLowerCase().trim())
+      ) {
+        return true;
+      }
+      return false;
+    },
+    [inputMovies]
+  );
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -370,6 +425,14 @@ export default function App() {
                     lastData={arrayLastSearchMovies}
                     onAddCollecnion={handleAddMovie}
                     arraySaveMovies={arraySaveMovies}
+                    hendleShortFilms={handleChackBoxShortFilms}
+                    stateShortFilms={isStateFilterShortFilms}
+                    shortFilms={filterDuration}
+                    setInputMovies={setInputMovies}
+                    inputMovies={inputMovies}
+                    handleInputMoies={handleInputMoies}
+                    filterInputData={filterInputData}
+                    //isSavedStateMovies={isSavedStateMovies}
                   />
                 </>
               </ProtectedRoute>
@@ -392,7 +455,20 @@ export default function App() {
                     </Header>
                     <SavedMovies
                       arraySaveMovies={arraySaveMovies}
+                      setArrayLastSearchMovies={setArrayLastSearchMovies}
                       isOpen={handleNavClick}
+                      lastData={arrayLastSearchMovies}
+                      arrayMovies={arrayMovies}
+                      shortFilms={filterDuration} //?
+                      hendleShortFilms={handleChackBoxShortFilms}
+                      stateShortFilms={isStateFilterShortFilms}
+                      setInputMovies={setInputMovies}
+                      inputMovies={inputMovies}
+                      handleInputMoies={handleInputMoies}
+                      filterInputData={filterInputData}
+                      deletMovie={handleCardDelete}
+
+                      //isSavedStateMovies={isSavedStateMovies}
                     />
                   </>
                 }

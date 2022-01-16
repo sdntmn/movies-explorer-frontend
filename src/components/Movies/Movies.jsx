@@ -5,13 +5,16 @@ import MoviesCard from "../MoviesCard/MoviesCard";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Footer from "../Footer/Footer";
 import Preloader from "../Preloader/Preloader";
+import MoviesButton from "../MoviesButton/MoviesButton";
+import exportIconPath from "../../images/export_icon.svg";
 
 // arrayMovies - все фильмы
 // isMoviesLoading - включает прелоадер
 // setArrayLastSearchMovies - функция последнего запроса
 // lastData = мфссив данных последнего запроса
-// onAddCollecnion - функция добавления в сохраненные для button сохранения
+// onAddCollecnion - handleAddMovi функция добавления в сохраненные для button сохранения
 // arraySaveMovies - массив сохраненных фильмов
+// isSavedStateMovies - состояние добавлен false или true
 const Movies = function ({
   isOpen,
   arrayMovies,
@@ -20,73 +23,42 @@ const Movies = function ({
   lastData,
   onAddCollecnion,
   arraySaveMovies,
+  shortFilms,
+  hendleShortFilms,
+  stateShortFilms,
+  setInputMovies,
+  inputMovies,
+  handleInputMoies,
+  filterInputData,
 }) {
-  console.log();
   const [result, setResult] = useState(lastData);
-  const [inputMovies, setInputMovies] = useState("");
   const [inputResult, setInputResult] = useState(false);
-  const [stateFilterCheckBox, setStateFilterCheckBox] = useState(false);
   let getlastInputData = localStorage.getItem("lastSearch");
 
   // Обработчик изменения инпута обновляет стейт
-  function handleInputMoies(evt) {
+  handleInputMoies = (evt) => {
     setInputMovies(evt.target.value);
-  }
+  };
 
-  // Преключение чекбокса
-  const handleInChackBox = useCallback(() => {
-    setStateFilterCheckBox((state) =>
-      state === false
-        ? setStateFilterCheckBox(true)
-        : setStateFilterCheckBox(false)
-    );
-  }, []);
-
-  console.log(stateFilterCheckBox);
-
-  const filterInputData = useCallback(
-    (movie) => {
-      if (
-        movie.nameRU
-          .toLowerCase()
-          .trim()
-          .includes(inputMovies.toLowerCase().trim())
-      ) {
-        return true;
-      }
-      return false;
-    },
-    [inputMovies]
-  );
-
-  const filterDuration = useCallback((movie) => {
-    if (Number.isFinite(movie.duration) && movie.duration <= 45) {
-      return true;
-    }
-
-    return false;
-  }, []);
   // результат поиска
   let resultSearch = arrayMovies.filter(filterInputData);
   // фильтрация результата / короткометражки/
-  let arrAllFilter = resultSearch.filter(filterDuration);
+  let arrAllFilter = resultSearch.filter(shortFilms);
 
   async function handleSubmit(evt) {
     evt.preventDefault();
     localStorage.setItem("lastSearch", inputMovies);
-    if (stateFilterCheckBox) {
-      setResult(arrAllFilter);
-      setArrayLastSearchMovies(arrAllFilter);
+    if (stateShortFilms) {
+      res();
+      setResult(filterResultSave);
+      setArrayLastSearchMovies(filterResultSave);
     }
-    if (!stateFilterCheckBox) {
-      setResult(resultSearch);
-      setArrayLastSearchMovies(resultSearch);
+    if (!stateShortFilms) {
+      res();
+      setResult(filterResultSave);
+      setArrayLastSearchMovies(filterResultSave);
     }
   }
-
-  console.log(result);
-  console.log(inputResult);
-  console.log(inputMovies);
 
   //============================= НУЖЕН ЛИ ?
   useEffect(() => {
@@ -97,32 +69,69 @@ const Movies = function ({
     }
   }, [result.length]);
 
+  let positiveArr = arraySaveMovies.map(function (number) {
+    return number.movieId;
+  });
+
+  let filterResultSave = resultSearch;
+
+  function res() {
+    let filterResultSave = resultSearch.filter((movie) => {
+      let stateInCollection = positiveArr.some((el) => el === movie.movieId);
+
+      movie.state = stateInCollection;
+
+      return movie;
+    });
+
+    return filterResultSave;
+  }
+
   return (
     <>
       <div className="page">
         <SearchForm
           onSubmit={handleSubmit}
           onChange={handleInputMoies}
-          checkBox={handleInChackBox}
+          hendleShortFilms={hendleShortFilms}
           value={inputMovies}
-          idName="movies"
         />
         {isMoviesLoading && <Preloader></Preloader>}
         {!isMoviesLoading && (
           <MoviesCardList>
             {inputResult &&
               result.map((movie) => (
-                <MoviesCard
-                  key={movie.id}
-                  movie={movie}
-                  arrayMovies={arrayMovies}
-                  arraySaveMovies={arraySaveMovies}
-                  movieTitle={movie.nameRU}
-                  isOpen={isOpen}
-                  src={movie.image}
-                  time={movie.duration}
-                  onAddCollecnion={onAddCollecnion}
-                />
+                <>
+                  <MoviesCard
+                    key={movie.movieId}
+                    movie={movie}
+                    movieTitle={movie.nameRU}
+                    isOpen={isOpen}
+                    src={movie.image}
+                    time={movie.duration}
+                  >
+                    <MoviesButton
+                      onAddCollecnion={onAddCollecnion}
+                      movie={movie}
+                      arrayMovies={arrayMovies}
+                      className={
+                        !movie.state
+                          ? "element__button-not-active"
+                          : "element__button-active"
+                      }
+                    >
+                      {!movie.state ? (
+                        "Сохранить"
+                      ) : (
+                        <img
+                          className="element__icon"
+                          src={exportIconPath}
+                          alt="иконка сохранения"
+                        />
+                      )}
+                    </MoviesButton>
+                  </MoviesCard>
+                </>
               ))}
           </MoviesCardList>
         )}

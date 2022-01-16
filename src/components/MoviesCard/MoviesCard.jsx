@@ -1,29 +1,6 @@
-import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
-import MoviesButton from "../MoviesButton/MoviesButton";
-import exportIconPath from "../../images/export icon.svg";
-import pathDeleteIcon from "../../images/delete-movie.svg";
+import React from "react";
 
-function MoviesCard({
-  isOpen,
-  time,
-  src,
-  movieTitle,
-  movie,
-  saveMovie,
-  onAddCollecnion,
-  arraySaveMovies,
-  arrayMovies,
-}) {
-  let location = useLocation();
-  const [isSavedIn, setIsSavedIn] = useState(true);
-
-  // состояние сохранено или нет
-  function savedInMovies() {
-    setIsSavedIn((state) =>
-      state === false ? setIsSavedIn(true) : setIsSavedIn(false)
-    );
-  }
+function MoviesCard({ isOpen, time, src, movieTitle, children }) {
   let text;
   let value = time % 100;
   var num = value % 10;
@@ -55,45 +32,8 @@ function MoviesCard({
             {time}&nbsp;{text}
           </span>
         </div>
-        <img className="element__img" src={src} alt="{card.name}" />
-        {location.pathname === "/movies" && (
-          <MoviesButton
-            arraySaveMovies={arraySaveMovies}
-            onAddCollecnion={onAddCollecnion}
-            movie={movie}
-            saveMovie={saveMovie}
-            arrayMovies={arrayMovies}
-            className={
-              isSavedIn
-                ? "element__button-not-active"
-                : "element__button-active"
-            }
-          >
-            {isSavedIn ? (
-              "Сохранить"
-            ) : (
-              <img
-                className="element__icon"
-                src={exportIconPath}
-                alt="иконка сохранения"
-              />
-            )}
-          </MoviesButton>
-        )}
-        {location.pathname === "/saved-movies" && (
-          <MoviesButton
-            movie={movie}
-            arraySaveMovies={arraySaveMovies}
-            onAddCollecnion={onAddCollecnion}
-            className={"element__button-not-active"}
-          >
-            <img
-              className="element__icon"
-              src={pathDeleteIcon}
-              alt="иконка сохранения"
-            />
-          </MoviesButton>
-        )}
+        <img className="element__img" src={src} alt={movieTitle} />
+        {children}
       </li>
     </>
   );

@@ -70,7 +70,7 @@ export const changeDataUser = (data) => {
   }).then(checkRespons);
 };
 
-// Добавить карточку (POST) ================================================
+// Добавить фильма в коллекцию (POST) ========================================
 export const setMoviesUser = (movie) => {
   console.log();
   return fetch(`${SERVER_URL}/movies`, {
@@ -80,6 +80,21 @@ export const setMoviesUser = (movie) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(movie),
+  }).then(checkRespons);
+};
+
+// Удаление фильма из коллекции (POST) ========================================
+export const deleteMovieUser = (movieId) => {
+  console.log(movieId);
+  return fetch(`${SERVER_URL}/movies/${movieId}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      _id: movieId,
+    }),
   }).then(checkRespons);
 };
 

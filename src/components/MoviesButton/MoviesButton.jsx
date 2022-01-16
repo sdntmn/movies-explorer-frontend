@@ -7,9 +7,9 @@ function MoviesButton({
   className,
   onAddCollecnion,
   movie,
-  arraySaveMovies,
+
+  deletMovie,
   saveMovie,
-  arrayMovies,
 }) {
   let locations = useLocation();
   const currentUser = React.useContext(CurrentUserContext);
@@ -25,19 +25,35 @@ function MoviesButton({
 */
 
   function handleSaveMovie() {
-    onAddCollecnion(movie, arraySaveMovies);
+    onAddCollecnion(movie);
+  }
+
+  function getDeleteMovie() {
+    deletMovie(saveMovie);
   }
 
   return (
     <>
-      <button
-        onClick={handleSaveMovie}
-        className={className}
-        type="button"
-        aria-label="Добавить в избранное"
-      >
-        {children}
-      </button>
+      {locations.pathname === "/movies" && (
+        <button
+          onClick={handleSaveMovie}
+          className={className}
+          type="button"
+          aria-label="Добавить или удалить из избранного"
+        >
+          {children}
+        </button>
+      )}
+      {locations.pathname === "/saved-movies" && (
+        <button
+          onClick={getDeleteMovie}
+          className={className}
+          type="button"
+          aria-label="Добавить в избранное"
+        >
+          {children}
+        </button>
+      )}
     </>
   );
 }
