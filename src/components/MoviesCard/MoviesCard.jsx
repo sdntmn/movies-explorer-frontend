@@ -1,6 +1,9 @@
 import React from "react";
 
-function MoviesCard({ isOpen, time, src, movieTitle, children }) {
+function MoviesCard({ isOpen, time, src, movieTitle, children, film }) {
+  //console.log(film.state);
+  //const isLiked = film.state.some((i) => i.state === true);
+  //console.log(isLiked);
   let text;
   let value = time % 100;
   var num = value % 10;

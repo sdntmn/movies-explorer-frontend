@@ -25,16 +25,14 @@ const SavedMovies = function ({
   const [saveResult, setSaveResult] = useState(lastData);
   const [inputSaveResult, setInputSaveResult] = useState(false);
 
+  console.log(shortFilms);
   // Преключение чекбокса
-  const [isStateFilterShortFilmsSave, setIsStateFilterShortFilmsSave] =
-    useState(false);
-  const handleChackBoxShortFilmsSave = useCallback(() => {
-    setIsStateFilterShortFilmsSave((state) =>
-      state === false
-        ? setIsStateFilterShortFilmsSave(true)
-        : setIsStateFilterShortFilmsSave(false)
-    );
-  }, []);
+  // Преключение чекбокса является ли короткометражным
+  const [checkedShortFilmsSave, setCheckedShortFilmsSave] = useState(true);
+
+  function chengeCheckboxSave() {
+    setCheckedShortFilmsSave(!checkedShortFilmsSave);
+  }
 
   // Обработчик изменения инпута обновляет стейт
   handleInputMoies = (evt) => {
@@ -53,13 +51,13 @@ const SavedMovies = function ({
   async function handleSubmit(evt) {
     evt.preventDefault();
 
-    if (!isStateFilterShortFilmsSave) {
+    if (!checkedShortFilmsSave) {
       setSaveResult(arrAllSaveFilter);
-      setArrayLastSearchMovies(arrAllSaveFilter);
+      //setArrayLastSearchMovies(arrAllSaveFilter);
     }
-    if (isStateFilterShortFilmsSave) {
+    if (checkedShortFilmsSave) {
       setSaveResult(resultSaveSearch);
-      setArrayLastSearchMovies(resultSaveSearch);
+      //setArrayLastSearchMovies(resultSaveSearch);
     }
   }
 
@@ -77,8 +75,8 @@ const SavedMovies = function ({
       <div className="page">
         <SearchForm
           onSubmit={handleSubmit}
-          onChange={handleInputMoies}
-          hendleShortFilms={handleChackBoxShortFilmsSave}
+          searchChangeMovies={handleInputMoies}
+          chengeCheckboxSave={chengeCheckboxSave}
           value={inputMovies}
         />
         <MoviesCardList>
@@ -90,6 +88,7 @@ const SavedMovies = function ({
               isOpen={isOpen}
               src={saveMovie.image}
               time={saveMovie.duration}
+              film={saveMovie}
             >
               <MoviesButton
                 arraySaveMovies={arraySaveMovies}
@@ -100,7 +99,7 @@ const SavedMovies = function ({
                 <img
                   className="element__icon"
                   src={pathDeleteIcon}
-                  alt="иконка сохранения"
+                  alt="иконка удаления"
                 />
               </MoviesButton>
             </MoviesCard>

@@ -12,6 +12,7 @@ function MoviesButton({
   setArraySaveMovies,
   deletMovie,
   saveMovie,
+  handleCardDelete,
 }) {
   const [isSave, setIsSave] = useState(false);
   let locations = useLocation();
@@ -30,35 +31,36 @@ function MoviesButton({
 
 
 
-    useEffect(() => {
-      if (movie. !== 0) {
-        setInputResult(true);
-      } else {
-        setInputResult(false);
-      }
-    }, [result.length]);
-    */
 
-  function handleSaveMovie() {
+
+  useEffect(() => {
+    setArraySaveMovies();
+  }, [setArraySaveMovies]);
+   */
+
+  //console.log(film.state);
+
+  function handleSavedOrDelet() {
     console.log(film);
-
-    onAddCollecnion(film);
-    setIsSave(true);
+    if (film.state) {
+      onAddCollecnion(film);
+      setIsSave(false);
+    }
+    if (!film.state) {
+      onAddCollecnion(film);
+      setIsSave(true);
+    }
   }
-
-  console.log(onAddCollecnion);
 
   function getDeleteMovie() {
     deletMovie(saveMovie);
   }
 
-  console.log(saveMovie);
-  console.log(movie);
   return (
     <>
       {locations.pathname === "/movies" && (
         <button
-          onClick={handleSaveMovie}
+          onClick={handleSavedOrDelet}
           className={className}
           type="button"
           aria-label="Добавить или удалить из избранного"
@@ -68,6 +70,7 @@ function MoviesButton({
       )}
       {locations.pathname === "/saved-movies" && (
         <button
+          key={Math.random()}
           onClick={getDeleteMovie}
           className={className}
           type="button"

@@ -22,24 +22,21 @@ import Preloader from "../Preloader/Preloader";
 
 export default function App() {
   const [currentUser, setCurrentUser] = useState({});
-  const [localContext, setLocalContex] = useState("");
+  // Зарегестрирован или нет пользователь
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [arrayLastSearchMovies, setArrayLastSearchMovies] = useState([]);
-  // Состояние сохранен или нет фильм
-  //!const [isSavedStateMovies, setIsSavedStateMovies] = useState(false);
-  // массив сохраненных фильмов
-  const [arraySaveMovies, setArraySaveMovies] = useState("");
-  // Является ли короткометражным
-  const [isShortFilms, setIsShortFilms] = useState(false);
+  // Для preloader загрузились или нет данные
   const [isMoviesLoading, setIsMoviesLoading] = useState(false);
-  const [arrayMovies, setArrayMovies] = useState([]);
+
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  // Состояние стрницы профиля в режиме редактирования или просмотра
   const [isEdit, setIsEdit] = useState(false);
   const [isErrorLoaderMovies, setIsErrorLoaderMovies] = useState();
   const [message, setMessage] = useState("");
-
+  // Послендний запрос в поике фильмов
   const [isLastData, setIsLastData] = useState("");
 
+  // ОБРАБОТКА ДАННЫХ ПОЛЬЗОВАТЕЛЯ, РЕГИСТРАЦИЯ, АВТОРИЗАЦИЯ, ВХОД и ВЫХОД ===
+  // Вход пользователя
   function onLogin({ email, password }) {
     mainApi
       .authorize(email, password)
@@ -55,12 +52,15 @@ export default function App() {
       });
   }
 
+  // Выход пользователя
+  function onSignOut() {
+    localStorage.removeItem("jwt");
+    outHome();
+    setIsEdit(false); // Todo ?
+  }
+
   // получение данных пользователя
   useEffect(() => {
-    let arrMovies;
-    let arrMoviesLastData;
-    setIsLastData(localStorage.getItem("lastSearch"));
-
     if (isLoggedIn) {
       mainApi
         .getDataUser()
@@ -73,57 +73,24 @@ export default function App() {
         });
 
       setIsErrorLoaderMovies();
-
-      api
-        .getMovies()
-        .then((res) => {
-          if (isLastData.length !== null) {
-            arrMoviesLastData = arrayMovies.filter((item) => {
-              return item.nameRU.includes(isLastData);
-            });
-            setArrayLastSearchMovies(arrMoviesLastData);
-          }
-          arrMovies = res.map((item) => {
-            return {
-              country: item.country,
-              director: item.director,
-              duration: item.duration,
-              year: item.year,
-              description: item.description,
-              image: `${BASE_URL}${item.image.url}`,
-              trailer: item.trailerLink,
-              thumbnail: `${BASE_URL}${item.image.formats.thumbnail.url}`,
-              movieId: item.id,
-              nameRU: item.nameRU,
-              nameEn: item.nameEN,
-              state: "",
-            };
-          });
-          console.log(arrMovies);
-          setArrayMovies(arrMovies);
-        })
-
-        .catch((error) => setIsErrorLoaderMovies(error))
-        .finally(() => setIsMoviesLoading(false));
-
-      console.log(isLastData);
     }
-  }, [isLastData, isLoggedIn]);
+  }, [isLoggedIn]);
 
   const navigate = useNavigate();
+  // Перенаправление на домашнюю страницу /movies
   const goHome = () =>
     navigate("/movies", {
       replace: true,
       state: setIsLoggedIn(true),
     });
-
+  // Перенаправление на домашнюю страницу /login
   const outHome = () =>
     navigate("/login", {
       replace: true,
       state: setIsLoggedIn(false),
     });
 
-  // Регистрация нового пользователя =======================================
+  // Регистрация нового пользователя
   function onRegister({ name, email, password }) {
     return mainApi
       .register({ name, email, password })
@@ -139,13 +106,6 @@ export default function App() {
         }
       })
       .finally(() => {});
-  }
-
-  // Выход пользователя
-  function onSignOut() {
-    localStorage.removeItem("jwt");
-    outHome();
-    setIsEdit(false); // Todo ?
   }
 
   const authToken = async (jwt) => {
@@ -167,33 +127,8 @@ export default function App() {
       authToken(jwt); //функция авторизации
     }
   });
-  /*
-  const [stateInColLection, setStateInColLection] = useState(false);
-  function checkStateSaveInCollection() {
-    arrayMovies.map((movie) => {
-      const colLection = arraySaveMovies.some((el) => el === movie.movieId);
 
-      movie.state = colLection;
-
-      return setStateInColLection(movie.state);
-    });
-  }
-  console.log(stateInColLection);
-  console.log(checkStateSaveInCollection());
-
-
-   useEffect(() => {
-     const jwt = localStorage.getItem("jwt");
-     if (jwt) {
-       setIsAuth(true);
-       authToken(jwt); //функция авторизации
-     } else {
-       outHome();
-     }
-   }, [outHome]);
-   */
-
-  // Исправление(смена) данных пользователя=================================
+  // Исправление(смена) данных пользователя
   function handleUpdateUser(data) {
     mainApi
       .changeDataUser(data)
@@ -207,13 +142,90 @@ export default function App() {
       });
   }
 
+  // ОБРАБОТКА ДАННЫХ и ФИЛЬТРАЦИЯ ФИЛЬМОВ =====================================
+  // Весь полученный массив фильмов
+  const [arrayMovies, setArrayMovies] = useState([]);
+  // Массив фильмов последнего запроса
+  const [arrayLastSearchMovies, setArrayLastSearchMovies] = useState([]);
+  // Массив сохраненных фильмов
+  const [arraySaveMovies, setArraySaveMovies] = useState("");
+  // Массив сохраненых MovieId фильмов
+  const [arrayMovieIdSaveMovies, setArrayMovieIdSaveMovies] = useState([]);
+
+  // Фильтр является ли фильм короткометражным
   const filterDuration = useCallback((movie) => {
     if (Number.isFinite(movie.movieId) && movie.duration <= 45) {
       return true;
     }
-
     return false;
   }, []);
+
+  // Фильтрация массива и установка состояния фильма в коллекции state -да True или нет - False
+  const putsState = useCallback(() => {
+    let filterResultSave = arrayMovies.filter((movie) => {
+      let stateInCollection = arrayMovieIdSaveMovies.some(
+        (el) => el === movie.movieId
+      );
+      movie.state = stateInCollection;
+      return movie;
+    });
+
+    setArrayMovies(filterResultSave);
+  }, [arrayMovieIdSaveMovies, arrayMovies]);
+  console.log(arrayMovieIdSaveMovies);
+
+  // получение списка фильмов
+  useEffect(() => {
+    if (isLoggedIn) {
+      let arrMovies;
+      let arrMoviesLastData;
+      setIsLastData(localStorage.getItem("lastSearch"));
+      api
+        .getMovies()
+        .then((res) => {
+          arrMovies = res.map((item) => {
+            return {
+              country: item.country,
+              director: item.director,
+              duration: item.duration,
+              year: item.year,
+              description: item.description,
+              image: `${BASE_URL}${item.image.url}`,
+              trailer: item.trailerLink,
+              thumbnail: `${BASE_URL}${item.image.formats.thumbnail.url}`,
+              movieId: item.id,
+              nameRU: item.nameRU,
+              nameEn: item.nameEN,
+            };
+          });
+          setArrayMovies(arrMovies);
+          if (isLastData.length !== null) {
+            arrMoviesLastData = arrMovies.filter((item) => {
+              return item.nameRU.includes(isLastData);
+            });
+            setArrayLastSearchMovies(arrMoviesLastData);
+          }
+        })
+
+        .catch((error) => setIsErrorLoaderMovies(error))
+        .finally(() => setIsMoviesLoading(false));
+    }
+  }, [isLastData, isLoggedIn]);
+
+  /*
+  const filterState = useCallback(
+    (movie) => {
+      const stateInCollection = arrayMovieIdSaveMovies.some(
+        (el) => el === movie.movieId
+      );
+
+      movie.state = stateInCollection;
+
+      return movie;
+    },
+    [arrayMovieIdSaveMovies]
+  );
+  */
 
   // Сохранение фильма в коллекцию =========================================
 
@@ -240,6 +252,7 @@ export default function App() {
           setArraySaveMovies((state) =>
             state.filter((m) => m._id !== movie._id)
           );
+          //filterState(movie);
           //setIsSavedStateMovies(true);
         })
         .catch((error) => {
@@ -247,7 +260,7 @@ export default function App() {
         });
     }
     if (inCollection) {
-      handleCardDelete(inCollection);
+      handleCardDelete(movies);
       console.log("уже в коллекции");
     }
   }
@@ -259,7 +272,6 @@ export default function App() {
       .deleteMovieUser(movie._id)
       .then(() => {
         setArraySaveMovies((state) => state.filter((m) => m !== movie));
-        //setIsSavedStateMovies(false);
       })
       .catch((error) => {
         console.log(`Ошибка удаления карточки ${error}`);
@@ -271,7 +283,13 @@ export default function App() {
     mainApi
       .getSaveMovies()
       .then((movies) => {
+        console.log(movies);
         setArraySaveMovies(movies);
+        setArrayMovieIdSaveMovies(
+          movies.map(function (number) {
+            return number.movieId;
+          })
+        );
       })
       .catch((error) => {
         console.log(`Ошибка получения данных ${error}`);
@@ -407,9 +425,11 @@ export default function App() {
                     <LinkProfile pathLink="/profile" />
                   </Header>
                   <Movies
+                    putsState={putsState}
                     setArrayLastSearchMovies={setArrayLastSearchMovies}
                     setArraySaveMovies={setArraySaveMovies}
                     isMoviesLoading={isMoviesLoading}
+                    arrayMovieIdSaveMovies={arrayMovieIdSaveMovies}
                     arrayMovies={arrayMovies}
                     isOpen={handleNavClick}
                     lastData={arrayLastSearchMovies}
@@ -420,6 +440,7 @@ export default function App() {
                     inputMovies={inputMovies}
                     handleInputMoies={handleInputMoies}
                     filterInputData={filterInputData}
+                    handleCardDelete={handleCardDelete}
                     //isSavedStateMovies={isSavedStateMovies}
                   />
                 </>
