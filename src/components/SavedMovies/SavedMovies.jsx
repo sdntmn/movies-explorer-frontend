@@ -4,7 +4,6 @@ import MoviesCard from "../MoviesCard/MoviesCard";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import MoviesButton from "../MoviesButton/MoviesButton";
 import Footer from "../Footer/Footer";
-import pathDeleteIcon from "../../images/delete-movie.svg";
 
 const SavedMovies = function ({
   isOpen,
@@ -25,7 +24,6 @@ const SavedMovies = function ({
   const [saveResult, setSaveResult] = useState(lastData);
   const [inputSaveResult, setInputSaveResult] = useState(false);
 
-  console.log(shortFilms);
   // Преключение чекбокса
   // Преключение чекбокса является ли короткометражным
   const [checkedShortFilmsSave, setCheckedShortFilmsSave] = useState(true);
@@ -61,6 +59,8 @@ const SavedMovies = function ({
     }
   }
 
+  console.log(arraySaveMovies);
+
   //============================= НУЖЕН ЛИ ?
   useEffect(() => {
     if (saveResult.length !== 0) {
@@ -88,21 +88,9 @@ const SavedMovies = function ({
               isOpen={isOpen}
               src={saveMovie.image}
               time={saveMovie.duration}
-              film={saveMovie}
-            >
-              <MoviesButton
-                arraySaveMovies={arraySaveMovies}
-                deletMovie={deletMovie}
-                saveMovie={saveMovie}
-                className="element__button-not-active"
-              >
-                <img
-                  className="element__icon"
-                  src={pathDeleteIcon}
-                  alt="иконка удаления"
-                />
-              </MoviesButton>
-            </MoviesCard>
+              saveMovie={saveMovie}
+              deletMovie={deletMovie}
+            ></MoviesCard>
           ))}
         </MoviesCardList>
       </div>

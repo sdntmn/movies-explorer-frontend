@@ -1,3 +1,5 @@
+//class App
+//const App
 // import { Routes, Route } from "react-router-dom";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { React, useState, useEffect, useCallback } from "react";
@@ -20,7 +22,7 @@ import { BASE_URL } from "../../utils/config";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import Preloader from "../Preloader/Preloader";
 
-export default function App() {
+const App = function () {
   const [currentUser, setCurrentUser] = useState({});
   // Зарегестрирован или нет пользователь
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -153,6 +155,7 @@ export default function App() {
   const [arrayMovieIdSaveMovies, setArrayMovieIdSaveMovies] = useState([]);
 
   // Фильтр является ли фильм короткометражным
+
   const filterDuration = useCallback((movie) => {
     if (Number.isFinite(movie.movieId) && movie.duration <= 45) {
       return true;
@@ -160,7 +163,7 @@ export default function App() {
     return false;
   }, []);
 
-  // Фильтрация массива и установка состояния фильма в коллекции state -да True или нет - False
+  // Фильтрация массива и установка состояния фильма.  В коллекции state -да True или нет - False
   const putsState = useCallback(() => {
     let filterResultSave = arrayMovies.filter((movie) => {
       let stateInCollection = arrayMovieIdSaveMovies.some(
@@ -172,7 +175,6 @@ export default function App() {
 
     setArrayMovies(filterResultSave);
   }, [arrayMovieIdSaveMovies, arrayMovies]);
-  console.log(arrayMovieIdSaveMovies);
 
   // получение списка фильмов
   useEffect(() => {
@@ -230,10 +232,9 @@ export default function App() {
   // Сохранение фильма в коллекцию =========================================
 
   function handleAddMovie(movies) {
-    const inCollection = arraySaveMovies.find(
-      (movie) => movie.movieId === movies.movieId
-    );
-    if (!inCollection) {
+    if (movies._id === undefined) {
+      const movieId = arraySaveMovies.find((n) => n.movieId === movies.movieId);
+      console.log(movieId);
       mainApi
         .setMoviesUser({
           country: movies.country || "Нет данных",
@@ -249,6 +250,7 @@ export default function App() {
           nameRU: movies.nameRU || "Нет данных",
         })
         .then((movie) => {
+          console.log(movie);
           setArraySaveMovies((state) =>
             state.filter((m) => m._id !== movie._id)
           );
@@ -259,23 +261,37 @@ export default function App() {
           console.log(`Ошибка данных карточки ${error}`);
         });
     }
-    if (inCollection) {
-      handleCardDelete(movies);
-      console.log("уже в коллекции");
-    }
+
+    console.log("уже в коллекции");
   }
 
   // Удаление фильма из коллекции ============================================
   function handleCardDelete(movie) {
-    console.log(movie);
-    mainApi
-      .deleteMovieUser(movie._id)
-      .then(() => {
-        setArraySaveMovies((state) => state.filter((m) => m !== movie));
-      })
-      .catch((error) => {
-        console.log(`Ошибка удаления карточки ${error}`);
-      });
+    if (movie._id === undefined) {
+      const movieId = arraySaveMovies.find((n) => n.movieId === movie.movieId);
+
+      mainApi
+        .deleteMovieUser(movieId._id)
+        .then(() => {
+          setArraySaveMovies((state) =>
+            state.filter((m) => m._id !== movieId._id)
+          );
+        })
+        .catch((error) => {
+          console.log(`Ошибка удаления карточки ${error}`);
+        });
+    } else {
+      mainApi
+        .deleteMovieUser(movie._id)
+        .then(() => {
+          setArraySaveMovies((state) =>
+            state.filter((m) => m._id !== movie._id)
+          );
+        })
+        .catch((error) => {
+          console.log(`Ошибка удаления карточки ${error}`);
+        });
+    }
   }
 
   // Получить список сохраненных фильмов User (GET)  =========================================
@@ -283,7 +299,6 @@ export default function App() {
     mainApi
       .getSaveMovies()
       .then((movies) => {
-        console.log(movies);
         setArraySaveMovies(movies);
         setArrayMovieIdSaveMovies(
           movies.map(function (number) {
@@ -506,4 +521,6 @@ export default function App() {
       </div>
     </CurrentUserContext.Provider>
   );
-}
+};
+
+export default App;

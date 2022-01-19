@@ -9,8 +9,6 @@ const FilterCheckbox = function ({
   handleChackBoxShortFilmsSave,
 }) {
   let locations = useLocation();
-  console.log(hendleShortFilms);
-  console.log(chengeCheckboxSave);
 
   return (
     <div className="searchForm__tumb">

@@ -1,9 +1,9 @@
 import { SERVER_URL } from "./config";
 // Проверка ответа =========================================================
 export const checkRespons = (res) => {
-  return res.ok ?
-    res.json() :
-    Promise.reject(`Ошибка № ${res.status}  Текст ошибки: ${res.statusText}`);
+  return res.ok
+    ? res.json()
+    : Promise.reject(`Ошибка № ${res.status}  Текст ошибки: ${res.statusText}`);
 };
 
 // Регистрация пользователя Post запрос=====================================
@@ -56,7 +56,6 @@ export const getSaveMovies = () => {
 
 // Заменить данные пользователя (PATCH) ====================================
 export const changeDataUser = (data) => {
-  console.log(data);
   return fetch(`${SERVER_URL}/users/me`, {
     method: "PATCH",
     headers: {
@@ -72,7 +71,6 @@ export const changeDataUser = (data) => {
 
 // Добавить фильма в коллекцию (POST) ========================================
 export const setMoviesUser = (movie) => {
-  console.log(movie);
   return fetch(`${SERVER_URL}/movies`, {
     method: "POST",
     headers: {
@@ -85,7 +83,6 @@ export const setMoviesUser = (movie) => {
 
 // Удаление фильма из коллекции (POST) ========================================
 export const deleteMovieUser = (movieId) => {
-  console.log(movieId);
   return fetch(`${SERVER_URL}/movies/${movieId}`, {
     method: "DELETE",
     headers: {

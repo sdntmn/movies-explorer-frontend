@@ -5,8 +5,6 @@ import MoviesCard from "../MoviesCard/MoviesCard";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Footer from "../Footer/Footer";
 import Preloader from "../Preloader/Preloader";
-import MoviesButton from "../MoviesButton/MoviesButton";
-import exportIconPath from "../../images/export_icon.svg";
 
 // arrayMovies - все фильмы
 // isMoviesLoading - включает прелоадер
@@ -21,7 +19,7 @@ const Movies = function ({
   isMoviesLoading,
   setArrayLastSearchMovies,
   lastData,
-  onAddCollecnion,
+  handleCardDelete,
   arraySaveMovies,
   setArraySaveMovies,
   shortFilms,
@@ -31,7 +29,6 @@ const Movies = function ({
   inputMovies,
   handleInputMoies,
   filterInputData,
-  handleCardDelete,
 }) {
   const [result, setResult] = useState(lastData);
   const [inputResult, setInputResult] = useState(false);
@@ -56,6 +53,8 @@ const Movies = function ({
     movie.state = stateInCollection;
     return movie;
   });
+
+  console.log(result);
   // Фильтрация результата / короткометражки/
   let resultFilterShortFilms = resultSearch.filter(shortFilms);
   //Фильтрация массива resultFilterShortFilms - в коллекции или нет?
@@ -68,8 +67,6 @@ const Movies = function ({
       return movie;
     }
   );
-
-  console.log(result);
 
   // Обработчик изменения инпута обновляет стейт
   handleInputMoies = (evt) => {
@@ -88,7 +85,6 @@ const Movies = function ({
       setArrayLastSearchMovies(resultFilterPutsState);
     }
   }
-  console.log(checkedShortFilms);
 
   //============================= НУЖЕН ЛИ ?
   useEffect(() => {
@@ -113,40 +109,15 @@ const Movies = function ({
           <MoviesCardList>
             {inputResult &&
               result.map((film) => (
-                <>
-                  <MoviesCard
-                    arraySaveMovies={arraySaveMovies}
-                    key={film.movieId}
-                    movieTitle={film.nameRU}
-                    isOpen={isOpen}
-                    src={film.image}
-                    time={film.duration}
-                    film={film}
-                  >
-                    <MoviesButton
-                      arraySaveMovies={arraySaveMovies}
-                      onAddCollecnion={onAddCollecnion}
-                      handleCardDelete={handleCardDelete}
-                      film={film}
-                      setArraySaveMovies={setArraySaveMovies}
-                      className={
-                        !film.state
-                          ? "element__button-not-active"
-                          : "element__button-active"
-                      }
-                    >
-                      {!film.state ? (
-                        "Сохранить"
-                      ) : (
-                        <img
-                          className="element__icon"
-                          src={exportIconPath}
-                          alt="иконка сохранения"
-                        />
-                      )}
-                    </MoviesButton>
-                  </MoviesCard>
-                </>
+                <MoviesCard
+                  arraySaveMovies={arraySaveMovies}
+                  key={film.movieId}
+                  movieTitle={film.nameRU}
+                  isOpen={isOpen}
+                  src={film.image}
+                  time={film.duration}
+                  film={film}
+                ></MoviesCard>
               ))}
           </MoviesCardList>
         )}

@@ -1,9 +1,24 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
+import exportIconPath from "../../images/export_icon.svg";
+import pathDeleteIcon from "../../images/delete-movie.svg";
+import MoviesButton from "../MoviesButton/MoviesButton";
 
-function MoviesCard({ isOpen, time, src, movieTitle, children, film }) {
-  //console.log(film.state);
-  //const isLiked = film.state.some((i) => i.state === true);
-  //console.log(isLiked);
+function MoviesCard({
+  isOpen,
+  time,
+  src,
+  movieTitle,
+  onAddCollecnion,
+  film,
+  arraySaveMovies,
+  handleCardDelete,
+  setArraySaveMovies,
+  deletMovie,
+  saveMovie,
+}) {
+  let locations = useLocation();
+
   let text;
   let value = time % 100;
   var num = value % 10;
@@ -36,7 +51,43 @@ function MoviesCard({ isOpen, time, src, movieTitle, children, film }) {
           </span>
         </div>
         <img className="element__img" src={src} alt={movieTitle} />
-        {children}
+        {locations.pathname === "/movies" && (
+          <MoviesButton
+            arraySaveMovies={arraySaveMovies}
+            onAddCollecnion={onAddCollecnion}
+            film={film}
+            setArraySaveMovies={setArraySaveMovies}
+            className={
+              !film.state
+                ? "element__button-not-active"
+                : "element__button-active"
+            }
+          >
+            {!film.state ? (
+              "Сохранить"
+            ) : (
+              <img
+                className="element__icon"
+                src={exportIconPath}
+                alt="иконка сохранения"
+              />
+            )}
+          </MoviesButton>
+        )}
+        {locations.pathname === "/saved-movies" && (
+          <MoviesButton
+            arraySaveMovies={arraySaveMovies}
+            deletMovie={deletMovie}
+            saveMovie={saveMovie}
+            className="element__button-not-active"
+          >
+            <img
+              className="element__icon"
+              src={pathDeleteIcon}
+              alt="иконка удаления"
+            />
+          </MoviesButton>
+        )}
       </li>
     </>
   );

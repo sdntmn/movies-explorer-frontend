@@ -19,37 +19,21 @@ function MoviesButton({
   const currentUser = React.useContext(CurrentUserContext);
 
   const movieButtonClassName = `card__like-button ${"card__like-button_is-active"}`;
-  /*
-  useEffect(() => {
-    setArraySaveMovies(arraySaveMovies);
-  }, [arraySaveMovies, setArraySaveMovies]);
 
-  const addMovie = movie.movieId.some((i) => i.duration === arraySaveMovies.moviedId);
-  const cardLikeButtonClassName = `card__like-button ${
-    addMovie && "card__like-button_is-active"
-  }`;
-
-
-
-
-
-  useEffect(() => {
-    setArraySaveMovies();
-  }, [setArraySaveMovies]);
-   */
-
-  //console.log(film.state);
+  //const isLayk = film
 
   function handleSavedOrDelet() {
-    console.log(film);
-    if (film.state) {
+    let movieId;
+    console.log(film); /*
+    if (film._id === undefined) {
+      movieId = arraySaveMovies.find((n) => n.movieId === film.movieId);
+
+      if (movieId === undefined) {
+        handleCardDelete(film);
+      }
+
       onAddCollecnion(film);
-      setIsSave(false);
-    }
-    if (!film.state) {
-      onAddCollecnion(film);
-      setIsSave(true);
-    }
+    }*/
   }
 
   function getDeleteMovie() {
@@ -70,7 +54,6 @@ function MoviesButton({
       )}
       {locations.pathname === "/saved-movies" && (
         <button
-          key={Math.random()}
           onClick={getDeleteMovie}
           className={className}
           type="button"
