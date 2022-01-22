@@ -1,21 +1,15 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCard from "../MoviesCard/MoviesCard";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
-import MoviesButton from "../MoviesButton/MoviesButton";
 import Footer from "../Footer/Footer";
 
 const SavedMovies = function ({
   isOpen,
   arraySaveMovies,
-  arrayMovies,
-  setArrayLastSearchMovies,
-  onAddCollecnion,
   lastData,
   shortFilms,
-  hendleShortFilms,
-  stateShortFilms,
   setInputMovies,
   inputMovies,
   handleInputMoies,
@@ -23,7 +17,6 @@ const SavedMovies = function ({
   deletMovie,
 }) {
   const [saveResult, setSaveResult] = useState(lastData);
-  const [inputSaveResult, setInputSaveResult] = useState(false);
 
   // Преключение чекбокса
   // Преключение чекбокса является ли короткометражным

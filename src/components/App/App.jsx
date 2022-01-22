@@ -20,7 +20,6 @@ import api from "../../utils/moviesApi";
 
 import { BASE_URL } from "../../utils/config";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
-import Preloader from "../Preloader/Preloader";
 
 const App = function () {
   const [currentUser, setCurrentUser] = useState({});
@@ -180,19 +179,6 @@ const App = function () {
     return false;
   }, []);
 
-  // Фильтрация массива и установка состояния фильма.  В коллекции state -да True или нет - False
-  const putsState = useCallback(() => {
-    let filterResultSave = arrayMovies.filter((movie) => {
-      let stateInCollection = arraySaveMovies.some(
-        (el) => el.movieId === movie.movieId
-      );
-      movie.state = stateInCollection;
-      return movie;
-    });
-
-    setArrayMovies(filterResultSave);
-  }, [arrayMovies, arraySaveMovies]);
-
   // получение списка фильмов
   useEffect(() => {
     if (isLoggedIn) {
@@ -240,7 +226,6 @@ const App = function () {
   function handleAddMovie(movies) {
     const stateSave = arraySaveMovies.some((n) => n.movieId === movies.movieId);
 
-    console.log(stateSave);
     if (!stateSave) {
       mainApi
         .setMoviesUser({
@@ -264,8 +249,6 @@ const App = function () {
           console.log(`Ошибка данных карточки ${error}`);
         });
     }
-
-    console.log("уже в коллекции");
   }
 
   // Удаление фильма из коллекции ============================================

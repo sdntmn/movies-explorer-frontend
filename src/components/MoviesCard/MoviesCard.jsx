@@ -1,18 +1,14 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React from "react";
 import { useLocation } from "react-router-dom";
 import exportIconPath from "../../images/export_icon.svg";
 import pathDeleteIcon from "../../images/delete-movie.svg";
 
 function MoviesCard({
-  arrayMovieIdSaveMovies,
-  arraySaveMovies,
-  setArraySaveMovies,
   isOpen,
   time,
   src,
   movieTitle,
   movie,
-  handleAddMovie,
   deletMovie,
   saveMovie,
 }) {

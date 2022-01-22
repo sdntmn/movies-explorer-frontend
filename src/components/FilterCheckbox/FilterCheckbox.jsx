@@ -1,13 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useLocation } from "react-router-dom";
 
-const FilterCheckbox = function ({
-  chengeCheckbox,
-  chengeCheckboxSave,
-  hendleShortFilms,
-
-  handleChackBoxShortFilmsSave,
-}) {
+const FilterCheckbox = function ({ chengeCheckbox, chengeCheckboxSave }) {
   let locations = useLocation();
 
   return (

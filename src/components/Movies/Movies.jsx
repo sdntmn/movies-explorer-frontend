@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCard from "../MoviesCard/MoviesCard";
@@ -36,7 +36,6 @@ const Movies = function ({
   handleAddMovie,
   setArraySaveMovies,
   deletMovie,
-  setArrayMovieIdSaveMovies,
 }) {
   const [result, setResult] = useState(lastData);
   const [inputResult, setInputResult] = useState(false);
@@ -103,8 +102,6 @@ const Movies = function ({
     }
     return addResult;
   };
-
-  //console.log(addResult);
 
   //============================= НУЖЕН ЛИ ?
   useEffect(() => {
