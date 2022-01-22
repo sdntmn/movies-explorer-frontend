@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCard from "../MoviesCard/MoviesCard";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
@@ -59,9 +60,8 @@ const SavedMovies = function ({
     }
   }
 
-  console.log(arraySaveMovies);
-
   //============================= НУЖЕН ЛИ ?
+  /*
   useEffect(() => {
     if (saveResult.length !== 0) {
       setInputSaveResult(true);
@@ -69,6 +69,7 @@ const SavedMovies = function ({
       setInputSaveResult(false);
     }
   }, [saveResult.length]);
+  */
 
   return (
     <>

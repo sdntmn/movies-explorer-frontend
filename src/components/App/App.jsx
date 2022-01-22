@@ -154,6 +154,23 @@ const App = function () {
   // Массив сохраненых MovieId фильмов
   const [arrayMovieIdSaveMovies, setArrayMovieIdSaveMovies] = useState([]);
 
+  // Получить список сохраненных фильмов User (GET)  =========================================
+  useEffect(() => {
+    mainApi
+      .getSaveMovies()
+      .then((movies) => {
+        setArraySaveMovies(movies);
+        setArrayMovieIdSaveMovies(
+          movies.map(function (number) {
+            return number.movieId;
+          })
+        );
+      })
+      .catch((error) => {
+        console.log(`Ошибка получения данных ${error}`);
+      });
+  }, []);
+
   // Фильтр является ли фильм короткометражным
 
   const filterDuration = useCallback((movie) => {
@@ -166,15 +183,15 @@ const App = function () {
   // Фильтрация массива и установка состояния фильма.  В коллекции state -да True или нет - False
   const putsState = useCallback(() => {
     let filterResultSave = arrayMovies.filter((movie) => {
-      let stateInCollection = arrayMovieIdSaveMovies.some(
-        (el) => el === movie.movieId
+      let stateInCollection = arraySaveMovies.some(
+        (el) => el.movieId === movie.movieId
       );
       movie.state = stateInCollection;
       return movie;
     });
 
     setArrayMovies(filterResultSave);
-  }, [arrayMovieIdSaveMovies, arrayMovies]);
+  }, [arrayMovies, arraySaveMovies]);
 
   // получение списка фильмов
   useEffect(() => {
@@ -214,27 +231,17 @@ const App = function () {
     }
   }, [isLastData, isLoggedIn]);
 
-  /*
-  const filterState = useCallback(
-    (movie) => {
-      const stateInCollection = arrayMovieIdSaveMovies.some(
-        (el) => el === movie.movieId
-      );
-
-      movie.state = stateInCollection;
-
-      return movie;
-    },
-    [arrayMovieIdSaveMovies]
-  );
-  */
+  useEffect(() => {
+    setArrayMovieIdSaveMovies();
+  }, []);
 
   // Сохранение фильма в коллекцию =========================================
 
   function handleAddMovie(movies) {
-    if (movies._id === undefined) {
-      const movieId = arraySaveMovies.find((n) => n.movieId === movies.movieId);
-      console.log(movieId);
+    const stateSave = arraySaveMovies.some((n) => n.movieId === movies.movieId);
+
+    console.log(stateSave);
+    if (!stateSave) {
       mainApi
         .setMoviesUser({
           country: movies.country || "Нет данных",
@@ -250,12 +257,8 @@ const App = function () {
           nameRU: movies.nameRU || "Нет данных",
         })
         .then((movie) => {
-          console.log(movie);
-          setArraySaveMovies((state) =>
-            state.filter((m) => m._id !== movie._id)
-          );
-          //filterState(movie);
-          //setIsSavedStateMovies(true);
+          setArraySaveMovies((state) => [movie, ...state]);
+          setArrayMovieIdSaveMovies();
         })
         .catch((error) => {
           console.log(`Ошибка данных карточки ${error}`);
@@ -267,49 +270,30 @@ const App = function () {
 
   // Удаление фильма из коллекции ============================================
   function handleCardDelete(movie) {
-    if (movie._id === undefined) {
-      const movieId = arraySaveMovies.find((n) => n.movieId === movie.movieId);
+    let stateInCollection = arraySaveMovies.some(
+      (el) => el.movieId === movie.movieId
+    );
 
+    // true - в коллекции
+    if (stateInCollection) {
+      // Находим и присваиваем сохраненный фильм с _id
+      let movieSaveId = arraySaveMovies.find(
+        (n) => n.movieId === movie.movieId
+      );
       mainApi
-        .deleteMovieUser(movieId._id)
+        .deleteMovieUser(movieSaveId._id)
         .then(() => {
           setArraySaveMovies((state) =>
-            state.filter((m) => m._id !== movieId._id)
+            state.filter((m) => m._id !== movieSaveId._id)
           );
         })
         .catch((error) => {
           console.log(`Ошибка удаления карточки ${error}`);
         });
     } else {
-      mainApi
-        .deleteMovieUser(movie._id)
-        .then(() => {
-          setArraySaveMovies((state) =>
-            state.filter((m) => m._id !== movie._id)
-          );
-        })
-        .catch((error) => {
-          console.log(`Ошибка удаления карточки ${error}`);
-        });
+      handleAddMovie(movie);
     }
   }
-
-  // Получить список сохраненных фильмов User (GET)  =========================================
-  useEffect(() => {
-    mainApi
-      .getSaveMovies()
-      .then((movies) => {
-        setArraySaveMovies(movies);
-        setArrayMovieIdSaveMovies(
-          movies.map(function (number) {
-            return number.movieId;
-          })
-        );
-      })
-      .catch((error) => {
-        console.log(`Ошибка получения данных ${error}`);
-      });
-  }, []);
 
   const handleEditStateActive = useCallback(() => {
     setIsEdit(true);
@@ -440,23 +424,22 @@ const App = function () {
                     <LinkProfile pathLink="/profile" />
                   </Header>
                   <Movies
-                    putsState={putsState}
-                    setArrayLastSearchMovies={setArrayLastSearchMovies}
-                    setArraySaveMovies={setArraySaveMovies}
-                    isMoviesLoading={isMoviesLoading}
-                    arrayMovieIdSaveMovies={arrayMovieIdSaveMovies}
-                    arrayMovies={arrayMovies}
                     isOpen={handleNavClick}
+                    arrayMovies={arrayMovies}
+                    isMoviesLoading={isMoviesLoading}
+                    setArrayLastSearchMovies={setArrayLastSearchMovies}
                     lastData={arrayLastSearchMovies}
-                    onAddCollecnion={handleAddMovie}
                     arraySaveMovies={arraySaveMovies}
                     shortFilms={filterDuration}
+                    arrayMovieIdSaveMovies={arrayMovieIdSaveMovies}
                     setInputMovies={setInputMovies}
                     inputMovies={inputMovies}
                     handleInputMoies={handleInputMoies}
                     filterInputData={filterInputData}
-                    handleCardDelete={handleCardDelete}
-                    //isSavedStateMovies={isSavedStateMovies}
+                    handleAddMovie={handleAddMovie}
+                    setArraySaveMovies={setArraySaveMovies}
+                    deletMovie={handleCardDelete}
+                    setArrayMovieIdSaveMovies={setArrayMovieIdSaveMovies}
                   />
                 </>
               </ProtectedRoute>

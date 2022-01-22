@@ -6,32 +6,41 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Footer from "../Footer/Footer";
 import Preloader from "../Preloader/Preloader";
 
+//isOpen - для смены фона
 // arrayMovies - все фильмы
 // isMoviesLoading - включает прелоадер
 // setArrayLastSearchMovies - функция последнего запроса
-// lastData = мфссив данных последнего запроса
+// lastData = массив данных последнего запроса
 // onAddCollecnion - handleAddMovi функция добавления в сохраненные для button сохранения
-// arraySaveMovies - массив сохраненных фильмов
 // isSavedStateMovies - состояние добавлен false или true
+// arrayMovieIdSaveMovies - moviesId сохраненных фильмов
+// shortFilms- функция фильтрации короткометражек
+// setInputMovies - обработка инпута
+// inputMovies - запрос в инпуте
+// handleAddMovie - сохранение в коллекцию
+// arraySaveMovies - массив сохраненных фильмов
+// setArraySaveMovies - сохранения в
 const Movies = function ({
   isOpen,
   arrayMovies,
   isMoviesLoading,
   setArrayLastSearchMovies,
   lastData,
-  handleCardDelete,
   arraySaveMovies,
-  setArraySaveMovies,
   shortFilms,
   arrayMovieIdSaveMovies,
-  stateShortFilms,
   setInputMovies,
   inputMovies,
   handleInputMoies,
   filterInputData,
+  handleAddMovie,
+  setArraySaveMovies,
+  deletMovie,
+  setArrayMovieIdSaveMovies,
 }) {
   const [result, setResult] = useState(lastData);
   const [inputResult, setInputResult] = useState(false);
+
   let getlastInputData = localStorage.getItem("lastSearch");
 
   // Преключение чекбокса является ли короткометражным
@@ -41,37 +50,34 @@ const Movies = function ({
     setCheckedShortFilms(!checkedShortFilms);
   }
 
-  // Переключение состояния кнопки
-  const [hendleAddOrDelete, setHendleAddOrDelete] = useState(false);
+  // Обработчик изменения инпута обновляет стейт
+  handleInputMoies = (evt) => {
+    setInputMovies(evt.target.value);
+  };
+
   // Массив результата поиска
   let resultSearch = arrayMovies.filter(filterInputData);
   //Фильтрация на сохранен ли в коллекции  или нет массива resultSearch?
   let resultFilterPutsState = resultSearch.filter((movie) => {
-    let stateInCollection = arrayMovieIdSaveMovies.some(
-      (el) => el === movie.movieId
+    let stateInCollection = arraySaveMovies.some(
+      (el) => el.movieId === movie.movieId
     );
     movie.state = stateInCollection;
     return movie;
   });
 
-  console.log(result);
   // Фильтрация результата / короткометражки/
   let resultFilterShortFilms = resultSearch.filter(shortFilms);
   //Фильтрация массива resultFilterShortFilms - в коллекции или нет?
   let resultFilterShortFilmsPutsState = resultFilterShortFilms.filter(
     (movie) => {
-      let stateInCollection = arrayMovieIdSaveMovies.some(
-        (el) => el === movie.movieId
+      let stateInCollection = arraySaveMovies.some(
+        (el) => el.movieId === movie.movieId
       );
       movie.state = stateInCollection;
       return movie;
     }
   );
-
-  // Обработчик изменения инпута обновляет стейт
-  handleInputMoies = (evt) => {
-    setInputMovies(evt.target.value);
-  };
 
   async function handleSubmit(evt) {
     evt.preventDefault();
@@ -85,6 +91,20 @@ const Movies = function ({
       setArrayLastSearchMovies(resultFilterPutsState);
     }
   }
+
+  const getIs1280 = () => window.innerWidth >= 1040;
+  const getIs768 = () => window.innerWidth > 768 && window.innerWidth < 1040;
+  const getIs340 = () => window.innerWidth <= 700;
+  //console.log(getIs768());
+  const addResult = () => {
+    const count = 3;
+    if (result.length > count) {
+      return count + 3;
+    }
+    return addResult;
+  };
+
+  //console.log(addResult);
 
   //============================= НУЖЕН ЛИ ?
   useEffect(() => {
@@ -110,28 +130,34 @@ const Movies = function ({
             {inputResult &&
               result.map((film) => (
                 <MoviesCard
+                  arrayMovieIdSaveMovies={arrayMovieIdSaveMovies}
                   arraySaveMovies={arraySaveMovies}
+                  setArraySaveMovies={setArraySaveMovies}
                   key={film.movieId}
                   movieTitle={film.nameRU}
                   isOpen={isOpen}
                   src={film.image}
                   time={film.duration}
-                  film={film}
-                ></MoviesCard>
+                  movie={film}
+                  handleAddMovie={handleAddMovie}
+                  deletMovie={deletMovie}
+                />
               ))}
           </MoviesCardList>
         )}
-        <section className="moviesCard__add" key={Math.random()}>
-          {inputResult ? (
+        <section className="moviesCard__add">
+          {inputResult && result.length > 3 && (
             <Link
               to=""
               className="moviesCard__button"
               type="button"
               aria-label="Кнопка еще"
+              onClick={addResult}
             >
               Ещё
             </Link>
-          ) : (
+          )}
+          {!inputResult && (
             <span className="moviesCard__text">Ничего не найдено</span>
           )}
         </section>

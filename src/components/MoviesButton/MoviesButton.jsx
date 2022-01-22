@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import exportIconPath from "../../images/export_icon.svg";
 
 function MoviesButton({
+  isLiked,
   children,
   className,
-  onAddCollecnion,
+  handleAddMovie,
   movie,
   film,
   arraySaveMovies,
@@ -14,7 +16,6 @@ function MoviesButton({
   saveMovie,
   handleCardDelete,
 }) {
-  const [isSave, setIsSave] = useState(false);
   let locations = useLocation();
   const currentUser = React.useContext(CurrentUserContext);
 
@@ -24,7 +25,15 @@ function MoviesButton({
 
   function handleSavedOrDelet() {
     let movieId;
-    console.log(film); /*
+
+    movieId = arraySaveMovies.find((n) => n.movieId === film.movieId);
+
+    if (film._id === undefined) {
+      handleAddMovie(film);
+    }
+
+    /*
+    handleAddMovie
     if (film._id === undefined) {
       movieId = arraySaveMovies.find((n) => n.movieId === film.movieId);
 
@@ -44,12 +53,21 @@ function MoviesButton({
     <>
       {locations.pathname === "/movies" && (
         <button
+          className={
+            !isLiked ? "element__button-not-active" : "element__button-active"
+          }
           onClick={handleSavedOrDelet}
-          className={className}
-          type="button"
           aria-label="Добавить или удалить из избранного"
         >
-          {children}
+          {!isLiked ? (
+            "Сохранить"
+          ) : (
+            <img
+              className="element__icon"
+              src={exportIconPath}
+              alt="иконка сохранения"
+            />
+          )}
         </button>
       )}
       {locations.pathname === "/saved-movies" && (

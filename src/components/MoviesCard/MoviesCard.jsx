@@ -1,24 +1,22 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import exportIconPath from "../../images/export_icon.svg";
 import pathDeleteIcon from "../../images/delete-movie.svg";
-import MoviesButton from "../MoviesButton/MoviesButton";
 
 function MoviesCard({
+  arrayMovieIdSaveMovies,
+  arraySaveMovies,
+  setArraySaveMovies,
   isOpen,
   time,
   src,
   movieTitle,
-  onAddCollecnion,
-  film,
-  arraySaveMovies,
-  handleCardDelete,
-  setArraySaveMovies,
+  movie,
+  handleAddMovie,
   deletMovie,
   saveMovie,
 }) {
   let locations = useLocation();
-
   let text;
   let value = time % 100;
   var num = value % 10;
@@ -40,30 +38,37 @@ function MoviesCard({
     text = "минут";
   }
 
+  function handleSavedOrDelet() {
+    // false - значит нет в сохраненных
+    if (locations.pathname === "/movies") {
+      deletMovie(movie);
+    }
+    if (locations.pathname === "/saved-movies") {
+      deletMovie(saveMovie);
+    }
+  }
   return (
     <>
       <li className={`element ${isOpen && "element__color"}`}>
         <div className="element__title">
           <h2 className="element__name">{movieTitle}</h2>
-
           <span className="element__time">
             {time}&nbsp;{text}
           </span>
         </div>
         <img className="element__img" src={src} alt={movieTitle} />
         {locations.pathname === "/movies" && (
-          <MoviesButton
-            arraySaveMovies={arraySaveMovies}
-            onAddCollecnion={onAddCollecnion}
-            film={film}
-            setArraySaveMovies={setArraySaveMovies}
+          <button
+            onClick={handleSavedOrDelet}
             className={
-              !film.state
+              !movie.state
                 ? "element__button-not-active"
                 : "element__button-active"
             }
+            type="button"
+            aria-label="Добавить в избранное"
           >
-            {!film.state ? (
+            {!movie.state ? (
               "Сохранить"
             ) : (
               <img
@@ -72,21 +77,21 @@ function MoviesCard({
                 alt="иконка сохранения"
               />
             )}
-          </MoviesButton>
+          </button>
         )}
         {locations.pathname === "/saved-movies" && (
-          <MoviesButton
-            arraySaveMovies={arraySaveMovies}
-            deletMovie={deletMovie}
-            saveMovie={saveMovie}
+          <button
+            onClick={handleSavedOrDelet}
             className="element__button-not-active"
+            type="button"
+            aria-label="Добавить в избранное"
           >
             <img
               className="element__icon"
               src={pathDeleteIcon}
               alt="иконка удаления"
             />
-          </MoviesButton>
+          </button>
         )}
       </li>
     </>
