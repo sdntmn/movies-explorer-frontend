@@ -1,6 +1,3 @@
-//class App
-//const App
-// import { Routes, Route } from "react-router-dom";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { React, useState, useEffect, useCallback } from "react";
 // Компоненты ========================================
@@ -150,28 +147,10 @@ const App = function () {
   const [arrayLastSearchMovies, setArrayLastSearchMovies] = useState([]);
   // Массив сохраненных фильмов
   const [arraySaveMovies, setArraySaveMovies] = useState("");
-  // Массив сохраненых MovieId фильмов
-  const [arrayMovieIdSaveMovies, setArrayMovieIdSaveMovies] = useState([]);
-
-  // Получить список сохраненных фильмов User (GET)  =========================================
-  useEffect(() => {
-    mainApi
-      .getSaveMovies()
-      .then((movies) => {
-        setArraySaveMovies(movies);
-        setArrayMovieIdSaveMovies(
-          movies.map(function (number) {
-            return number.movieId;
-          })
-        );
-      })
-      .catch((error) => {
-        console.log(`Ошибка получения данных ${error}`);
-      });
-  }, []);
+  // Поиск
+  const [inputMovies, setInputMovies] = useState("");
 
   // Фильтр является ли фильм короткометражным
-
   const filterDuration = useCallback((movie) => {
     if (Number.isFinite(movie.movieId) && movie.duration <= 45) {
       return true;
@@ -179,7 +158,38 @@ const App = function () {
     return false;
   }, []);
 
-  // получение списка фильмов
+  // Обработчик изменения инпута обновляет стейт
+  function handleInputMoies(evt) {
+    setInputMovies(evt.target.value);
+  }
+  const filterInputData = useCallback(
+    (movie) => {
+      if (
+        movie.nameRU
+          .toLowerCase()
+          .trim()
+          .includes(inputMovies.toLowerCase().trim())
+      ) {
+        return true;
+      }
+      return false;
+    },
+    [inputMovies]
+  );
+
+  // Получить список сохраненных фильмов User (GET)  =
+  useEffect(() => {
+    mainApi
+      .getSaveMovies()
+      .then((movies) => {
+        setArraySaveMovies(movies);
+      })
+      .catch((error) => {
+        console.log(`Ошибка получения данных ${error}`);
+      });
+  }, []);
+
+  // Получение массива фильмов авторизированным User
   useEffect(() => {
     if (isLoggedIn) {
       let arrMovies;
@@ -217,11 +227,7 @@ const App = function () {
     }
   }, [isLastData, isLoggedIn]);
 
-  useEffect(() => {
-    setArrayMovieIdSaveMovies();
-  }, []);
-
-  // Сохранение фильма в коллекцию =========================================
+  // Сохранение фильма в коллекцию
 
   function handleAddMovie(movies) {
     const stateSave = arraySaveMovies.some((n) => n.movieId === movies.movieId);
@@ -243,7 +249,6 @@ const App = function () {
         })
         .then((movie) => {
           setArraySaveMovies((state) => [movie, ...state]);
-          setArrayMovieIdSaveMovies();
         })
         .catch((error) => {
           console.log(`Ошибка данных карточки ${error}`);
@@ -251,7 +256,7 @@ const App = function () {
     }
   }
 
-  // Удаление фильма из коллекции ============================================
+  // Удаление фильма из коллекции и перенаправление на сохранение если нет в коллекции
   function handleCardDelete(movie) {
     let stateInCollection = arraySaveMovies.some(
       (el) => el.movieId === movie.movieId
@@ -294,27 +299,6 @@ const App = function () {
     setIsPopupOpen(false);
     setIsEdit(false);
   }, []);
-
-  // Обработчик изменения инпута обновляет стейт
-  const [inputMovies, setInputMovies] = useState("");
-  function handleInputMoies(evt) {
-    setInputMovies(evt.target.value);
-  }
-
-  const filterInputData = useCallback(
-    (movie) => {
-      if (
-        movie.nameRU
-          .toLowerCase()
-          .trim()
-          .includes(inputMovies.toLowerCase().trim())
-      ) {
-        return true;
-      }
-      return false;
-    },
-    [inputMovies]
-  );
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -414,7 +398,6 @@ const App = function () {
                     lastData={arrayLastSearchMovies}
                     arraySaveMovies={arraySaveMovies}
                     shortFilms={filterDuration}
-                    arrayMovieIdSaveMovies={arrayMovieIdSaveMovies}
                     setInputMovies={setInputMovies}
                     inputMovies={inputMovies}
                     handleInputMoies={handleInputMoies}
@@ -422,7 +405,6 @@ const App = function () {
                     handleAddMovie={handleAddMovie}
                     setArraySaveMovies={setArraySaveMovies}
                     deletMovie={handleCardDelete}
-                    setArrayMovieIdSaveMovies={setArrayMovieIdSaveMovies}
                   />
                 </>
               </ProtectedRoute>
@@ -444,19 +426,15 @@ const App = function () {
                       <LinkProfile pathLink="/profile" />
                     </Header>
                     <SavedMovies
-                      arraySaveMovies={arraySaveMovies}
-                      setArrayLastSearchMovies={setArrayLastSearchMovies}
                       isOpen={handleNavClick}
+                      arraySaveMovies={arraySaveMovies}
                       lastData={arrayLastSearchMovies}
-                      arrayMovies={arrayMovies}
                       shortFilms={filterDuration}
                       setInputMovies={setInputMovies}
                       inputMovies={inputMovies}
                       handleInputMoies={handleInputMoies}
                       filterInputData={filterInputData}
                       deletMovie={handleCardDelete}
-
-                      //isSavedStateMovies={isSavedStateMovies}
                     />
                   </>
                 }

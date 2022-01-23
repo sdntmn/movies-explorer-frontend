@@ -1,10 +1,11 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, link, Link } from "react-router-dom";
 import exportIconPath from "../../images/export_icon.svg";
 import pathDeleteIcon from "../../images/delete-movie.svg";
 
 function MoviesCard({
   isOpen,
+  trailer,
   time,
   src,
   movieTitle,
@@ -52,7 +53,14 @@ function MoviesCard({
             {time}&nbsp;{text}
           </span>
         </div>
-        <img className="element__img" src={src} alt={movieTitle} />
+        <a
+          href={trailer}
+          target="_blank"
+          aria-label="Перевод на ютюб-трейлер фильма"
+          rel="noreferrer"
+        >
+          <img className="element__img" src={src} alt={movieTitle} />
+        </a>
         {locations.pathname === "/movies" && (
           <button
             onClick={handleSavedOrDelet}

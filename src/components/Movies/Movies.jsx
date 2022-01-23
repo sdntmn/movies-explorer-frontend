@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCard from "../MoviesCard/MoviesCard";
@@ -28,7 +28,6 @@ const Movies = function ({
   lastData,
   arraySaveMovies,
   shortFilms,
-  arrayMovieIdSaveMovies,
   setInputMovies,
   inputMovies,
   handleInputMoies,
@@ -77,33 +76,34 @@ const Movies = function ({
       return movie;
     }
   );
+  /*
+  let removed;
+  async function addResult(e) {
+    e.preventDefault();
+    let count = 3;
+    removed = count;
+    return count + 3;
+  }
+  console.log(removed);
+  console.log(addResult());
+  */
 
   async function handleSubmit(evt) {
     evt.preventDefault();
+
     localStorage.setItem("lastSearch", inputMovies);
     if (!checkedShortFilms) {
       setResult(resultFilterShortFilmsPutsState);
       setArrayLastSearchMovies(resultFilterShortFilmsPutsState);
     }
     if (checkedShortFilms) {
+      setCount(3);
       setResult(resultFilterPutsState);
       setArrayLastSearchMovies(resultFilterPutsState);
     }
   }
 
-  const getIs1280 = () => window.innerWidth >= 1040;
-  const getIs768 = () => window.innerWidth > 768 && window.innerWidth < 1040;
-  const getIs340 = () => window.innerWidth <= 700;
-  //console.log(getIs768());
-  const addResult = () => {
-    const count = 3;
-    if (result.length > count) {
-      return count + 3;
-    }
-    return addResult;
-  };
-
-  //============================= НУЖЕН ЛИ ?
+  //=============================
   useEffect(() => {
     if (result.length !== 0) {
       setInputResult(true);
@@ -112,6 +112,17 @@ const Movies = function ({
     }
   }, [result.length]);
 
+  const getIs1280 = () => window.innerWidth >= 1040;
+  const getIs768 = () => window.innerWidth > 768 && window.innerWidth < 1040;
+  const getIs340 = () => window.innerWidth <= 700;
+  console.log(result.length);
+
+  const [count, setCount] = useState(3);
+
+  /*useEffect(() => {
+    setCount(result.length);
+  }, [result.length]);
+*/
   return (
     <>
       <div className="page">
@@ -125,34 +136,35 @@ const Movies = function ({
         {!isMoviesLoading && (
           <MoviesCardList>
             {inputResult &&
-              result.map((film) => (
-                <MoviesCard
-                  arrayMovieIdSaveMovies={arrayMovieIdSaveMovies}
-                  arraySaveMovies={arraySaveMovies}
-                  setArraySaveMovies={setArraySaveMovies}
-                  key={film.movieId}
-                  movieTitle={film.nameRU}
-                  isOpen={isOpen}
-                  src={film.image}
-                  time={film.duration}
-                  movie={film}
-                  handleAddMovie={handleAddMovie}
-                  deletMovie={deletMovie}
-                />
-              ))}
+              result
+                .slice(0, count)
+                .map((film) => (
+                  <MoviesCard
+                    arraySaveMovies={arraySaveMovies}
+                    setArraySaveMovies={setArraySaveMovies}
+                    key={film.movieId}
+                    movieTitle={film.nameRU}
+                    isOpen={isOpen}
+                    src={film.image}
+                    time={film.duration}
+                    trailer={film.trailer}
+                    movie={film}
+                    handleAddMovie={handleAddMovie}
+                    deletMovie={deletMovie}
+                  />
+                ))}
           </MoviesCardList>
         )}
         <section className="moviesCard__add">
-          {inputResult && result.length > 3 && (
-            <Link
-              to=""
+          {inputResult && result.length > 3 && result.length >= count && (
+            <button
               className="moviesCard__button"
               type="button"
               aria-label="Кнопка еще"
-              onClick={addResult}
+              onClick={() => setCount(count + 3)}
             >
               Ещё
-            </Link>
+            </button>
           )}
           {!inputResult && (
             <span className="moviesCard__text">Ничего не найдено</span>

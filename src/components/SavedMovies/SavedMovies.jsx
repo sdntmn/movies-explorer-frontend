@@ -18,8 +18,7 @@ const SavedMovies = function ({
 }) {
   const [saveResult, setSaveResult] = useState(lastData);
 
-  // Преключение чекбокса
-  // Преключение чекбокса является ли короткометражным
+  // Переключение чекбокса является ли короткометражным
   const [checkedShortFilmsSave, setCheckedShortFilmsSave] = useState(true);
 
   function chengeCheckboxSave() {
