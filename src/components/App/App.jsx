@@ -30,8 +30,6 @@ const App = function () {
   const [isEdit, setIsEdit] = useState(false);
   const [isErrorLoaderMovies, setIsErrorLoaderMovies] = useState();
   const [message, setMessage] = useState("");
-  // Послендний запрос в поике фильмов
-  const [isLastData, setIsLastData] = useState("");
 
   // ОБРАБОТКА ДАННЫХ ПОЛЬЗОВАТЕЛЯ, РЕГИСТРАЦИЯ, АВТОРИЗАЦИЯ, ВХОД и ВЫХОД ===
   // Вход пользователя
@@ -149,6 +147,8 @@ const App = function () {
   const [arraySaveMovies, setArraySaveMovies] = useState("");
   // Поиск
   const [inputMovies, setInputMovies] = useState("");
+  // Послендний запрос в поике фильмов
+  const [isLastData, setIsLastData] = useState("");
 
   // Фильтр является ли фильм короткометражным
   const filterDuration = useCallback((movie) => {
@@ -179,15 +179,17 @@ const App = function () {
 
   // Получить список сохраненных фильмов User (GET)  =
   useEffect(() => {
-    mainApi
-      .getSaveMovies()
-      .then((movies) => {
-        setArraySaveMovies(movies);
-      })
-      .catch((error) => {
-        console.log(`Ошибка получения данных ${error}`);
-      });
-  }, []);
+    if (isLoggedIn) {
+      mainApi
+        .getSaveMovies()
+        .then((movies) => {
+          setArraySaveMovies(movies);
+        })
+        .catch((error) => {
+          console.log(`Ошибка получения данных ${error}`);
+        });
+    }
+  }, [isLoggedIn]);
 
   // Получение массива фильмов авторизированным User
   useEffect(() => {

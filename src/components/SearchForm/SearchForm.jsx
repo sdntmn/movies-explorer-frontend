@@ -3,8 +3,8 @@ import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 
 const SearchForm = function ({
   shortFilmsSave,
-  chengeCheckbox,
-  chengeCheckboxSave,
+  changeCheckbox,
+  changeCheckboxSave,
   value,
   onSubmit,
   hendleShortFilms,
@@ -36,8 +36,8 @@ const SearchForm = function ({
         <FilterCheckbox
           hendleShortFilms={hendleShortFilms}
           shortFilmsSave={shortFilmsSave}
-          chengeCheckbox={chengeCheckbox}
-          chengeCheckboxSave={chengeCheckboxSave}
+          changeCheckbox={changeCheckbox}
+          changeCheckboxSave={changeCheckboxSave}
         />
       </form>
     </div>

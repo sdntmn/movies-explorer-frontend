@@ -1,7 +1,8 @@
-//class Profile
 import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import { useFormAndValidation } from "../../hooks/useAllFormAndValidation";
+
 import Form from "../Form/Form";
 
 const Profile = function ({
@@ -12,6 +13,8 @@ const Profile = function ({
   onEndSession,
   onClose,
 }) {
+  const { inputValues, errors, isValid, handleChange, resetForm } =
+    useFormAndValidation();
   const currentUser = useContext(CurrentUserContext);
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
@@ -21,26 +24,14 @@ const Profile = function ({
     setEmail(currentUser.email);
   }, [currentUser]);
 
-  // Обработчик изменения инпута обновляет стейт
-  function handleInputName(evt) {
-    setUserName(evt.target.value);
-  }
+  useEffect(() => {
+    resetForm();
+  }, [currentUser, resetForm]);
 
-  // Обработчик изменения инпута обновляет стейт
-  function handleInputEmail(evt) {
-    setEmail(evt.target.value);
-  }
-
-  function handleSubmit(evt) {
-    // Запрещаем браузеру переходить по адресу формы
+  const handleSubmit = async (evt) => {
     evt.preventDefault();
-
-    // Передаём значения управляемых компонентов во внешний обработчик
-    onUpdateUser({
-      name: userName,
-      email,
-    });
-  }
+    onUpdateUser({ email, name: userName });
+  };
 
   return (
     <>
@@ -88,12 +79,15 @@ const Profile = function ({
             <span className="profile__input-text">Имя</span>
             <input
               className="profile__input"
-              id="changeData"
+              id="changeName"
               type="text"
+              name="name"
               minLength="2"
               maxLength="40"
               placeholder={userName}
-              onChange={handleInputName}
+              onChange={handleChange}
+              value={inputValues.name || ""}
+              errors={errors.userName || ""}
               required
             />
           </div>
@@ -102,10 +96,13 @@ const Profile = function ({
             <span className="profile__input-text">Почта</span>
             <input
               className="profile__input"
-              id="changeData"
+              id="changeEmail"
               type="email"
+              name="email"
               placeholder={email}
-              onChange={handleInputEmail}
+              onChange={handleChange}
+              value={inputValues.email || ""}
+              errors={errors.email || ""}
               required
             />
           </div>

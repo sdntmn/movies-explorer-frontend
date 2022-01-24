@@ -75,6 +75,7 @@
   font-size: 14px;
   line-height: 17px;
   color: rgba(255, 255, 255, 1);
+  transition: visibility 0s, background 0.3s;
 }
 
 @media (max-width: 640px) {
@@ -86,12 +87,12 @@
 }
 
 .form__button:hover {
-  opacity: 0.8;
+  background: rgba(66, 133, 244, .8);
 }
 
 .form__button:disabled {
   opacity: 0.2;
-  cursor: default;
+  pointer-events: none;
 }
 
 .form__button-edit {

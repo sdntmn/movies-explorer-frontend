@@ -2,21 +2,25 @@ import React from "react";
 import FormLinkEnter from "../FormLinkEnter/FormLinkEnter";
 
 export default function Form({
-  btnName,
-  text,
-  onSubmit,
-  linkText,
-  name,
-  children,
-  pathLink,
   title,
+  btnName,
+  onSubmit,
+  name,
+  text,
+
+  linkText,
+  pathLink,
+  isDisabled,
+  children,
+
   isEditState,
+  errors,
 }) {
   return (
     <div className={isEditState ? "form__edit" : "form"}>
       <form
         className={isEditState ? "form__data-edit" : "form__data"}
-        name={`${name}`}
+        name={name}
         onSubmit={onSubmit}
       >
         <fieldset
@@ -35,6 +39,8 @@ export default function Form({
         linkText={linkText}
         btnName={btnName}
         onSubmit={onSubmit}
+        isDisabled={isDisabled}
+        errors={errors}
       />
     </div>
   );

@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 
-const FilterCheckbox = function ({ chengeCheckbox, chengeCheckboxSave }) {
+const FilterCheckbox = function ({ changeCheckbox, changeCheckboxSave }) {
   let locations = useLocation();
 
   return (
@@ -11,18 +11,16 @@ const FilterCheckbox = function ({ chengeCheckbox, chengeCheckboxSave }) {
           <input
             className="searchForm__tumb-input"
             type="checkbox"
-            id="22"
-            onChange={chengeCheckbox}
-            name="22"
+            onChange={changeCheckbox}
+            name="checkBoxMovies"
           />
         )}
         {locations.pathname === "/saved-movies" && (
           <input
             className="searchForm__tumb-input"
             type="checkbox"
-            onChange={chengeCheckboxSave}
-            id="21"
-            name="21"
+            onChange={changeCheckboxSave}
+            name="checkBoxSaveMovies"
           />
         )}
         <span className="searchForm__tumb-span"></span>

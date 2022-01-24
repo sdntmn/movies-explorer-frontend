@@ -21,7 +21,7 @@ const SavedMovies = function ({
   // Переключение чекбокса является ли короткометражным
   const [checkedShortFilmsSave, setCheckedShortFilmsSave] = useState(true);
 
-  function chengeCheckboxSave() {
+  function changeCheckboxSave() {
     setCheckedShortFilmsSave(!checkedShortFilmsSave);
   }
 
@@ -69,7 +69,7 @@ const SavedMovies = function ({
         <SearchForm
           onSubmit={handleSubmit}
           searchChangeMovies={handleInputMoies}
-          chengeCheckboxSave={chengeCheckboxSave}
+          changeCheckboxSave={changeCheckboxSave}
           value={inputMovies}
         />
         <MoviesCardList>

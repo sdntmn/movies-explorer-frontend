@@ -2,20 +2,20 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const FormLinkEnter = function ({
+  isEditState,
   pathLink,
   text,
   linkText,
   btnName,
   onSubmit,
-  isEditState,
+  isDisabled,
+  errors,
 }) {
   return (
     <>
       {isEditState ? (
         <div className="form__link-wrapper">
-          <p className="form__text-edit">
-            При обновлении профиля произошла ошибка.
-          </p>
+          <p className="form__text-edit">{errors}</p>
         </div>
       ) : (
         ""

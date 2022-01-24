@@ -36,17 +36,18 @@ const Movies = function ({
   setArraySaveMovies,
   deletMovie,
 }) {
+  localStorage.getItem("lastSearch");
+  localStorage.getItem("shortFilms");
   const [result, setResult] = useState(lastData);
   const [inputResult, setInputResult] = useState(false);
-
-  let getlastInputData = localStorage.getItem("lastSearch");
 
   // Преключение чекбокса является ли короткометражным
   const [checkedShortFilms, setCheckedShortFilms] = useState(true);
 
-  function chengeCheckbox() {
+  function changeCheckbox() {
     setCheckedShortFilms(!checkedShortFilms);
   }
+  console.log(checkedShortFilms);
 
   // Обработчик изменения инпута обновляет стейт
   handleInputMoies = (evt) => {
@@ -76,30 +77,21 @@ const Movies = function ({
       return movie;
     }
   );
-  /*
-  let removed;
-  async function addResult(e) {
-    e.preventDefault();
-    let count = 3;
-    removed = count;
-    return count + 3;
-  }
-  console.log(removed);
-  console.log(addResult());
-  */
 
   async function handleSubmit(evt) {
     evt.preventDefault();
 
     localStorage.setItem("lastSearch", inputMovies);
     if (!checkedShortFilms) {
+      localStorage.setItem("shortFilms", checkedShortFilms);
       setResult(resultFilterShortFilmsPutsState);
       setArrayLastSearchMovies(resultFilterShortFilmsPutsState);
     }
     if (checkedShortFilms) {
-      setCount(3);
+      localStorage.setItem("shortFilms", checkedShortFilms);
       setResult(resultFilterPutsState);
       setArrayLastSearchMovies(resultFilterPutsState);
+      resetCount();
     }
   }
 
@@ -115,14 +107,52 @@ const Movies = function ({
   const getIs1280 = () => window.innerWidth >= 1040;
   const getIs768 = () => window.innerWidth > 768 && window.innerWidth < 1040;
   const getIs340 = () => window.innerWidth <= 700;
-  console.log(result.length);
 
-  const [count, setCount] = useState(3);
+  const [count, setCount] = useState(0);
 
-  /*useEffect(() => {
-    setCount(result.length);
-  }, [result.length]);
-*/
+  // Функция добавления карточек по кнопке "еще"
+  function addResultSearch() {
+    if (getIs1280()) {
+      setCount(count + 3);
+    }
+    if (getIs768()) {
+      setCount(count + 2);
+    }
+    if (getIs340()) {
+      setCount(count + 1);
+    }
+  }
+
+  function resetCount() {
+    if (getIs1280()) {
+      setCount(12);
+    }
+    if (getIs768()) {
+      setCount(8);
+    }
+    if (getIs340()) {
+      setCount(5);
+    }
+  }
+
+  // Первоначальные значения количества карточек при отражении результата
+
+  useEffect(() => {
+    function setInitialValue() {
+      if (getIs1280()) {
+        setCount(12);
+      }
+      if (getIs768()) {
+        setCount(8);
+      }
+      if (getIs340()) {
+        setCount(5);
+      }
+      return true;
+    }
+    setInitialValue();
+  }, []);
+
   return (
     <>
       <div className="page">
@@ -130,7 +160,7 @@ const Movies = function ({
           onSubmit={handleSubmit}
           searchChangeMovies={handleInputMoies}
           value={inputMovies}
-          chengeCheckbox={chengeCheckbox}
+          changeCheckbox={changeCheckbox}
         />
         {isMoviesLoading && <Preloader></Preloader>}
         {!isMoviesLoading && (
@@ -156,14 +186,14 @@ const Movies = function ({
           </MoviesCardList>
         )}
         <section className="moviesCard__add">
-          {inputResult && result.length > 3 && result.length >= count && (
+          {inputResult && result.length > count && result.length >= count && (
             <button
               className="moviesCard__button"
               type="button"
               aria-label="Кнопка еще"
-              onClick={() => setCount(count + 3)}
+              onClick={addResultSearch}
             >
-              Ещё
+              Ещё доступно + {result.length - count}
             </button>
           )}
           {!inputResult && (

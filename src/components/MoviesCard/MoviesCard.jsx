@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, link, Link } from "react-router-dom";
 import exportIconPath from "../../images/export_icon.svg";
 import pathDeleteIcon from "../../images/delete-movie.svg";
@@ -14,26 +14,32 @@ function MoviesCard({
   saveMovie,
 }) {
   let locations = useLocation();
-  let text;
-  let value = time % 100;
-  var num = value % 10;
+  const [textTime, setTextTime] = useState("");
 
-  if (time)
-    if (num > 1 && num < 5) {
-      text = "минуты";
+  useEffect(() => {
+    function inflectWords() {
+      let value = time % 100;
+      let num = value % 10;
+      if (time)
+        if (num > 1 && num < 5) {
+          setTextTime("минуты");
+        }
+      if (num === 1) {
+        setTextTime("минута");
+      }
+      if (num === 0) {
+        setTextTime("минут");
+      }
+      if (num > 4 && num < 21) {
+        setTextTime("минут");
+      }
+      if (time > 4 && time < 21) {
+        setTextTime("минут");
+      }
+      return true;
     }
-  if (num === 1) {
-    text = "минута";
-  }
-  if (num === 0) {
-    text = "минут";
-  }
-  if (num > 4 && num < 21) {
-    text = "минут";
-  }
-  if (time > 4 && time < 21) {
-    text = "минут";
-  }
+    inflectWords();
+  }, [time]);
 
   function handleSavedOrDelet() {
     // false - значит нет в сохраненных
@@ -50,7 +56,7 @@ function MoviesCard({
         <div className="element__title">
           <h2 className="element__name">{movieTitle}</h2>
           <span className="element__time">
-            {time}&nbsp;{text}
+            {time}&nbsp;{textTime}
           </span>
         </div>
         <a
