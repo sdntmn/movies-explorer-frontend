@@ -11,7 +11,7 @@ const FilterCheckbox = function ({ changeCheckbox, changeCheckboxSave }) {
           <input
             className="searchForm__tumb-input"
             type="checkbox"
-            onChange={changeCheckbox}
+            onClick={changeCheckbox}
             name="checkBoxMovies"
           />
         )}

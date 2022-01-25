@@ -7,12 +7,10 @@ export default function Form({
   onSubmit,
   name,
   text,
-
   linkText,
   pathLink,
   isDisabled,
   children,
-
   isEditState,
   errors,
 }) {

@@ -143,6 +143,9 @@ const App = function () {
   const [arrayMovies, setArrayMovies] = useState([]);
   // Массив фильмов последнего запроса
   const [arrayLastSearchMovies, setArrayLastSearchMovies] = useState([]);
+  // Массив фильмов последнего запроса короткометражек
+  const [arrayLastSearchMoviesShortFilm, setArrayLastSearchMoviesSortFilm] =
+    useState([]);
   // Массив сохраненных фильмов
   const [arraySaveMovies, setArraySaveMovies] = useState("");
   // Поиск
@@ -177,13 +180,16 @@ const App = function () {
     [inputMovies]
   );
 
+  const [isLoadingSaveMovies, setIsLoadingSaveMovies] = useState(false);
   // Получить список сохраненных фильмов User (GET)  =
   useEffect(() => {
     if (isLoggedIn) {
+      setIsMoviesLoading(true);
       mainApi
         .getSaveMovies()
         .then((movies) => {
           setArraySaveMovies(movies);
+          setIsLoadingSaveMovies(true);
         })
         .catch((error) => {
           console.log(`Ошибка получения данных ${error}`);
@@ -193,10 +199,12 @@ const App = function () {
 
   // Получение массива фильмов авторизированным User
   useEffect(() => {
-    if (isLoggedIn) {
+    if (isLoggedIn && isLoadingSaveMovies) {
       let arrMovies;
       let arrMoviesLastData;
+      let arrMoviesLastDataShortFilm;
       setIsLastData(localStorage.getItem("lastSearch"));
+
       api
         .getMovies()
         .then((res) => {
@@ -215,19 +223,26 @@ const App = function () {
               nameEn: item.nameEN,
             };
           });
+
           setArrayMovies(arrMovies);
-          if (isLastData.length !== null) {
+          console.log(isLastData.length);
+
+          if (isLastData.length !== 0) {
             arrMoviesLastData = arrMovies.filter((item) => {
               return item.nameRU.includes(isLastData);
             });
+            arrMoviesLastDataShortFilm =
+              arrMoviesLastData.filter(filterDuration);
+            setIsMoviesLoading(true);
             setArrayLastSearchMovies(arrMoviesLastData);
+            setArrayLastSearchMoviesSortFilm(arrMoviesLastDataShortFilm);
           }
         })
 
         .catch((error) => setIsErrorLoaderMovies(error))
         .finally(() => setIsMoviesLoading(false));
     }
-  }, [isLastData, isLoggedIn]);
+  }, [filterDuration, isLastData, isLoadingSaveMovies, isLoggedIn]);
 
   // Сохранение фильма в коллекцию
 
@@ -398,6 +413,7 @@ const App = function () {
                     isMoviesLoading={isMoviesLoading}
                     setArrayLastSearchMovies={setArrayLastSearchMovies}
                     lastData={arrayLastSearchMovies}
+                    lastDataShortFilms={arrayLastSearchMoviesShortFilm}
                     arraySaveMovies={arraySaveMovies}
                     shortFilms={filterDuration}
                     setInputMovies={setInputMovies}

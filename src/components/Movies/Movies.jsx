@@ -5,6 +5,7 @@ import MoviesCard from "../MoviesCard/MoviesCard";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Footer from "../Footer/Footer";
 import Preloader from "../Preloader/Preloader";
+import { useCurrentWidth } from "../../hooks/useCurrentWidth";
 
 //isOpen - для смены фона
 // arrayMovies - все фильмы
@@ -26,6 +27,7 @@ const Movies = function ({
   isMoviesLoading,
   setArrayLastSearchMovies,
   lastData,
+  lastDataShortFilms,
   arraySaveMovies,
   shortFilms,
   setInputMovies,
@@ -39,6 +41,7 @@ const Movies = function ({
   localStorage.getItem("lastSearch");
   localStorage.getItem("shortFilms");
   const [result, setResult] = useState(lastData);
+  const [resultShortFilms, setResultSortFilms] = useState(lastDataShortFilms);
   const [inputResult, setInputResult] = useState(false);
 
   // Преключение чекбокса является ли короткометражным
@@ -82,17 +85,15 @@ const Movies = function ({
     evt.preventDefault();
 
     localStorage.setItem("lastSearch", inputMovies);
-    if (!checkedShortFilms) {
-      localStorage.setItem("shortFilms", checkedShortFilms);
-      setResult(resultFilterShortFilmsPutsState);
-      setArrayLastSearchMovies(resultFilterShortFilmsPutsState);
-    }
-    if (checkedShortFilms) {
-      localStorage.setItem("shortFilms", checkedShortFilms);
-      setResult(resultFilterPutsState);
-      setArrayLastSearchMovies(resultFilterPutsState);
-      resetCount();
-    }
+    setResult(resultFilterPutsState);
+    setArrayLastSearchMovies(resultFilterPutsState);
+
+    resetCount();
+
+    localStorage.setItem("shortFilms", checkedShortFilms);
+    localStorage.setItem("lastShortFilms", checkedShortFilms);
+    setResultSortFilms(resultFilterShortFilmsPutsState);
+    setArrayLastSearchMovies(resultFilterShortFilmsPutsState);
   }
 
   //=============================
@@ -104,14 +105,16 @@ const Movies = function ({
     }
   }, [result.length]);
 
-  const getIs1280 = () => window.innerWidth >= 1040;
-  const getIs768 = () => window.innerWidth > 768 && window.innerWidth < 1040;
-  const getIs340 = () => window.innerWidth <= 700;
+  let width = useCurrentWidth();
 
-  const [count, setCount] = useState(0);
+  const getIs1280 = useCallback(() => width >= 1040, [width]);
+  const getIs768 = useCallback(() => width > 768 && width < 1040, [width]);
+  const getIs340 = useCallback(() => width <= 700, [width]);
+
+  const [count, setCount] = useState(lastData.length);
 
   // Функция добавления карточек по кнопке "еще"
-  function addResultSearch() {
+  const addResultSearch = useCallback(() => {
     if (getIs1280()) {
       setCount(count + 3);
     }
@@ -121,9 +124,9 @@ const Movies = function ({
     if (getIs340()) {
       setCount(count + 1);
     }
-  }
+  }, [count, getIs1280, getIs340, getIs768]);
 
-  function resetCount() {
+  const resetCount = useCallback(() => {
     if (getIs1280()) {
       setCount(12);
     }
@@ -133,25 +136,7 @@ const Movies = function ({
     if (getIs340()) {
       setCount(5);
     }
-  }
-
-  // Первоначальные значения количества карточек при отражении результата
-
-  useEffect(() => {
-    function setInitialValue() {
-      if (getIs1280()) {
-        setCount(12);
-      }
-      if (getIs768()) {
-        setCount(8);
-      }
-      if (getIs340()) {
-        setCount(5);
-      }
-      return true;
-    }
-    setInitialValue();
-  }, []);
+  }, [getIs1280, getIs340, getIs768]);
 
   return (
     <>
@@ -163,10 +148,32 @@ const Movies = function ({
           changeCheckbox={changeCheckbox}
         />
         {isMoviesLoading && <Preloader></Preloader>}
-        {!isMoviesLoading && (
+        {!isMoviesLoading && checkedShortFilms && (
           <MoviesCardList>
             {inputResult &&
               result
+                .slice(0, count)
+                .map((film) => (
+                  <MoviesCard
+                    arraySaveMovies={arraySaveMovies}
+                    setArraySaveMovies={setArraySaveMovies}
+                    key={film.movieId}
+                    movieTitle={film.nameRU}
+                    isOpen={isOpen}
+                    src={film.image}
+                    time={film.duration}
+                    trailer={film.trailer}
+                    movie={film}
+                    handleAddMovie={handleAddMovie}
+                    deletMovie={deletMovie}
+                  />
+                ))}
+          </MoviesCardList>
+        )}
+        {!isMoviesLoading && !checkedShortFilms && (
+          <MoviesCardList>
+            {inputResult &&
+              resultShortFilms
                 .slice(0, count)
                 .map((film) => (
                   <MoviesCard
