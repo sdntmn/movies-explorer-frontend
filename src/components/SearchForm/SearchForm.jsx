@@ -4,12 +4,12 @@ import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 const SearchForm = function ({
   shortFilmsSave,
   changeCheckbox,
-  changeCheckboxSave,
   value,
   onSubmit,
   hendleShortFilms,
   searchChangeMovies,
-  searchChangeMoviesSave,
+  checked,
+  id,
 }) {
   return (
     <div className="searchForm">
@@ -21,8 +21,7 @@ const SearchForm = function ({
             value={value}
             type="text"
             placeholder="Фильм"
-            id="searchForm"
-            searchForm
+            id={id}
             required
           />
           <button
@@ -37,7 +36,7 @@ const SearchForm = function ({
           hendleShortFilms={hendleShortFilms}
           shortFilmsSave={shortFilmsSave}
           changeCheckbox={changeCheckbox}
-          changeCheckboxSave={changeCheckboxSave}
+          checked={checked}
         />
       </form>
     </div>

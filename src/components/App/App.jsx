@@ -155,7 +155,7 @@ const App = function () {
 
   // Фильтр является ли фильм короткометражным
   const filterDuration = useCallback((movie) => {
-    if (Number.isFinite(movie.movieId) && movie.duration <= 45) {
+    if (Number.isFinite(movie.movieId) && movie.duration <= 40) {
       return true;
     }
     return false;

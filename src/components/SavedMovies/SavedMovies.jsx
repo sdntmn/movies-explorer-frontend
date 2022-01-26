@@ -18,6 +18,9 @@ const SavedMovies = function ({
 }) {
   const [saveResult, setSaveResult] = useState(lastData);
 
+  // сосьояние найдено что то или нет
+  const [inputResult, setInputResult] = useState(false);
+
   // Переключение чекбокса является ли короткометражным
   const [checkedShortFilmsSave, setCheckedShortFilmsSave] = useState(true);
 
@@ -34,58 +37,74 @@ const SavedMovies = function ({
     setSaveResult(arraySaveMovies);
   }, [arraySaveMovies]);
 
-  // результат поиска
+  // Массив результат поиска
   let resultSaveSearch = arraySaveMovies.filter(filterInputData);
   // фильтрация результата / короткометражки/
   let arrAllSaveFilter = resultSaveSearch.filter(shortFilms);
 
-  async function handleSubmit(evt) {
+  async function handleSubmitSave(evt) {
     evt.preventDefault();
 
-    if (!checkedShortFilmsSave) {
-      setSaveResult(arrAllSaveFilter);
-      //setArrayLastSearchMovies(arrAllSaveFilter);
-    }
-    if (checkedShortFilmsSave) {
-      setSaveResult(resultSaveSearch);
-      //setArrayLastSearchMovies(resultSaveSearch);
-    }
+    setSaveResult(resultSaveSearch);
   }
 
-  //============================= НУЖЕН ЛИ ?
-  /*
+  //=============================
   useEffect(() => {
     if (saveResult.length !== 0) {
-      setInputSaveResult(true);
+      setInputResult(true);
     } else {
-      setInputSaveResult(false);
+      setInputResult(false);
     }
   }, [saveResult.length]);
-  */
 
   return (
     <>
       <div className="page">
         <SearchForm
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmitSave}
           searchChangeMovies={handleInputMoies}
-          changeCheckboxSave={changeCheckboxSave}
+          changeCheckbox={changeCheckboxSave}
+          checked={checkedShortFilmsSave}
           value={inputMovies}
+          id="searchSaveMovies"
         />
-        <MoviesCardList>
-          {saveResult.map((saveMovie) => (
-            <MoviesCard
-              key={saveMovie.movieId}
-              arraySaveMovies={arraySaveMovies}
-              movieTitle={saveMovie.nameRU}
-              isOpen={isOpen}
-              src={saveMovie.image}
-              time={saveMovie.duration}
-              saveMovie={saveMovie}
-              deletMovie={deletMovie}
-            ></MoviesCard>
-          ))}
-        </MoviesCardList>
+        {checkedShortFilmsSave && (
+          <MoviesCardList>
+            {saveResult.map((saveMovie) => (
+              <MoviesCard
+                key={saveMovie.movieId}
+                arraySaveMovies={arraySaveMovies}
+                movieTitle={saveMovie.nameRU}
+                isOpen={isOpen}
+                src={saveMovie.image}
+                time={saveMovie.duration}
+                saveMovie={saveMovie}
+                deletMovie={deletMovie}
+              ></MoviesCard>
+            ))}
+          </MoviesCardList>
+        )}
+        {!checkedShortFilmsSave && (
+          <MoviesCardList>
+            {arrAllSaveFilter.map((saveMovie) => (
+              <MoviesCard
+                key={saveMovie.movieId}
+                arraySaveMovies={arraySaveMovies}
+                movieTitle={saveMovie.nameRU}
+                isOpen={isOpen}
+                src={saveMovie.image}
+                time={saveMovie.duration}
+                saveMovie={saveMovie}
+                deletMovie={deletMovie}
+              ></MoviesCard>
+            ))}
+          </MoviesCardList>
+        )}
+        <section className="moviesCard__add">
+          {!inputResult && (
+            <span className="moviesCard__text">Ничего не найдено</span>
+          )}
+        </section>
       </div>
       <Footer />
     </>

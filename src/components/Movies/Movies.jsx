@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Link } from "react-router-dom";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCard from "../MoviesCard/MoviesCard";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
@@ -39,18 +38,25 @@ const Movies = function ({
   deletMovie,
 }) {
   localStorage.getItem("lastSearch");
-  localStorage.getItem("shortFilms");
+  // получение состояния переключателя checkBox
+  let localShortFilms =
+    localStorage.getItem("shortFilms") === "true" ? true : false;
+
+  // результат поиска
   const [result, setResult] = useState(lastData);
+  // результат поиска короткометражек
   const [resultShortFilms, setResultSortFilms] = useState(lastDataShortFilms);
+  // сосьояние найдено что то или нет
   const [inputResult, setInputResult] = useState(false);
 
   // Преключение чекбокса является ли короткометражным
-  const [checkedShortFilms, setCheckedShortFilms] = useState(true);
+  const [checkedShortFilms, setCheckedShortFilms] = useState(!localShortFilms);
+  // установка состояния checkBox
+  localStorage.setItem("shortFilms", checkedShortFilms);
 
   function changeCheckbox() {
     setCheckedShortFilms(!checkedShortFilms);
   }
-  console.log(checkedShortFilms);
 
   // Обработчик изменения инпута обновляет стейт
   handleInputMoies = (evt) => {
@@ -90,11 +96,11 @@ const Movies = function ({
 
     resetCount();
 
-    localStorage.setItem("shortFilms", checkedShortFilms);
-    localStorage.setItem("lastShortFilms", checkedShortFilms);
     setResultSortFilms(resultFilterShortFilmsPutsState);
     setArrayLastSearchMovies(resultFilterShortFilmsPutsState);
   }
+
+  //console.log(resultFilterShortFilms);
 
   //=============================
   useEffect(() => {
@@ -146,9 +152,11 @@ const Movies = function ({
           searchChangeMovies={handleInputMoies}
           value={inputMovies}
           changeCheckbox={changeCheckbox}
+          checked={checkedShortFilms}
+          id="searchMovies"
         />
         {isMoviesLoading && <Preloader></Preloader>}
-        {!isMoviesLoading && checkedShortFilms && (
+        {!isMoviesLoading && !checkedShortFilms && (
           <MoviesCardList>
             {inputResult &&
               result
@@ -170,7 +178,7 @@ const Movies = function ({
                 ))}
           </MoviesCardList>
         )}
-        {!isMoviesLoading && !checkedShortFilms && (
+        {!isMoviesLoading && checkedShortFilms && (
           <MoviesCardList>
             {inputResult &&
               resultShortFilms
