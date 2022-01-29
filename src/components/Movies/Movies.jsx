@@ -159,10 +159,6 @@ const Movies = function ({
     }
   }, [getIs1280, getIs340, getIs768]);
 
-  console.log(!inputResult);
-  console.log(!!lastSearch);
-  console.log(!!inputMovies);
-  console.log(!inputMovies);
   return (
     <>
       <div className="page">
