@@ -1,13 +1,9 @@
-import { React, useState } from "react";
+import { React, useEffect } from "react";
 import Form from "../Form/Form";
 import Input from "../Input/Input";
 import { useFormAndValidation } from "../../hooks/useAllFormAndValidation";
 
-const Register = function ({
-  onRegister,
-  isDataProcessing,
-  isDisabled = false,
-}) {
+const Register = function ({ onRegister, errorsMessage, isDataProcessing }) {
   const { inputValues, errors, isValid, handleChange, resetForm } =
     useFormAndValidation();
 
@@ -20,17 +16,23 @@ const Register = function ({
       password: inputValues.password,
     });
   };
+
+  useEffect(() => {
+    resetForm();
+  }, [resetForm]);
+
   return (
     <>
       <Form
         title="Добро пожаловать!"
-        btnName={isDataProcessing ? "Регистрация..." : "Зарегистрироваться"}
+        btnName="Зарегистрироваться"
         onSubmit={handleSubmit}
         name="registering"
         text="Уже зарегистрированы?"
         linkText="Войти"
         pathLink="/login"
         isDisabled={!isValid || isDataProcessing}
+        errorsMessage={errorsMessage}
       >
         <Input
           idName="registeringName"
@@ -40,9 +42,8 @@ const Register = function ({
           name="name"
           value={inputValues.name || ""}
           errors={errors.name || ""}
-          minLength="2"
           maxLength="40"
-          pattern="[a-zA-Zа-яА-я -]{1,}"
+          minLength="2"
         />
         <Input
           idName="registeringEmail"

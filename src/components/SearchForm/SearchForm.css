@@ -90,6 +90,11 @@
   cursor: pointer;
 }
 
+.searchForm__movies-button-disabled {
+  opacity: 0.2;
+  pointer-events: none;
+}
+
 .searchForm__movies-button:hover {
   opacity: 0.8;
 }

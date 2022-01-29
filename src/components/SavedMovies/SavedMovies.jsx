@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCard from "../MoviesCard/MoviesCard";
@@ -21,6 +21,9 @@ const SavedMovies = function ({
   // сосьояние найдено что то или нет
   const [inputResult, setInputResult] = useState(false);
 
+  // Button search
+  const [buttonIsDisabledSave, setButtonIsDisabledSave] = useState(false);
+
   // Переключение чекбокса является ли короткометражным
   const [checkedShortFilmsSave, setCheckedShortFilmsSave] = useState(true);
 
@@ -31,7 +34,19 @@ const SavedMovies = function ({
   // Обработчик изменения инпута обновляет стейт
   handleInputMoies = (evt) => {
     setInputMovies(evt.target.value);
+    if (!!inputMovies) {
+      setButtonIsDisabledSave(true);
+    }
   };
+
+  const resetFromSave = useCallback(() => {
+    setInputMovies("");
+    setButtonIsDisabledSave(false);
+  }, [setInputMovies]);
+
+  useEffect(() => {
+    setButtonIsDisabledSave(!!inputMovies);
+  }, [buttonIsDisabledSave, inputMovies]);
 
   useEffect(() => {
     setSaveResult(arraySaveMovies);
@@ -46,6 +61,7 @@ const SavedMovies = function ({
     evt.preventDefault();
 
     setSaveResult(resultSaveSearch);
+    resetFromSave();
   }
 
   //=============================
@@ -67,6 +83,7 @@ const SavedMovies = function ({
           checked={checkedShortFilmsSave}
           value={inputMovies}
           id="searchSaveMovies"
+          buttonIsDisabled={buttonIsDisabledSave}
         />
         {checkedShortFilmsSave && (
           <MoviesCardList>

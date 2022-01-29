@@ -37,11 +37,14 @@ const Movies = function ({
   setArraySaveMovies,
   deletMovie,
 }) {
-  localStorage.getItem("lastSearch");
+  let lastSearch = localStorage.getItem("lastSearch");
+
   // получение состояния переключателя checkBox
   let localShortFilms =
     localStorage.getItem("shortFilms") === "true" ? true : false;
 
+  // Button search
+  const [buttonIsDisabled, setButtonIsDisabled] = useState(false);
   // результат поиска
   const [result, setResult] = useState(lastData);
   // результат поиска короткометражек
@@ -61,7 +64,19 @@ const Movies = function ({
   // Обработчик изменения инпута обновляет стейт
   handleInputMoies = (evt) => {
     setInputMovies(evt.target.value);
+    if (!!inputMovies) {
+      setButtonIsDisabled(true);
+    }
   };
+
+  const resetFrom = useCallback(() => {
+    setInputMovies("");
+    setButtonIsDisabled(false);
+  }, [setInputMovies]);
+
+  useEffect(() => {
+    setButtonIsDisabled(!!inputMovies);
+  }, [buttonIsDisabled, inputMovies]);
 
   // Массив результата поиска
   let resultSearch = arrayMovies.filter(filterInputData);
@@ -90,6 +105,7 @@ const Movies = function ({
   async function handleSubmit(evt) {
     evt.preventDefault();
 
+    setButtonIsDisabled(true);
     localStorage.setItem("lastSearch", inputMovies);
     setResult(resultFilterPutsState);
     setArrayLastSearchMovies(resultFilterPutsState);
@@ -98,9 +114,8 @@ const Movies = function ({
 
     setResultSortFilms(resultFilterShortFilmsPutsState);
     setArrayLastSearchMovies(resultFilterShortFilmsPutsState);
+    resetFrom();
   }
-
-  //console.log(resultFilterShortFilms);
 
   //=============================
   useEffect(() => {
@@ -144,6 +159,10 @@ const Movies = function ({
     }
   }, [getIs1280, getIs340, getIs768]);
 
+  console.log(!inputResult);
+  console.log(!!lastSearch);
+  console.log(!!inputMovies);
+  console.log(!inputMovies);
   return (
     <>
       <div className="page">
@@ -154,6 +173,8 @@ const Movies = function ({
           changeCheckbox={changeCheckbox}
           checked={checkedShortFilms}
           id="searchMovies"
+          buttonIsDisabled={buttonIsDisabled}
+          setButtonIsDisabled={setButtonIsDisabled}
         />
         {isMoviesLoading && <Preloader></Preloader>}
         {!isMoviesLoading && !checkedShortFilms && (
@@ -211,7 +232,7 @@ const Movies = function ({
               Ещё доступно + {result.length - count}
             </button>
           )}
-          {!inputResult && (
+          {!inputResult && !!lastSearch && !inputMovies && (
             <span className="moviesCard__text">Ничего не найдено</span>
           )}
         </section>

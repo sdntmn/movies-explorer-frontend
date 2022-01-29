@@ -28,8 +28,8 @@ const App = function () {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   // Состояние стрницы профиля в режиме редактирования или просмотра
   const [isEdit, setIsEdit] = useState(false);
-  const [isErrorLoaderMovies, setIsErrorLoaderMovies] = useState();
-  const [message, setMessage] = useState("");
+
+  const [errors, setErrors] = useState("");
 
   // ОБРАБОТКА ДАННЫХ ПОЛЬЗОВАТЕЛЯ, РЕГИСТРАЦИЯ, АВТОРИЗАЦИЯ, ВХОД и ВЫХОД ===
   // Вход пользователя
@@ -44,7 +44,22 @@ const App = function () {
         }
       })
       .catch((error) => {
-        console.log(`Ошибка данных ${error}`);
+        if (error === `401`) {
+          return setErrors("Вы ввели неправильный логин или пароль.");
+        }
+        if (error === `400`) {
+          return setErrors(
+            "При авторизации произошла ошибка. Токен не передан или передан не в том формате."
+          );
+        }
+
+        if (error === `404`) {
+          return setErrors("Страница по указанному маршруту не найден.");
+        }
+        if (error === `500`) {
+          return setErrors("На сервере произошла ошибка");
+        }
+        console.log(`Ошибка получения данных ${error}`);
       });
   }
 
@@ -67,8 +82,6 @@ const App = function () {
         .catch((error) => {
           console.log(`Ошибка получения данных ${error}`);
         });
-
-      setIsErrorLoaderMovies();
     }
   }, [isLoggedIn]);
 
@@ -88,20 +101,27 @@ const App = function () {
 
   // Регистрация нового пользователя
   function onRegister({ name, email, password }) {
+    setIsLastData("");
+    localStorage.setItem("lastSearch", "");
     return mainApi
       .register({ name, email, password })
       .then((res) => {
-        goHome();
+        onLogin({ email, password });
+
         return res;
       })
       .catch((error) => {
-        setMessage("Что-то пошло не так! Попробуйте ещё раз.");
-
-        if (error.status === 400) {
-          return console.log("не передано одно из полей");
+        if (error === `409`) {
+          return setErrors("Пользователь с таким email уже существует.");
         }
-      })
-      .finally(() => {});
+        if (error === `404`) {
+          return setErrors("Страница по указанному маршруту не найден.");
+        }
+        if (error === `500`) {
+          return setErrors("На сервере произошла ошибка");
+        }
+        setErrors("Что-то пошло не так! Попробуйте ещё раз.");
+      });
   }
 
   const authToken = async (jwt) => {
@@ -225,7 +245,6 @@ const App = function () {
           });
 
           setArrayMovies(arrMovies);
-          console.log(isLastData.length);
 
           if (isLastData.length !== 0) {
             arrMoviesLastData = arrMovies.filter((item) => {
@@ -239,7 +258,7 @@ const App = function () {
           }
         })
 
-        .catch((error) => setIsErrorLoaderMovies(error))
+        .catch((error) => console.log(`Ошибка данных карточки ${error}`))
         .finally(() => setIsMoviesLoading(false));
     }
   }, [filterDuration, isLastData, isLoadingSaveMovies, isLoggedIn]);
@@ -466,7 +485,7 @@ const App = function () {
             element={
               <>
                 <Header styleAuth="header__auth" />
-                <Register onRegister={onRegister} />
+                <Register errorsMessage={errors} onRegister={onRegister} />
               </>
             }
           />
@@ -475,7 +494,7 @@ const App = function () {
             element={
               <>
                 <Header styleAuth="header__auth" />
-                <Login onLogin={onLogin} />
+                <Login errorsMessage={errors} onLogin={onLogin} />
               </>
             }
           />

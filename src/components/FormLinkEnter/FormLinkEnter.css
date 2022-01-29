@@ -90,7 +90,7 @@
   background: rgba(66, 133, 244, .8);
 }
 
-.form__button:disabled {
+.form__button_disabled {
   opacity: 0.2;
   pointer-events: none;
 }

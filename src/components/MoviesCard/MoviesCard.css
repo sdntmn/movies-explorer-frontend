@@ -7,8 +7,7 @@
   list-style: none;
   padding-left: 0;
   padding-top: 70px;
-  box-sizing: border-box;
-  justify-content: start;
+  justify-items: center;
 }
 
 @media (max-width: 1040px) {
@@ -72,6 +71,9 @@
   max-width: calc(360px - 18px * 2);
   width: 100%;
   justify-content: space-between;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .element__name {
@@ -98,7 +100,7 @@
   font-size: 13px;
   line-height: 18px;
   color: rgba(139, 139, 139, 1);
-  max-width: 70px;
+  max-width: min-content;
   width: 100%;
   text-align: right;
 }

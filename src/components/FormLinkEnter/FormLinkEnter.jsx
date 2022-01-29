@@ -9,22 +9,30 @@ const FormLinkEnter = function ({
   btnName,
   onSubmit,
   isDisabled,
-  errors,
+  errorsMessage,
 }) {
   return (
     <>
       {isEditState ? (
         <div className="form__link-wrapper">
-          <p className="form__text-edit">{errors}</p>
+          <p className="form__text-edit">{errorsMessage}</p>
         </div>
       ) : (
-        ""
+        <div className="form__link-wrapper">
+          <p className="form__text-edit">{errorsMessage}</p>
+        </div>
       )}
       <button
-        className={isEditState ? "form__button-edit" : "form__button"}
+        className={
+          isEditState
+            ? `form__button-edit
+              ${isDisabled && "form__button_disabled"}`
+            : `form__button ${isDisabled && "form__button_disabled"}`
+        }
         type="submit"
         aria-label={btnName}
         onClick={onSubmit}
+        disabled={isDisabled}
       >
         {btnName}
       </button>

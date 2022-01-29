@@ -10,6 +10,7 @@ const SearchForm = function ({
   searchChangeMovies,
   checked,
   id,
+  buttonIsDisabled = false,
 }) {
   return (
     <div className="searchForm">
@@ -26,7 +27,9 @@ const SearchForm = function ({
           />
           <button
             onClick={onSubmit}
-            className="searchForm__movies-button"
+            className={`searchForm__movies-button ${
+              !buttonIsDisabled && "searchForm__movies-button-disabled"
+            }`}
             type="submit"
           >
             Поиск

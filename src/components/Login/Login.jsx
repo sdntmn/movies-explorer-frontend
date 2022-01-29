@@ -1,17 +1,16 @@
-import { React, useState } from "react";
+import { React } from "react";
 import { useNavigate } from "react-router-dom";
 import { useFormAndValidation } from "../../hooks/useAllFormAndValidation";
 import Form from "../Form/Form";
 import Input from "../Input/Input";
 
-const Login = function ({ onLogin, isDataProcessing }) {
+const Login = function ({ onLogin, isDataProcessing, errorsMessage }) {
   const { inputValues, errors, isValid, handleChange } = useFormAndValidation();
   const navigate = useNavigate();
   const profile = () => navigate("/profile");
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-
     onLogin({ email: inputValues.email, password: inputValues.password });
   };
 
@@ -27,6 +26,7 @@ const Login = function ({ onLogin, isDataProcessing }) {
         linkText="Регистрация"
         pathLink="/register"
         isDisabled={!isValid || isDataProcessing}
+        errorsMessage={errorsMessage}
       >
         <Input
           idName="loginEmail"

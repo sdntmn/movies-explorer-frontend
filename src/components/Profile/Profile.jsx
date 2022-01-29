@@ -12,6 +12,7 @@ const Profile = function ({
   onUpdateUser,
   onEndSession,
   onClose,
+  isDataProcessing,
 }) {
   const { inputValues, errors, isValid, handleChange, resetForm } =
     useFormAndValidation();
@@ -30,7 +31,7 @@ const Profile = function ({
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-    onUpdateUser({ email, name: userName });
+    onUpdateUser({ email: email, name: userName });
   };
 
   return (
@@ -66,7 +67,7 @@ const Profile = function ({
         <Form
           isEditState={isEditState}
           title={`Привет, ${userName}!`}
-          btnName="Сохранить"
+          btnName={isDataProcessing ? "Сохранение..." : "Сохранить"}
           message=""
           onSubmit={handleSubmit}
           onClose={onClose}
@@ -74,6 +75,7 @@ const Profile = function ({
           text="Ещё не зарегистрированы?"
           linkText="Регистрация"
           pathLink="/register"
+          isDisabled={!isValid || isDataProcessing}
         >
           <div className="profile__gruping">
             <span className="profile__input-text">Имя</span>

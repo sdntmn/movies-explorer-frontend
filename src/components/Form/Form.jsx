@@ -12,7 +12,8 @@ export default function Form({
   isDisabled,
   children,
   isEditState,
-  errors,
+  errorsMessage,
+  message,
 }) {
   return (
     <div className={isEditState ? "form__edit" : "form"}>
@@ -38,7 +39,7 @@ export default function Form({
         btnName={btnName}
         onSubmit={onSubmit}
         isDisabled={isDisabled}
-        errors={errors}
+        errorsMessage={errorsMessage}
       />
     </div>
   );

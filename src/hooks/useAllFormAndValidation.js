@@ -10,9 +10,21 @@ export function useFormAndValidation() {
     const input = evt.target;
     const name = input.name;
     const value = input.value;
-    setInputValues({ ...inputValues, [name]: value });
-    // target.validationMessage - текст ошибки браузера
-    setErrors({ ...errors, [name]: input.validationMessage });
+
+    setIsValid(false);
+    if (typeof input["name"] !== "undefined") {
+      const pattern = new RegExp("[a-zA-Zа-яА-Я -]{ 1, }");
+      if (!pattern.test(input["name"])) {
+        setErrors(
+          (errors["name"] =
+            "имя содержит только латиницу, кириллицу, пробел или дефис.")
+        );
+      }
+    }
+
+    setInputValues({...inputValues, [name]: value });
+    // input.validationMessage - текст ошибки браузера
+    setErrors({...errors, [name]: input.validationMessage });
     // input.closest-имя формы
     // checkValidity() - валидна ли вся форма
     setIsValid(input.closest("form").checkValidity());
@@ -23,8 +35,7 @@ export function useFormAndValidation() {
       setInputValues(newInputValues);
       setErrors(newErrors);
       setIsValid(newIsValid);
-    },
-    [setInputValues, setErrors, setIsValid]
+    }, [setInputValues, setErrors, setIsValid]
   );
 
   return { inputValues, errors, isValid, handleChange, resetForm };

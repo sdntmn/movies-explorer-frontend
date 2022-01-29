@@ -1,9 +1,7 @@
 import { SERVER_URL } from "./config";
 // Проверка ответа =========================================================
 export const checkRespons = (res) => {
-  return res.ok ?
-    res.json() :
-    Promise.reject(`Ошибка № ${res.status}  Текст ошибки: ${res.statusText}`);
+  return res.ok ? res.json() : Promise.reject(`${res.status}`);
 };
 
 // Регистрация пользователя Post запрос=====================================
@@ -53,13 +51,6 @@ export const getSaveMovies = () => {
     body: JSON.stringify(),
   }).then(checkRespons);
 };
-/*
-//Для синхронного первоначального вывода данных User и Card ================
-
-export const renderFirstData = () => {
-  return Promise.all([getDataUser(), getSaveMovies()]);
-};
-*/
 
 // Заменить данные пользователя (PATCH) ====================================
 export const changeDataUser = (data) => {
