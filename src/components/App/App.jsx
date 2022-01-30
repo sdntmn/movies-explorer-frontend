@@ -277,7 +277,7 @@ const App = function () {
           year: movies.year || "Нет данных",
           description: movies.description || "Нет данных",
           image: movies.image || "Нет данных",
-          trailer: movies.trailer,
+          trailer: movies.trailer || "Нет данных",
           thumbnail: movies.thumbnail,
           movieId: movies.movieId,
           nameEN: movies.nameEN || "Нет данных",

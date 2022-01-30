@@ -106,15 +106,15 @@ const Movies = function ({
     evt.preventDefault();
 
     setButtonIsDisabled(true);
-    localStorage.setItem("lastSearch", inputMovies);
+    // результат поиска с фильтрацией сохраненных фильмов
     setResult(resultFilterPutsState);
+    //сохранение массива последнего запроса
     setArrayLastSearchMovies(resultFilterPutsState);
-
-    resetCount();
-
+    // сохранение массива короткометражек
     setResultSortFilms(resultFilterShortFilmsPutsState);
-    setArrayLastSearchMovies(resultFilterShortFilmsPutsState);
+    localStorage.setItem("lastSearch", inputMovies);
     resetFrom();
+    resetCount();
   }
 
   //=============================

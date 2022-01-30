@@ -112,10 +112,10 @@
 }
 
 .element__img {
-  max-width: 360px;
   width: 100%;
   max-height: 200px;
-  background-image: cover;
+  object-fit: fill;
+  overflow: hidden;
 }
 
 @media (max-width: 768px) {

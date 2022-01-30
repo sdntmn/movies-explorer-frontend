@@ -20,7 +20,9 @@ export function useFormAndValidation() {
             "имя содержит только латиницу, кириллицу, пробел или дефис.")
         );
       }
+      setIsValid(false);
     }
+    setIsValid(false);
 
     setInputValues({...inputValues, [name]: value });
     // input.validationMessage - текст ошибки браузера
