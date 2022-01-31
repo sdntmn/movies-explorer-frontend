@@ -44,7 +44,6 @@ const App = function () {
       .getToken(jwt)
       .then((res) => {
         setIsAuthUser(true);
-        console.log(res);
         if (res) {
           setIsLoggedIn(true);
           setCurrentUser(res);
