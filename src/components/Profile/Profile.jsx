@@ -49,8 +49,6 @@ const Profile = function ({
     resetForm();
   };
 
-  console.log(errorsMessage);
-
   return (
     <>
       {!isEditState ? (

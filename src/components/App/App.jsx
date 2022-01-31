@@ -68,7 +68,8 @@ const App = function () {
 
   // Выход пользователя
   function onSignOut() {
-    localStorage.removeItem("jwt");
+    localStorage.clear();
+
     outHome();
     setIsEdit(false);
   }
@@ -90,7 +91,7 @@ const App = function () {
   // Регистрация нового пользователя
   function onRegister({ name, email, password }) {
     setIsLastData("");
-    localStorage.setItem("lastSearch", "");
+    localStorage.clear();
     return mainApi
       .register({ name, email, password })
       .then((res) => {
@@ -225,7 +226,6 @@ const App = function () {
         .getMovies()
         .then((res) => {
           arrMovies = res.map((item) => {
-            console.log(item);
             return {
               country: item.country,
               director: item.director,

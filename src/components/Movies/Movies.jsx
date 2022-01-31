@@ -39,10 +39,6 @@ const Movies = function ({
 }) {
   let lastSearch = localStorage.getItem("lastSearch");
 
-  // получение состояния переключателя checkBox
-  let localShortFilms =
-    localStorage.getItem("shortFilms") === "true" ? true : false;
-
   // Button search
   const [buttonIsDisabled, setButtonIsDisabled] = useState(false);
   // результат поиска
@@ -53,9 +49,7 @@ const Movies = function ({
   const [inputResult, setInputResult] = useState(false);
 
   // Преключение чекбокса является ли короткометражным
-  const [checkedShortFilms, setCheckedShortFilms] = useState(!localShortFilms);
-  // установка состояния checkBox
-  localStorage.setItem("shortFilms", checkedShortFilms);
+  const [checkedShortFilms, setCheckedShortFilms] = useState(false);
 
   function changeCheckbox() {
     setCheckedShortFilms(!checkedShortFilms);

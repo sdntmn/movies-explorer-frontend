@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 
-const FilterCheckbox = function ({ changeCheckbox, checked }) {
+const FilterCheckbox = function ({ changeCheckbox, checked = false }) {
   let locations = useLocation();
 
   return (
