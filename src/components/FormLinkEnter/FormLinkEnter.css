@@ -30,12 +30,14 @@
   font-size: 11px;
   line-height: 13px;
   padding-bottom: 20px;
+  max-width: 400px;
 }
 
 @media (max-width: 640px) {
   .form__text-edit {
     font-size: 12px;
     line-height: 15px;
+    max-width: 260px;
   }
 }
 

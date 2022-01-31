@@ -4,42 +4,6 @@ export const checkRespons = (res) => {
   return res.ok ? res.json() : Promise.reject(`${res.status}`);
 };
 
-// Регистрация пользователя Post запрос=====================================
-export const register = ({ name, email, password }) => {
-  return fetch(`${SERVER_URL}/signup`, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ name, email, password }),
-  }).then(checkRespons);
-};
-
-// Авторизация пользователя Post запрос=====================================
-export const authorize = (email, password) => {
-  return fetch(`${SERVER_URL}/signin`, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ password, email }),
-  }).then(checkRespons);
-};
-
-// Получить данные пользователя (GET) ======================================
-export const getDataUser = (dataUser) => {
-  return fetch(`${SERVER_URL}/users/me `, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(dataUser),
-  }).then(checkRespons);
-};
-
 // Получить список сохраненных фильмов User (GET) ======================
 export const getSaveMovies = () => {
   return fetch(`${SERVER_URL}/movies`, {
@@ -49,21 +13,6 @@ export const getSaveMovies = () => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(),
-  }).then(checkRespons);
-};
-
-// Заменить данные пользователя (PATCH) ====================================
-export const changeDataUser = (data) => {
-  return fetch(`${SERVER_URL}/users/me`, {
-    method: "PATCH",
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      name: data.name,
-      email: data.email,
-    }),
   }).then(checkRespons);
 };
 
@@ -102,5 +51,56 @@ export const getToken = (token) => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
+  }).then(checkRespons);
+};
+
+// Заменить данные пользователя (PATCH) ====================================
+export const changeDataUser = (data) => {
+  return fetch(`${SERVER_URL}/users/me`, {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      name: data.name,
+      email: data.email,
+    }),
+  }).then(checkRespons);
+};
+
+// Получить данные пользователя (GET) ======================================
+export const getDataUser = (dataUser) => {
+  return fetch(`${SERVER_URL}/users/me `, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(dataUser),
+  }).then(checkRespons);
+};
+
+// Регистрация пользователя Post запрос=====================================
+export const register = ({ name, email, password }) => {
+  return fetch(`${SERVER_URL}/signup`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ name, email, password }),
+  }).then(checkRespons);
+};
+
+// Авторизация пользователя Post запрос=====================================
+export const authorize = (email, password) => {
+  return fetch(`${SERVER_URL}/signin`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ password, email }),
   }).then(checkRespons);
 };

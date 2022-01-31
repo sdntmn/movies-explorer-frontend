@@ -14,6 +14,7 @@ export default function Form({
   isEditState,
   errorsMessage,
   message,
+  errorsEdit,
 }) {
   return (
     <div className={isEditState ? "form__edit" : "form"}>
@@ -40,6 +41,7 @@ export default function Form({
         onSubmit={onSubmit}
         isDisabled={isDisabled}
         errorsMessage={errorsMessage}
+        errorsEdit={errorsEdit}
       />
     </div>
   );

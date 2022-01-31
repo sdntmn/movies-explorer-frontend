@@ -13,12 +13,14 @@ const Profile = function ({
   onEndSession,
   onClose,
   isDataProcessing,
+  errorsMessage,
 }) {
-  const { inputValues, errors, isValid, handleChange, resetForm } =
-    useFormAndValidation();
   const currentUser = useContext(CurrentUserContext);
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
+
+  const { inputValues, errors, isValid, handleChange, setIsValid, resetForm } =
+    useFormAndValidation();
 
   useEffect(() => {
     setUserName(currentUser.name);
@@ -26,13 +28,28 @@ const Profile = function ({
   }, [currentUser]);
 
   useEffect(() => {
-    resetForm();
-  }, [currentUser, resetForm]);
+    if (
+      inputValues.email === currentUser.email &&
+      inputValues.name === currentUser.name
+    ) {
+      setIsValid(false);
+    }
+  }, [
+    currentUser.email,
+    currentUser.name,
+    inputValues.email,
+    inputValues.name,
+    setIsValid,
+  ]);
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-    onUpdateUser({ email: email, name: userName });
+
+    onUpdateUser({ email: inputValues.email, name: inputValues.name });
+    resetForm();
   };
+
+  console.log(errorsMessage);
 
   return (
     <>
@@ -76,6 +93,7 @@ const Profile = function ({
           linkText="Регистрация"
           pathLink="/register"
           isDisabled={!isValid || isDataProcessing}
+          errorsMessage={errorsMessage}
         >
           <div className="profile__gruping">
             <span className="profile__input-text">Имя</span>

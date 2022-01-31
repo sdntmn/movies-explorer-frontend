@@ -5,13 +5,15 @@ import Form from "../Form/Form";
 import Input from "../Input/Input";
 
 const Login = function ({ onLogin, isDataProcessing, errorsMessage }) {
-  const { inputValues, errors, isValid, handleChange } = useFormAndValidation();
+  const { inputValues, errors, isValid, handleChange, resetForm } =
+    useFormAndValidation();
   const navigate = useNavigate();
   const profile = () => navigate("/profile");
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     onLogin({ email: inputValues.email, password: inputValues.password });
+    resetForm();
   };
 
   return (

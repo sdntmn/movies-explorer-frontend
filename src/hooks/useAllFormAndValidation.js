@@ -7,22 +7,25 @@ export function useFormAndValidation() {
   const [isValid, setIsValid] = useState(false);
 
   const handleChange = (evt) => {
+    const pattern = (str) => /^[a-zA-Zа-яА-Я -]+$/i.test(str);
     const input = evt.target;
     const name = input.name;
     const value = input.value;
 
-    setIsValid(false);
-    if (typeof input["name"] !== "undefined") {
-      const pattern = new RegExp("[a-zA-Zа-яА-Я -]{ 1, }");
-      if (!pattern.test(input["name"])) {
+    if (typeof input["name"] !== "undefined" && name === "name") {
+      pattern(value);
+
+      if (!pattern(value)) {
         setErrors(
-          (errors["name"] =
-            "имя содержит только латиницу, кириллицу, пробел или дефис.")
+          input.setCustomValidity(
+            "имя содержит только латиницу, кириллицу, пробел или дефис."
+          )
         );
+      } else {
+        setErrors(input.setCustomValidity(""));
+        setIsValid(false);
       }
-      setIsValid(false);
     }
-    setIsValid(false);
 
     setInputValues({...inputValues, [name]: value });
     // input.validationMessage - текст ошибки браузера
@@ -40,5 +43,5 @@ export function useFormAndValidation() {
     }, [setInputValues, setErrors, setIsValid]
   );
 
-  return { inputValues, errors, isValid, handleChange, resetForm };
+  return { inputValues, errors, isValid, handleChange, resetForm, setIsValid };
 }

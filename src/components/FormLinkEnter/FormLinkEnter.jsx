@@ -10,6 +10,7 @@ const FormLinkEnter = function ({
   onSubmit,
   isDisabled,
   errorsMessage,
+  errorsEdit,
 }) {
   return (
     <>

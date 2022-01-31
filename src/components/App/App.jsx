@@ -31,6 +31,8 @@ const App = function () {
 
   const [errors, setErrors] = useState("");
 
+  const [owner, setOwner] = useState("");
+
   // ОБРАБОТКА ДАННЫХ ПОЛЬЗОВАТЕЛЯ, РЕГИСТРАЦИЯ, АВТОРИЗАЦИЯ, ВХОД и ВЫХОД ===
   // Вход пользователя
   function onLogin({ email, password }) {
@@ -49,7 +51,7 @@ const App = function () {
         }
         if (error === `400`) {
           return setErrors(
-            "При авторизации произошла ошибка. Токен не передан или передан не в том формате."
+            "При авторизации произошла ошибка. Неправильный, некорректный запрос."
           );
         }
 
@@ -59,6 +61,7 @@ const App = function () {
         if (error === `500`) {
           return setErrors("На сервере произошла ошибка");
         }
+        setErrors("Что-то пошло не так! Попробуйте ещё раз.");
         console.log(`Ошибка получения данных ${error}`);
       });
   }
@@ -67,23 +70,8 @@ const App = function () {
   function onSignOut() {
     localStorage.removeItem("jwt");
     outHome();
-    setIsEdit(false); // Todo ?
+    setIsEdit(false);
   }
-
-  // получение данных пользователя
-  useEffect(() => {
-    if (isLoggedIn) {
-      mainApi
-        .getDataUser()
-        .then((currentUser) => {
-          setCurrentUser(currentUser);
-          setIsMoviesLoading(true);
-        })
-        .catch((error) => {
-          console.log(`Ошибка получения данных ${error}`);
-        });
-    }
-  }, [isLoggedIn]);
 
   const navigate = useNavigate();
   // Перенаправление на домашнюю страницу /movies
@@ -120,29 +108,9 @@ const App = function () {
         if (error === `500`) {
           return setErrors("На сервере произошла ошибка");
         }
-        setErrors("Что-то пошло не так! Попробуйте ещё раз.");
+        setErrors("При регистрации пользователя произошла ошибка.");
       });
   }
-
-  const authToken = async (jwt) => {
-    return mainApi
-      .getToken(jwt)
-      .then((res) => {
-        if (res) {
-          setIsLoggedIn(true);
-        }
-      })
-      .catch((error) => {
-        console.log(`Ошибка данных ${error}`);
-      });
-  };
-
-  useEffect(() => {
-    const jwt = localStorage.getItem("jwt");
-    if (jwt) {
-      authToken(jwt); //функция авторизации
-    }
-  });
 
   // Исправление(смена) данных пользователя
   function handleUpdateUser(data) {
@@ -154,9 +122,52 @@ const App = function () {
         handleEditStateNotActive();
       })
       .catch((error) => {
+        if (error === `409`) {
+          return setErrors("Пользователь с таким email уже существует.");
+        }
+
+        if (error === `500`) {
+          return setErrors("На сервере произошла ошибка");
+        }
+        setErrors("При обновлении профиля произошла ошибка.");
         console.log(`Ошибка получения данных ${error}`);
       });
   }
+
+  // проверка, что пользователь уже авторизован
+  const [isAuthUser, setIsAuthUser] = useState(true);
+  useEffect(() => {
+    const token = localStorage.getItem("jwt");
+    if (token) {
+      setIsAuthUser(true);
+      mainApi
+        .getToken(token)
+        .then((currentUser) => {
+          setIsLoggedIn(true);
+          setCurrentUser(currentUser);
+        })
+        .catch(() => {
+          localStorage.removeItem("jwt");
+        })
+        .finally(() => setIsAuthUser(false));
+    } else {
+      setIsAuthUser(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isLoggedIn && isAuthUser) {
+      mainApi
+        .getDataUser()
+        .then((res) => {
+          setIsMoviesLoading(true);
+          setOwner(res._id);
+        })
+        .catch((error) => {
+          console.log(`Ошибка получения данных ${error}`);
+        });
+    }
+  }, [isAuthUser, isLoggedIn]);
 
   // ОБРАБОТКА ДАННЫХ и ФИЛЬТРАЦИЯ ФИЛЬМОВ =====================================
   // Весь полученный массив фильмов
@@ -201,25 +212,10 @@ const App = function () {
   );
 
   const [isLoadingSaveMovies, setIsLoadingSaveMovies] = useState(false);
-  // Получить список сохраненных фильмов User (GET)  =
-  useEffect(() => {
-    if (isLoggedIn) {
-      setIsMoviesLoading(true);
-      mainApi
-        .getSaveMovies()
-        .then((movies) => {
-          setArraySaveMovies(movies);
-          setIsLoadingSaveMovies(true);
-        })
-        .catch((error) => {
-          console.log(`Ошибка получения данных ${error}`);
-        });
-    }
-  }, [isLoggedIn]);
 
   // Получение массива фильмов авторизированным User
   useEffect(() => {
-    if (isLoggedIn && isLoadingSaveMovies) {
+    if (isAuthUser && isLoggedIn) {
       let arrMovies;
       let arrMoviesLastData;
       let arrMoviesLastDataShortFilm;
@@ -229,6 +225,7 @@ const App = function () {
         .getMovies()
         .then((res) => {
           arrMovies = res.map((item) => {
+            console.log(item);
             return {
               country: item.country,
               director: item.director,
@@ -261,7 +258,27 @@ const App = function () {
         .catch((error) => console.log(`Ошибка данных карточки ${error}`))
         .finally(() => setIsMoviesLoading(false));
     }
-  }, [filterDuration, isLastData, isLoadingSaveMovies, isLoggedIn]);
+  }, [filterDuration, isAuthUser, isLastData, isLoadingSaveMovies, isLoggedIn]);
+
+  // Получить список сохраненных фильмов User (GET)  =
+  useEffect(() => {
+    if (isLoggedIn && isAuthUser) {
+      setIsMoviesLoading(true);
+      mainApi
+        .getSaveMovies()
+        .then((movies) => {
+          const arrayUser = movies.filter(function (movie) {
+            return movie.owner === owner;
+          });
+          setArraySaveMovies(arrayUser);
+
+          setIsLoadingSaveMovies(true);
+        })
+        .catch((error) => {
+          console.log(`Ошибка получения данных ${error}`);
+        });
+    }
+  }, [isAuthUser, isLoggedIn, owner]);
 
   // Сохранение фильма в коллекцию
 
@@ -336,6 +353,26 @@ const App = function () {
     setIsEdit(false);
   }, []);
 
+  const authToken = async (jwt) => {
+    return mainApi
+      .getToken(jwt)
+      .then((res) => {
+        if (res) {
+          setIsLoggedIn(true);
+        }
+      })
+      .catch((error) => {
+        console.log(`Ошибка данных ${error}`);
+      });
+  };
+
+  useEffect(() => {
+    const jwt = localStorage.getItem("jwt");
+    if (jwt) {
+      authToken(jwt); //функция авторизации
+    }
+  });
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className={`root ${isPopupOpen && "root__color"}`}>
@@ -379,7 +416,7 @@ const App = function () {
           <Route
             path="profile"
             element={
-              <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <ProtectedRoute isLoggedIn={isLoggedIn} isAuthUser={isAuthUser}>
                 {
                   <>
                     <Header
@@ -402,6 +439,7 @@ const App = function () {
                       onEndSession={onSignOut}
                       onClose={closeAllPopups}
                       onUpdateUser={handleUpdateUser}
+                      errorsMessage={errors}
                     />
                   </>
                 }
@@ -413,6 +451,7 @@ const App = function () {
             path="movies"
             element={
               <ProtectedRoute
+                isAuthUser={isAuthUser}
                 isLoggedIn={isLoggedIn}
                 isLoader={isMoviesLoading}
               >
@@ -450,7 +489,7 @@ const App = function () {
           <Route
             path="saved-movies"
             element={
-              <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <ProtectedRoute isLoggedIn={isLoggedIn} isAuthUser={isAuthUser}>
                 {
                   <>
                     <Header
