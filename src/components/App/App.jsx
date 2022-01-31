@@ -518,7 +518,7 @@ const App = function () {
             }
           />
 
-          <Route path="not-found" element={<PageNotFound />} />
+          <Route path="*" element={<PageNotFound />} />
           <Route
             path="register"
             element={
