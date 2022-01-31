@@ -18,6 +18,7 @@ const Profile = function ({
   const currentUser = useContext(CurrentUserContext);
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
+  console.log(currentUser);
 
   const { inputValues, errors, isValid, handleChange, setIsValid, resetForm } =
     useFormAndValidation();

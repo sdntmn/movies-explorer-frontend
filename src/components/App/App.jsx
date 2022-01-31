@@ -35,14 +35,56 @@ const App = function () {
 
   // ОБРАБОТКА ДАННЫХ ПОЛЬЗОВАТЕЛЯ, РЕГИСТРАЦИЯ, АВТОРИЗАЦИЯ, ВХОД и ВЫХОД ===
   // Вход пользователя
+
+  // проверка, что пользователь уже авторизован
+  const [isAuthUser, setIsAuthUser] = useState(true);
+
+  const authToken = async (jwt) => {
+    return mainApi
+      .getToken(jwt)
+      .then((res) => {
+        setIsAuthUser(true);
+        console.log(res);
+        if (res) {
+          setIsLoggedIn(true);
+          setCurrentUser(res);
+        }
+      })
+      .catch((error) => {
+        console.log(`Ошибка данных ${error}`);
+      });
+  };
+
+  useEffect(() => {
+    const jwt = localStorage.getItem("jwt");
+    if (jwt) {
+      authToken(jwt); //функция авторизации
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isLoggedIn && isAuthUser) {
+      mainApi
+        .getDataUser()
+        .then((res) => {
+          setIsMoviesLoading(true);
+          setCurrentUser(res);
+          setOwner(res._id);
+        })
+        .catch((error) => {
+          console.log(`Ошибка получения данных ${error}`);
+        });
+    }
+  }, [isAuthUser, isLoggedIn]);
+
   function onLogin({ email, password }) {
     mainApi
       .authorize(email, password)
       .then((res) => {
         if (res.token) {
-          goHome();
           localStorage.setItem("jwt", res.token);
           localStorage.setItem("lastSearch", isLastData);
+          goHome();
         }
       })
       .catch((error) => {
@@ -134,41 +176,6 @@ const App = function () {
         console.log(`Ошибка получения данных ${error}`);
       });
   }
-
-  // проверка, что пользователь уже авторизован
-  const [isAuthUser, setIsAuthUser] = useState(true);
-  useEffect(() => {
-    const token = localStorage.getItem("jwt");
-    if (token) {
-      setIsAuthUser(true);
-      mainApi
-        .getToken(token)
-        .then((currentUser) => {
-          setIsLoggedIn(true);
-          setCurrentUser(currentUser);
-        })
-        .catch(() => {
-          localStorage.removeItem("jwt");
-        })
-        .finally(() => setIsAuthUser(false));
-    } else {
-      setIsAuthUser(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (isLoggedIn && isAuthUser) {
-      mainApi
-        .getDataUser()
-        .then((res) => {
-          setIsMoviesLoading(true);
-          setOwner(res._id);
-        })
-        .catch((error) => {
-          console.log(`Ошибка получения данных ${error}`);
-        });
-    }
-  }, [isAuthUser, isLoggedIn]);
 
   // ОБРАБОТКА ДАННЫХ и ФИЛЬТРАЦИЯ ФИЛЬМОВ =====================================
   // Весь полученный массив фильмов
@@ -352,26 +359,6 @@ const App = function () {
     setIsPopupOpen(false);
     setIsEdit(false);
   }, []);
-
-  const authToken = async (jwt) => {
-    return mainApi
-      .getToken(jwt)
-      .then((res) => {
-        if (res) {
-          setIsLoggedIn(true);
-        }
-      })
-      .catch((error) => {
-        console.log(`Ошибка данных ${error}`);
-      });
-  };
-
-  useEffect(() => {
-    const jwt = localStorage.getItem("jwt");
-    if (jwt) {
-      authToken(jwt); //функция авторизации
-    }
-  });
 
   return (
     <CurrentUserContext.Provider value={currentUser}>

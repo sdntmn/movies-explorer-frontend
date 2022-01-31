@@ -42,7 +42,7 @@ export const deleteMovieUser = (movieId) => {
   }).then(checkRespons);
 };
 
-// Token Get запрос данных по пользователю==================================
+// Token Get==================================
 export const getToken = (token) => {
   return fetch(`${SERVER_URL}/users/me`, {
     method: "GET",
@@ -70,14 +70,14 @@ export const changeDataUser = (data) => {
 };
 
 // Получить данные пользователя (GET) ======================================
-export const getDataUser = (dataUser) => {
-  return fetch(`${SERVER_URL}/users/me `, {
+export const getDataUser = () => {
+  console.log();
+  return fetch(`${SERVER_URL}/users/me`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-      "Content-Type": "application/json",
+      "Content-Type": ["application/json", "charset=utf-8"],
     },
-    body: JSON.stringify(dataUser),
   }).then(checkRespons);
 };
 
@@ -99,8 +99,56 @@ export const authorize = (email, password) => {
     method: "POST",
     headers: {
       Accept: "application/json",
+      Authorization: `Bearer ${localStorage.getItem("jwt")}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ password, email }),
   }).then(checkRespons);
 };
+
+/*
+ const [isAuthUser, setIsAuthUser] = useState(true);
+
+  const authToken = async (jwt) => {
+    return mainApi
+      .getToken(jwt)
+      .then((res) => {
+        setIsAuthUser(true);
+        console.log(res);
+        if (res) {
+          setIsLoggedIn(true);
+          // setCurrentUser(res);
+        }
+      })
+      .catch((error) => {
+        console.log(`Ошибка данных ${error}`);
+      });
+  };
+
+  useEffect(() => {
+    const jwt = localStorage.getItem("jwt");
+    if (jwt) {
+      authToken(jwt); //функция авторизации
+    }
+  });
+
+
+useEffect(() => {
+  const token = localStorage.getItem("jwt");
+  if (token) {
+    setIsAuthUser(true);
+    mainApi
+      .getToken(token)
+      .then((currentUser) => {
+        setIsLoggedIn(true);
+        setCurrentUser(currentUser);
+      })
+      .catch(() => {
+        localStorage.removeItem("jwt");
+      })
+      .finally(() => setIsAuthUser(false));
+  } else {
+    setIsAuthUser(false);
+  }
+}, []);
+*/
