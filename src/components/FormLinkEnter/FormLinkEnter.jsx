@@ -10,17 +10,33 @@ const FormLinkEnter = function ({
   onSubmit,
   isDisabled,
   errorsMessage,
-  errorsEdit,
+  message,
 }) {
   return (
     <>
       {isEditState ? (
         <div className="form__link-wrapper">
-          <p className="form__text-edit">{errorsMessage}</p>
+          <p
+            className={
+              errorsMessage
+                ? "form__text-edit "
+                : "form__text-edit form__text-edit-color"
+            }
+          >
+            {errorsMessage ? errorsMessage : message}
+          </p>
         </div>
       ) : (
         <div className="form__link-wrapper">
-          <p className="form__text-edit">{errorsMessage}</p>
+          <p
+            className={
+              errorsMessage
+                ? "form__text-edit "
+                : "form__text-edit form__text-edit-color"
+            }
+          >
+            {errorsMessage ? errorsMessage : message}
+          </p>
         </div>
       )}
       <button

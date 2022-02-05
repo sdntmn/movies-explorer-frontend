@@ -42,6 +42,7 @@ export default function Form({
         isDisabled={isDisabled}
         errorsMessage={errorsMessage}
         errorsEdit={errorsEdit}
+        message={message}
       />
     </div>
   );

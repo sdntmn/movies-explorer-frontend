@@ -1,6 +1,6 @@
 import { SERVER_URL } from "./config";
 // Проверка ответа =========================================================
-export const checkRespons = (res) => {
+export const checkResponse = (res) => {
   return res.ok ? res.json() : Promise.reject(`${res.status}`);
 };
 
@@ -13,7 +13,7 @@ export const getSaveMovies = () => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(),
-  }).then(checkRespons);
+  }).then(checkResponse);
 };
 
 // Добавить фильма в коллекцию (POST) ========================================
@@ -25,7 +25,7 @@ export const setMoviesUser = (movie) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(movie),
-  }).then(checkRespons);
+  }).then(checkResponse);
 };
 
 // Удаление фильма из коллекции (POST) ========================================
@@ -39,7 +39,7 @@ export const deleteMovieUser = (movieId) => {
     body: JSON.stringify({
       _id: movieId,
     }),
-  }).then(checkRespons);
+  }).then(checkResponse);
 };
 
 // Token Get==================================
@@ -51,7 +51,7 @@ export const getToken = (token) => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-  }).then(checkRespons);
+  }).then(checkResponse);
 };
 
 // Заменить данные пользователя (PATCH) ====================================
@@ -66,19 +66,18 @@ export const changeDataUser = (data) => {
       name: data.name,
       email: data.email,
     }),
-  }).then(checkRespons);
+  }).then(checkResponse);
 };
 
 // Получить данные пользователя (GET) ======================================
 export const getDataUser = () => {
-  console.log();
   return fetch(`${SERVER_URL}/users/me`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${localStorage.getItem("jwt")}`,
       "Content-Type": ["application/json", "charset=utf-8"],
     },
-  }).then(checkRespons);
+  }).then(checkResponse);
 };
 
 // Регистрация пользователя Post запрос=====================================
@@ -90,7 +89,7 @@ export const register = ({ name, email, password }) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ name, email, password }),
-  }).then(checkRespons);
+  }).then(checkResponse);
 };
 
 // Авторизация пользователя Post запрос=====================================
@@ -103,52 +102,5 @@ export const authorize = (email, password) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ password, email }),
-  }).then(checkRespons);
+  }).then(checkResponse);
 };
-
-/*
- const [isAuthUser, setIsAuthUser] = useState(true);
-
-  const authToken = async (jwt) => {
-    return mainApi
-      .getToken(jwt)
-      .then((res) => {
-        setIsAuthUser(true);
-        console.log(res);
-        if (res) {
-          setIsLoggedIn(true);
-          // setCurrentUser(res);
-        }
-      })
-      .catch((error) => {
-        console.log(`Ошибка данных ${error}`);
-      });
-  };
-
-  useEffect(() => {
-    const jwt = localStorage.getItem("jwt");
-    if (jwt) {
-      authToken(jwt); //функция авторизации
-    }
-  });
-
-
-useEffect(() => {
-  const token = localStorage.getItem("jwt");
-  if (token) {
-    setIsAuthUser(true);
-    mainApi
-      .getToken(token)
-      .then((currentUser) => {
-        setIsLoggedIn(true);
-        setCurrentUser(currentUser);
-      })
-      .catch(() => {
-        localStorage.removeItem("jwt");
-      })
-      .finally(() => setIsAuthUser(false));
-  } else {
-    setIsAuthUser(false);
-  }
-}, []);
-*/

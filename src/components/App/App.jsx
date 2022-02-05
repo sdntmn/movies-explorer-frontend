@@ -18,20 +18,24 @@ import api from "../../utils/moviesApi";
 import { BASE_URL } from "../../utils/config";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
+import { LENGTH_MOVIE } from "../../utils/config";
+
 const App = function () {
   const [currentUser, setCurrentUser] = useState({});
-  // Зарегестрирован или нет пользователь
+  // Зарегистрирован или нет пользователь
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   // Для preloader загрузились или нет данные
   const [isMoviesLoading, setIsMoviesLoading] = useState(false);
 
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  // Состояние стрницы профиля в режиме редактирования или просмотра
+  // Состояние страницы профиля в режиме редактирования или просмотра
   const [isEdit, setIsEdit] = useState(false);
 
   const [errors, setErrors] = useState("");
 
   const [owner, setOwner] = useState("");
+  const [isDataProcessing, setIsDataProcessing] = useState(false);
+  const [isMessage, setIsMessage] = useState("");
 
   // ОБРАБОТКА ДАННЫХ ПОЛЬЗОВАТЕЛЯ, РЕГИСТРАЦИЯ, АВТОРИЗАЦИЯ, ВХОД и ВЫХОД ===
   // Вход пользователя
@@ -80,10 +84,9 @@ const App = function () {
     mainApi
       .authorize(email, password)
       .then((res) => {
+        setIsDataProcessing(true);
         if (res.token) {
           localStorage.setItem("jwt", res.token);
-          localStorage.setItem("lastSearch", isLastData);
-          goHome();
         }
       })
       .catch((error) => {
@@ -104,6 +107,12 @@ const App = function () {
         }
         setErrors("Что-то пошло не так! Попробуйте ещё раз.");
         console.log(`Ошибка получения данных ${error}`);
+      })
+      .finally(() => {
+        setTimeout(function () {
+          setIsDataProcessing(false);
+          goHome();
+        }, 1500);
       });
   }
 
@@ -122,20 +131,19 @@ const App = function () {
       replace: true,
       state: setIsLoggedIn(true),
     });
-  // Перенаправление на домашнюю страницу /login
+  // Перенаправление на домашнюю страницу /
   const outHome = () =>
-    navigate("/login", {
+    navigate("/", {
       replace: true,
       state: setIsLoggedIn(false),
     });
 
   // Регистрация нового пользователя
   function onRegister({ name, email, password }) {
-    setIsLastData("");
-    localStorage.clear();
     return mainApi
       .register({ name, email, password })
       .then((res) => {
+        setIsDataProcessing(true);
         onLogin({ email, password });
 
         return res;
@@ -151,6 +159,11 @@ const App = function () {
           return setErrors("На сервере произошла ошибка");
         }
         setErrors("При регистрации пользователя произошла ошибка.");
+      })
+      .finally(() => {
+        setTimeout(function () {
+          setIsDataProcessing(false);
+        }, 1500);
       });
   }
 
@@ -159,9 +172,9 @@ const App = function () {
     mainApi
       .changeDataUser(data)
       .then((currentUser) => {
+        setIsDataProcessing(true);
         setCurrentUser(currentUser);
-        closeAllPopups();
-        handleEditStateNotActive();
+        setIsMessage("Данные обновлены");
       })
       .catch((error) => {
         if (error === `409`) {
@@ -173,7 +186,16 @@ const App = function () {
         }
         setErrors("При обновлении профиля произошла ошибка.");
         console.log(`Ошибка получения данных ${error}`);
-      });
+      })
+
+      .finally(() =>
+        setTimeout(function () {
+          setIsMessage("");
+          handleEditStateNotActive();
+          setIsDataProcessing(false);
+          closeAllPopups();
+        }, 1500)
+      );
   }
 
   // ОБРАБОТКА ДАННЫХ и ФИЛЬТРАЦИЯ ФИЛЬМОВ =====================================
@@ -186,37 +208,16 @@ const App = function () {
     useState([]);
   // Массив сохраненных фильмов
   const [arraySaveMovies, setArraySaveMovies] = useState("");
-  // Поиск
-  const [inputMovies, setInputMovies] = useState("");
-  // Послендний запрос в поике фильмов
+  // Последний запрос в поике фильмов
   const [isLastData, setIsLastData] = useState("");
 
   // Фильтр является ли фильм короткометражным
   const filterDuration = useCallback((movie) => {
-    if (Number.isFinite(movie.movieId) && movie.duration <= 40) {
+    if (Number.isFinite(movie.movieId) && movie.duration <= LENGTH_MOVIE) {
       return true;
     }
     return false;
   }, []);
-
-  // Обработчик изменения инпута обновляет стейт
-  function handleInputMoies(evt) {
-    setInputMovies(evt.target.value);
-  }
-  const filterInputData = useCallback(
-    (movie) => {
-      if (
-        movie.nameRU
-          .toLowerCase()
-          .trim()
-          .includes(inputMovies.toLowerCase().trim())
-      ) {
-        return true;
-      }
-      return false;
-    },
-    [inputMovies]
-  );
 
   const [isLoadingSaveMovies, setIsLoadingSaveMovies] = useState(false);
 
@@ -226,7 +227,6 @@ const App = function () {
       let arrMovies;
       let arrMoviesLastData;
       let arrMoviesLastDataShortFilm;
-      setIsLastData(localStorage.getItem("lastSearch"));
 
       api
         .getMovies()
@@ -249,9 +249,9 @@ const App = function () {
 
           setArrayMovies(arrMovies);
 
-          if (isLastData.length !== 0) {
+          if (typeof isLastData !== undefined) {
             arrMoviesLastData = arrMovies.filter((item) => {
-              return item.nameRU.includes(isLastData);
+              return item.nameRU.toLowerCase().trim().includes(isLastData);
             });
             arrMoviesLastDataShortFilm =
               arrMoviesLastData.filter(filterDuration);
@@ -301,7 +301,7 @@ const App = function () {
           description: movies.description || "Нет данных",
           image: movies.image || "Нет данных",
           trailer: movies.trailer || "Нет данных",
-          thumbnail: movies.thumbnail,
+          thumbnail: movies.thumbnail || "Нет данных",
           movieId: movies.movieId,
           nameEN: movies.nameEN || "Нет данных",
           nameRU: movies.nameRU || "Нет данных",
@@ -358,6 +358,14 @@ const App = function () {
     setIsPopupOpen(false);
     setIsEdit(false);
   }, []);
+
+  function Redirect({ to }) {
+    let navigate = useNavigate();
+    useEffect(() => {
+      navigate(to);
+    });
+    return null;
+  }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -420,12 +428,13 @@ const App = function () {
                     </Header>
                     <Profile
                       isEditState={isEdit}
-                      isNotActive={handleEditStateNotActive}
                       isActive={handleEditStateActive}
                       onEndSession={onSignOut}
                       onClose={closeAllPopups}
                       onUpdateUser={handleUpdateUser}
                       errorsMessage={errors}
+                      isDataProcessing={isDataProcessing}
+                      message={isMessage}
                     />
                   </>
                 }
@@ -460,13 +469,10 @@ const App = function () {
                     lastDataShortFilms={arrayLastSearchMoviesShortFilm}
                     arraySaveMovies={arraySaveMovies}
                     shortFilms={filterDuration}
-                    setInputMovies={setInputMovies}
-                    inputMovies={inputMovies}
-                    handleInputMoies={handleInputMoies}
-                    filterInputData={filterInputData}
                     handleAddMovie={handleAddMovie}
                     setArraySaveMovies={setArraySaveMovies}
-                    deletMovie={handleCardDelete}
+                    deleteMovie={handleCardDelete}
+                    setIsLastData={setIsLastData}
                   />
                 </>
               </ProtectedRoute>
@@ -492,11 +498,7 @@ const App = function () {
                       arraySaveMovies={arraySaveMovies}
                       lastData={arrayLastSearchMovies}
                       shortFilms={filterDuration}
-                      setInputMovies={setInputMovies}
-                      inputMovies={inputMovies}
-                      handleInputMoies={handleInputMoies}
-                      filterInputData={filterInputData}
-                      deletMovie={handleCardDelete}
+                      deleteMovie={handleCardDelete}
                     />
                   </>
                 }
@@ -505,22 +507,41 @@ const App = function () {
           />
 
           <Route path="*" element={<PageNotFound />} />
+
           <Route
             path="register"
             element={
-              <>
-                <Header styleAuth="header__auth" />
-                <Register errorsMessage={errors} onRegister={onRegister} />
-              </>
+              !isLoggedIn ? (
+                <>
+                  <Header styleAuth="header__auth" />
+                  <Register
+                    errorsMessage={errors}
+                    message={isMessage}
+                    onRegister={onRegister}
+                    isDataProcessing={isDataProcessing}
+                  />
+                </>
+              ) : (
+                <Redirect to="/movies" />
+              )
             }
           />
+
           <Route
             path="login"
             element={
-              <>
-                <Header styleAuth="header__auth" />
-                <Login errorsMessage={errors} onLogin={onLogin} />
-              </>
+              !isLoggedIn ? (
+                <>
+                  <Header styleAuth="header__auth" />
+                  <Login
+                    errorsMessage={errors}
+                    onLogin={onLogin}
+                    isDataProcessing={isDataProcessing}
+                  />
+                </>
+              ) : (
+                <Redirect to="/movies" />
+              )
             }
           />
         </Routes>

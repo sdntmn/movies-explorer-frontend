@@ -14,7 +14,7 @@ const Input = function ({
 }) {
   return (
     <div className="form__inputs">
-      <span className="form__promp">{inputTitle}</span>
+      <span className="form__prompt">{inputTitle}</span>
       <input
         className="form__input popup__input_value_link"
         id={`form_${idName}`}

@@ -9,16 +9,16 @@ export class Api {
   getMovies() {
     return fetch(this._url, {
       headers: this._headers,
-    }).then(this._checkResponsPromise);
+    }).then(this._checkResponsePromise);
   }
 
   // Проверка работы промиса =================================================
-  _checkResponsPromise(res) {
-    return res.ok
-      ? res.json()
-      : Promise.reject(
-          console.log(`Ошибка № ${res.status}  Текст ошибки: ${res.statusText}`)
-        );
+  _checkResponsePromise(res) {
+    return res.ok ?
+      res.json() :
+      Promise.reject(
+        console.log(`Ошибка № ${res.status}  Текст ошибки: ${res.statusText}`)
+      );
   }
 }
 

@@ -10,7 +10,7 @@ function MoviesCard({
   src,
   movieTitle,
   movie,
-  deletMovie,
+  deleteMovie,
   saveMovie,
 }) {
   let locations = useLocation();
@@ -41,13 +41,13 @@ function MoviesCard({
     inflectWords();
   }, [time]);
 
-  function handleSavedOrDelet() {
+  function handleSavedOrDelete() {
     // false - значит нет в сохраненных
     if (locations.pathname === "/movies") {
-      deletMovie(movie);
+      deleteMovie(movie);
     }
     if (locations.pathname === "/saved-movies") {
-      deletMovie(saveMovie);
+      deleteMovie(saveMovie);
     }
   }
   return (
@@ -62,14 +62,14 @@ function MoviesCard({
         <a
           href={trailer}
           target="_blank"
-          aria-label="Перевод на ютюб-трейлер фильма"
+          aria-label="Перевод на ютуб-трейлер фильма"
           rel="noreferrer"
         >
           <img className="element__img" src={src} alt={movieTitle} />
         </a>
         {locations.pathname === "/movies" && (
           <button
-            onClick={handleSavedOrDelet}
+            onClick={handleSavedOrDelete}
             className={
               !movie.state
                 ? "element__button-not-active"
@@ -91,7 +91,7 @@ function MoviesCard({
         )}
         {locations.pathname === "/saved-movies" && (
           <button
-            onClick={handleSavedOrDelet}
+            onClick={handleSavedOrDelete}
             className="element__button-not-active"
             type="button"
             aria-label="Добавить в избранное"

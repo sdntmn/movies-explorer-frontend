@@ -6,11 +6,12 @@ const SearchForm = function ({
   changeCheckbox,
   value,
   onSubmit,
-  hendleShortFilms,
+
   searchChangeMovies,
   checked,
   id,
   buttonIsDisabled = false,
+  setButtonIsDisabled,
 }) {
   return (
     <div className="searchForm">
@@ -36,7 +37,6 @@ const SearchForm = function ({
           </button>
         </div>
         <FilterCheckbox
-          hendleShortFilms={hendleShortFilms}
           shortFilmsSave={shortFilmsSave}
           changeCheckbox={changeCheckbox}
           checked={checked}

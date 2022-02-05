@@ -8,12 +8,12 @@ import Form from "../Form/Form";
 const Profile = function ({
   isEditState,
   isActive = false,
-  isNotActive,
   onUpdateUser,
   onEndSession,
   onClose,
   isDataProcessing,
   errorsMessage,
+  message,
 }) {
   const currentUser = useContext(CurrentUserContext);
   const [userName, setUserName] = useState("");
@@ -44,7 +44,7 @@ const Profile = function ({
   const handleSubmit = async (evt) => {
     evt.preventDefault();
 
-    onUpdateUser({ email: inputValues.email, name: inputValues.name });
+    onUpdateUser({ email: currentUser.email, name: inputValues.name });
     resetForm();
   };
 
@@ -68,11 +68,7 @@ const Profile = function ({
             <Link onClick={isActive} to="/profile" className="profile__link">
               Редактировать
             </Link>
-            <Link
-              onClick={onEndSession}
-              to="/login"
-              className="profile__link-out"
-            >
+            <Link onClick={onEndSession} to="/" className="profile__link-out">
               Выйти из аккаунта
             </Link>
           </div>
@@ -82,7 +78,7 @@ const Profile = function ({
           isEditState={isEditState}
           title={`Привет, ${userName}!`}
           btnName={isDataProcessing ? "Сохранение..." : "Сохранить"}
-          message=""
+          message={message}
           onSubmit={handleSubmit}
           onClose={onClose}
           name="changeData"
@@ -92,8 +88,9 @@ const Profile = function ({
           isDisabled={!isValid || isDataProcessing}
           errorsMessage={errorsMessage}
         >
-          <div className="profile__gruping">
+          <div className="profile__grouping">
             <span className="profile__input-text">Имя</span>
+
             <input
               className="profile__input"
               id="changeName"
@@ -101,25 +98,25 @@ const Profile = function ({
               name="name"
               minLength="2"
               maxLength="40"
-              placeholder={userName}
               onChange={handleChange}
-              value={inputValues.name || ""}
+              value={inputValues.name || userName}
               errors={errors.userName || ""}
+              placeholder={userName}
               required
             />
           </div>
           <hr className="profile__line" />
-          <div className="profile__gruping">
+          <div className="profile__grouping">
             <span className="profile__input-text">Почта</span>
             <input
               className="profile__input"
               id="changeEmail"
               type="email"
               name="email"
-              placeholder={email}
               onChange={handleChange}
-              value={inputValues.email || ""}
+              value={inputValues.email || email}
               errors={errors.email || ""}
+              placeholder={email}
               required
             />
           </div>

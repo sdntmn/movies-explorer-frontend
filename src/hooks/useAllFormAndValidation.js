@@ -8,19 +8,32 @@ export function useFormAndValidation() {
 
   const handleChange = (evt) => {
     const pattern = (str) => /^[a-zA-Zа-яА-Я -]+$/i.test(str);
+    const patternEmail = (str) =>
+      /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,2}$/i.test(
+        str
+      );
     const input = evt.target;
     const name = input.name;
     const value = input.value;
 
     if (typeof input["name"] !== "undefined" && name === "name") {
       pattern(value);
-
       if (!pattern(value)) {
         setErrors(
           input.setCustomValidity(
             "имя содержит только латиницу, кириллицу, пробел или дефис."
           )
         );
+      } else {
+        setErrors(input.setCustomValidity(""));
+        setIsValid(false);
+      }
+    }
+
+    if (typeof input["name"] !== "undefined" && name === "email") {
+      patternEmail(value);
+      if (!patternEmail(value)) {
+        setErrors(input.setCustomValidity("Не корректный email"));
       } else {
         setErrors(input.setCustomValidity(""));
         setIsValid(false);
@@ -43,5 +56,13 @@ export function useFormAndValidation() {
     }, [setInputValues, setErrors, setIsValid]
   );
 
-  return { inputValues, errors, isValid, handleChange, resetForm, setIsValid };
+  return {
+    inputValues,
+    errors,
+    isValid,
+    handleChange,
+    resetForm,
+    setIsValid,
+    setInputValues,
+  };
 }

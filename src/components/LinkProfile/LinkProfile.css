@@ -6,7 +6,7 @@
   text-decoration: none;
 }
 
-.header__profile-acaunt {
+.header__profile-account {
   min-width: max-content;
   color: rgba(255, 255, 255, 1);
   font-style: normal;
@@ -16,7 +16,7 @@
   transition: all .5s;
 }
 
-.header__profile-acaunt:hover {
+.header__profile-account:hover {
   font-weight: 600;
 }
 

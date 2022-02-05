@@ -25,7 +25,7 @@ const Register = function ({ onRegister, errorsMessage, isDataProcessing }) {
     <>
       <Form
         title="Добро пожаловать!"
-        btnName="Зарегистрироваться"
+        btnName={isDataProcessing ? "Регистрация..." : "Зарегистрироваться"}
         onSubmit={handleSubmit}
         name="registering"
         text="Уже зарегистрированы?"
@@ -33,6 +33,7 @@ const Register = function ({ onRegister, errorsMessage, isDataProcessing }) {
         pathLink="/login"
         isDisabled={!isValid || isDataProcessing}
         errorsMessage={errorsMessage}
+        message={isDataProcessing && "Вы успешно зарегистрированы"}
       >
         <Input
           idName="registeringName"

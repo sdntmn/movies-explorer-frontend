@@ -29,6 +29,7 @@ const Login = function ({ onLogin, isDataProcessing, errorsMessage }) {
         pathLink="/register"
         isDisabled={!isValid || isDataProcessing}
         errorsMessage={errorsMessage}
+        message={isDataProcessing && "Авторизация прошла успешно!"}
       >
         <Input
           idName="loginEmail"

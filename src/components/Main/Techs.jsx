@@ -14,26 +14,26 @@ const Techs = function () {
               дипломном проекте.
             </p>
           </div>
-          <ul class="techs__progect-techs">
-            <li class="techs__progect-techs-text root__color-dark-gray">
+          <ul class="techs__project-techs">
+            <li class="techs__project-techs-text root__color-dark-gray">
               HTML
             </li>
 
-            <li class="techs__progect-techs-text root__color-dark-gray">CSS</li>
+            <li class="techs__project-techs-text root__color-dark-gray">CSS</li>
 
-            <li class="techs__progect-techs-text root__color-dark-gray">JS</li>
+            <li class="techs__project-techs-text root__color-dark-gray">JS</li>
 
-            <li class="techs__progect-techs-text root__color-dark-gray">
+            <li class="techs__project-techs-text root__color-dark-gray">
               React
             </li>
 
-            <li class="techs__progect-techs-text root__color-dark-gray">Git</li>
+            <li class="techs__project-techs-text root__color-dark-gray">Git</li>
 
-            <li class="techs__progect-techs-text root__color-dark-gray">
+            <li class="techs__project-techs-text root__color-dark-gray">
               Express.js
             </li>
 
-            <li class="techs__progect-techs-text root__color-dark-gray">
+            <li class="techs__project-techs-text root__color-dark-gray">
               mongoDB
             </li>
           </ul>

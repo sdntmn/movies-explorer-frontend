@@ -151,7 +151,7 @@
   }
 }
 
-.profile__gruping {
+.profile__grouping {
   display: flex;
   align-items: center;
   padding-bottom: 16px;
@@ -161,7 +161,7 @@
 }
 
 @media (max-width: 640px) {
-  .profile__gruping {
+  .profile__grouping {
     max-width: 260px;
   }
 }

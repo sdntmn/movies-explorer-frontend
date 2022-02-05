@@ -33,6 +33,10 @@
   max-width: 400px;
 }
 
+.form__text-edit-color {
+  color: rgba(61, 220, 132, 1);
+}
+
 @media (max-width: 640px) {
   .form__text-edit {
     font-size: 12px;

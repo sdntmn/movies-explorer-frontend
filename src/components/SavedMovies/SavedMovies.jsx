@@ -10,15 +10,13 @@ const SavedMovies = function ({
   arraySaveMovies,
   lastData,
   shortFilms,
-  setInputMovies,
-  inputMovies,
-  handleInputMoies,
-  filterInputData,
-  deletMovie,
+  deleteMovie,
 }) {
   const [saveResult, setSaveResult] = useState(lastData);
 
-  // сосьояние найдено что то или нет
+  const [inputSearchInSave, setInputSearchInSave] = useState("");
+
+  // состояние найдено что то или нет
   const [inputResult, setInputResult] = useState(false);
 
   // Button search
@@ -32,21 +30,35 @@ const SavedMovies = function ({
   }
 
   // Обработчик изменения инпута обновляет стейт
-  handleInputMoies = (evt) => {
-    setInputMovies(evt.target.value);
-    if (!!inputMovies) {
+  const handlerInputMoviesInSave = (evt) => {
+    setInputSearchInSave(evt.target.value);
+    if (!!inputSearchInSave) {
       setButtonIsDisabledSave(true);
     }
   };
 
+  const filterInputData = useCallback(
+    (movie) => {
+      if (
+        movie.nameRU
+          .toLowerCase()
+          .trim()
+          .includes(inputSearchInSave.toLowerCase().trim())
+      ) {
+        return true;
+      }
+      return false;
+    },
+    [inputSearchInSave]
+  );
+
   const resetFromSave = useCallback(() => {
-    setInputMovies("");
     setButtonIsDisabledSave(false);
-  }, [setInputMovies]);
+  }, []);
 
   useEffect(() => {
-    setButtonIsDisabledSave(!!inputMovies);
-  }, [buttonIsDisabledSave, inputMovies]);
+    setButtonIsDisabledSave(!!inputSearchInSave);
+  }, [buttonIsDisabledSave, inputSearchInSave]);
 
   useEffect(() => {
     setSaveResult(arraySaveMovies);
@@ -78,10 +90,10 @@ const SavedMovies = function ({
       <div className="page">
         <SearchForm
           onSubmit={handleSubmitSave}
-          searchChangeMovies={handleInputMoies}
+          searchChangeMovies={handlerInputMoviesInSave}
           changeCheckbox={changeCheckboxSave}
           checked={checkedShortFilmsSave}
-          value={inputMovies}
+          value={inputSearchInSave}
           id="searchSaveMovies"
           buttonIsDisabled={buttonIsDisabledSave}
         />
@@ -95,8 +107,9 @@ const SavedMovies = function ({
                 isOpen={isOpen}
                 src={saveMovie.image}
                 time={saveMovie.duration}
+                trailer={saveMovie.trailer}
                 saveMovie={saveMovie}
-                deletMovie={deletMovie}
+                deleteMovie={deleteMovie}
               ></MoviesCard>
             ))}
           </MoviesCardList>
@@ -111,8 +124,9 @@ const SavedMovies = function ({
                 isOpen={isOpen}
                 src={saveMovie.image}
                 time={saveMovie.duration}
+                trailer={saveMovie.trailer}
                 saveMovie={saveMovie}
-                deletMovie={deletMovie}
+                deleteMovie={deleteMovie}
               ></MoviesCard>
             ))}
           </MoviesCardList>
