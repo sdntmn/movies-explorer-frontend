@@ -10,12 +10,12 @@ const Portfolio = function () {
   return (
     <>
       {" "}
-      <h3 class="portfolio root__text-color-gray">Портфолио</h3>
-      <ul class="portfolio__links">
-        <li class="portfolio__name">
+      <h3 className="portfolio root__text-color-gray">Портфолио</h3>
+      <ul className="portfolio__links">
+        <li className="portfolio__name">
           Статичный сайт
           <a
-            class="portfolio__link"
+            className="portfolio__link"
             target="_blank"
             rel="noopener noreferrer"
             href={urlStaticSite}
@@ -24,10 +24,10 @@ const Portfolio = function () {
           </a>
         </li>
 
-        <li class="portfolio__name">
+        <li className="portfolio__name">
           Адаптивный сайт
           <a
-            class="portfolio__link"
+            className="portfolio__link"
             target="_blank"
             rel="noopener noreferrer"
             href={urlAdaptiveSite}
@@ -36,10 +36,10 @@ const Portfolio = function () {
           </a>
         </li>
 
-        <li class="portfolio__name">
+        <li className="portfolio__name">
           Одностраничное приложение
           <a
-            class="portfolio__link"
+            className="portfolio__link"
             target="_blank"
             rel="noopener noreferrer"
             href={urlMestoSite}

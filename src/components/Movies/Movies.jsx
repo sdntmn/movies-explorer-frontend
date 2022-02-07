@@ -16,20 +16,6 @@ import {
   MOBILE_INITIALLY_AMOUNT,
 } from "../../utils/config";
 
-//isOpen - для смены фона
-// arrayMovies - все фильмы
-// isMoviesLoading - включает прелоaдер
-// setArrayLastSearchMovies - функция последнего запроса
-// lastData = массив данных последнего запроса
-// onAddCollection - handleAddMovie функция добавления в сохраненные для button сохранения
-// isSavedStateMovies - состояние добавлен false или true
-// arrayMovieIdSaveMovies - moviesId сохраненных фильмов
-// shortFilms- функция фильтрации короткометражек
-// setInputMovies - обработка инпута
-// inputMovies - запрос в инпуте
-// handleAddMovie - сохранение в коллекцию
-// arraySaveMovies - массив сохраненных фильмов
-// setArraySaveMovies - сохранения в
 const Movies = function ({
   isOpen,
   arrayMovies,

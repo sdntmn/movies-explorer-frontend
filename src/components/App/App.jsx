@@ -12,6 +12,7 @@ import PageNotFound from "../Page404/Page404";
 import Header from "../Header/Header";
 import LinkProfile from "../LinkProfile/LinkProfile";
 import Navigation from "../Navigation/Navigation";
+import InfoTooltip from "../InfoTooltip/InfoTooltip";
 import * as mainApi from "../../utils/mainApi";
 import api from "../../utils/moviesApi";
 
@@ -28,6 +29,7 @@ const App = function () {
   const [isMoviesLoading, setIsMoviesLoading] = useState(false);
 
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isInfoOpen, setIsInfoOpen] = useState(false);
   // Состояние страницы профиля в режиме редактирования или просмотра
   const [isEdit, setIsEdit] = useState(false);
 
@@ -191,6 +193,7 @@ const App = function () {
       .finally(() =>
         setTimeout(function () {
           setIsMessage("");
+          setErrors("");
           handleEditStateNotActive();
           setIsDataProcessing(false);
           closeAllPopups();
@@ -310,8 +313,21 @@ const App = function () {
           setArraySaveMovies((state) => [movie, ...state]);
         })
         .catch((error) => {
+          if (error === `400`) {
+            setErrors(
+              "Не возможно сохранить данную карточку. Данные не полные."
+            );
+            handleInfoOpen();
+          }
           console.log(`Ошибка данных карточки ${error}`);
-        });
+        })
+        .finally(() =>
+          setTimeout(function () {
+            handleInfoClose();
+
+            setErrors("");
+          }, 2500)
+        );
     }
   }
 
@@ -348,6 +364,14 @@ const App = function () {
 
   const handleEditStateNotActive = useCallback(() => {
     setIsEdit(false);
+  }, []);
+
+  const handleInfoOpen = useCallback(() => {
+    setIsInfoOpen(true);
+  }, []);
+
+  const handleInfoClose = useCallback(() => {
+    setIsInfoOpen(false);
   }, []);
 
   const handleNavClick = useCallback(() => {
@@ -408,7 +432,7 @@ const App = function () {
           />
 
           <Route
-            path="profile"
+            path="/profile"
             element={
               <ProtectedRoute isLoggedIn={isLoggedIn} isAuthUser={isAuthUser}>
                 {
@@ -443,7 +467,7 @@ const App = function () {
           ></Route>
 
           <Route
-            path="movies"
+            path="/movies"
             element={
               <ProtectedRoute
                 isAuthUser={isAuthUser}
@@ -474,12 +498,13 @@ const App = function () {
                     deleteMovie={handleCardDelete}
                     setIsLastData={setIsLastData}
                   />
+                  <InfoTooltip isOpenInfo={isInfoOpen} errors={errors} />
                 </>
               </ProtectedRoute>
             }
           />
           <Route
-            path="saved-movies"
+            path="/saved-movies"
             element={
               <ProtectedRoute isLoggedIn={isLoggedIn} isAuthUser={isAuthUser}>
                 {
@@ -509,7 +534,7 @@ const App = function () {
           <Route path="*" element={<PageNotFound />} />
 
           <Route
-            path="register"
+            path="/register"
             element={
               !isLoggedIn ? (
                 <>
@@ -528,7 +553,7 @@ const App = function () {
           />
 
           <Route
-            path="login"
+            path="/login"
             element={
               !isLoggedIn ? (
                 <>

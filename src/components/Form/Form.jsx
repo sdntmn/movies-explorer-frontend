@@ -15,6 +15,7 @@ export default function Form({
   errorsMessage,
   message,
   errorsEdit,
+  isAddValidity,
 }) {
   return (
     <div className={isEditState ? "form__edit" : "form"}>
@@ -43,6 +44,7 @@ export default function Form({
         errorsMessage={errorsMessage}
         errorsEdit={errorsEdit}
         message={message}
+        isAddValidity={isAddValidity}
       />
     </div>
   );

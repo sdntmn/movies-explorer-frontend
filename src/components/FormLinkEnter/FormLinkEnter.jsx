@@ -11,6 +11,7 @@ const FormLinkEnter = function ({
   isDisabled,
   errorsMessage,
   message,
+  isAddValidity,
 }) {
   return (
     <>
@@ -43,13 +44,12 @@ const FormLinkEnter = function ({
         className={
           isEditState
             ? `form__button-edit
-              ${isDisabled && "form__button_disabled"}`
+              ${(isDisabled || !isAddValidity) && "form__button_disabled"}`
             : `form__button ${isDisabled && "form__button_disabled"}`
         }
         type="submit"
         aria-label={btnName}
         onClick={onSubmit}
-        disabled={isDisabled}
       >
         {btnName}
       </button>

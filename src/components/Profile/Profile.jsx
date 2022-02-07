@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { useFormAndValidation } from "../../hooks/useAllFormAndValidation";
@@ -18,7 +18,8 @@ const Profile = function ({
   const currentUser = useContext(CurrentUserContext);
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
-  const { inputValues, errors, isValid, handleChange, setIsValid, resetForm } =
+  const [isAddValidity, setIsAddValidity] = useState(false);
+  const { inputValues, errors, isValid, handleChange, resetForm } =
     useFormAndValidation();
 
   useEffect(() => {
@@ -26,25 +27,38 @@ const Profile = function ({
     setEmail(currentUser.email);
   }, [currentUser]);
 
+  const validationChangeableData = useCallback(
+    (currentUser) => {
+      if (
+        typeof inputValues.name !== "undefined" &&
+        typeof inputValues.email !== "undefined" &&
+        currentUser.email !== inputValues.email &&
+        currentUser.name !== inputValues.name
+      ) {
+        setIsAddValidity(true);
+      } else {
+        setIsAddValidity(false);
+      }
+    },
+    [inputValues]
+  );
+
   useEffect(() => {
-    if (
-      inputValues.email === currentUser.email &&
-      inputValues.name === currentUser.name
-    ) {
-      setIsValid(false);
-    }
+    validationChangeableData(currentUser);
   }, [
+    currentUser,
     currentUser.email,
     currentUser.name,
     inputValues.email,
     inputValues.name,
-    setIsValid,
+    validationChangeableData,
+    setIsAddValidity,
   ]);
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
 
-    onUpdateUser({ email: currentUser.email, name: inputValues.name });
+    onUpdateUser({ email: inputValues.email, name: inputValues.name });
     resetForm();
   };
 
@@ -87,6 +101,7 @@ const Profile = function ({
           pathLink="/register"
           isDisabled={!isValid || isDataProcessing}
           errorsMessage={errorsMessage}
+          isAddValidity={isAddValidity}
         >
           <div className="profile__grouping">
             <span className="profile__input-text">Имя</span>

@@ -1,6 +1,5 @@
 import { useCallback, useState } from "react";
 
-//хук управления формой и валидации формы
 export function useFormAndValidation() {
   const [inputValues, setInputValues] = useState({});
   const [errors, setErrors] = useState({});
@@ -9,7 +8,7 @@ export function useFormAndValidation() {
   const handleChange = (evt) => {
     const pattern = (str) => /^[a-zA-Zа-яА-Я -]+$/i.test(str);
     const patternEmail = (str) =>
-      /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,2}$/i.test(
+      /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.*[a-z]{2,}$/i.test(
         str
       );
     const input = evt.target;
@@ -41,10 +40,7 @@ export function useFormAndValidation() {
     }
 
     setInputValues({...inputValues, [name]: value });
-    // input.validationMessage - текст ошибки браузера
     setErrors({...errors, [name]: input.validationMessage });
-    // input.closest-имя формы
-    // checkValidity() - валидна ли вся форма
     setIsValid(input.closest("form").checkValidity());
   };
 
