@@ -86,9 +86,10 @@ const App = function () {
     mainApi
       .authorize(email, password)
       .then((res) => {
-        setIsDataProcessing(true);
         if (res.token) {
           localStorage.setItem("jwt", res.token);
+          setIsDataProcessing(true);
+          goHome();
         }
       })
       .catch((error) => {
@@ -113,7 +114,6 @@ const App = function () {
       .finally(() => {
         setTimeout(function () {
           setIsDataProcessing(false);
-          goHome();
         }, 1500);
       });
   }
@@ -165,7 +165,8 @@ const App = function () {
       .finally(() => {
         setTimeout(function () {
           setIsDataProcessing(false);
-        }, 1500);
+          setErrors("");
+        }, 2500);
       });
   }
 
