@@ -7,18 +7,18 @@ const AboutMe = function () {
   const urlVk = "https://vk.com/sdntmn";
   return (
     <>
-      <section class="about-me root__color-white">
-        <h2 class="root__title">Студент</h2>
-        <hr class="root__line" />
-        <div class="about-me__block">
-          <div class="about-me__block-project">
-            <div class="about-me__block-description">
-              <div class="about-me__block-description-text">
-                <span class="about-me__name">Денис</span>
-                <h3 class="about-me__subtitle">
+      <section className="about-me root__color-white">
+        <h2 className="root__title">Студент</h2>
+        <hr className="root__line" />
+        <div className="about-me__block">
+          <div className="about-me__block-project">
+            <div className="about-me__block-description">
+              <div className="about-me__block-description-text">
+                <span className="about-me__name">Денис</span>
+                <h3 className="about-me__subtitle">
                   Фронтенд-разработчик, 44 года
                 </h3>
-                <p class="about-me__description">
+                <p className="about-me__description">
                   Я родился и живу в Тюмени, закончил торгово-экономический
                   техникум. Женат, детей трое, две дочери и сын. Люблю слушать
                   музыку и мастерить изделия из дерева для домашнего хозяйства.
@@ -51,7 +51,7 @@ const AboutMe = function () {
                 </li>
               </ul>
             </div>
-            <img class="about-me__img" src={FotoPatch} alt="Фото" />
+            <img className="about-me__img" src={FotoPatch} alt="Фото" />
           </div>
           <Portfolio />
         </div>

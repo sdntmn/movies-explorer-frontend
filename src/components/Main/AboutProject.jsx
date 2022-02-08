@@ -3,34 +3,34 @@ import React from "react";
 const AboutProject = function () {
   return (
     <>
-      <section class="about-project root__color-white">
-        <div class="about-project-section">
-          <h2 class="root__title">О проекте</h2>
-          <hr class="root__line" />
-          <div class="about-project__block">
-            <div class="about-project__description">
-              <h3 class="about-project__block-title">
+      <section className="about-project root__color-white">
+        <div className="about-project-section">
+          <h2 className="root__title">О проекте</h2>
+          <hr className="root__line" />
+          <div className="about-project__block">
+            <div className="about-project__description">
+              <h3 className="about-project__block-title">
                 Дипломный проект включал 5 этапов
               </h3>
-              <p class="about-project__block-text">
+              <p className="about-project__block-text">
                 Составление плана, работу над бэкендом, вёрстку, добавление
                 функциональности и финальные доработки.
               </p>
             </div>
-            <div class="about-project__description">
-              <h3 class="about-project__block-title">
+            <div className="about-project__description">
+              <h3 className="about-project__block-title">
                 На выполнение диплома ушло 5 недель
               </h3>
-              <p class="about-project__block-text">
+              <p className="about-project__block-text">
                 У каждого этапа был мягкий и жёсткий дедлайн, которые нужно было
                 соблюдать, чтобы успешно защититься.
               </p>
             </div>
           </div>
           <div>
-            <ul class="about-project__block-time">
+            <ul className="about-project__block-time">
               <li
-                class="
+                className="
                   about-project__time
                   root__color-green root__text-color-black
                   about-project__block-height-36
@@ -40,7 +40,7 @@ const AboutProject = function () {
               </li>
 
               <li
-                class="
+                className="
                   about-project__time
                   root__color-dark-gray
                   about-project__block-height-36
@@ -49,11 +49,11 @@ const AboutProject = function () {
                 4 недели
               </li>
 
-              <li class="about-project__time root__text-color-gray">
+              <li className="about-project__time root__text-color-gray">
                 Back-end
               </li>
 
-              <li class="about-project__time root__text-color-gray">
+              <li className="about-project__time root__text-color-gray">
                 Front-end
               </li>
             </ul>

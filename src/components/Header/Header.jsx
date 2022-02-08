@@ -13,6 +13,7 @@ export default function Header({
   styleHeader,
   styleAuth,
   children,
+  isNotActive,
 }) {
   return (
     <div className={styleHeader}>
@@ -24,6 +25,7 @@ export default function Header({
         >
           <img className="logo" src={logoPath} alt="Логотип сайта" />
         </Link>
+
         {isLoggedIn ? (
           <img
             onClick={isOpen}
@@ -53,7 +55,7 @@ export default function Header({
         ) : (
           <>{children}</>
         )}
-        <Popup visible={visible} onClose={onClose} />
+        <Popup visible={visible} onClose={onClose} isNotActive={isNotActive} />
       </header>
     </div>
   );

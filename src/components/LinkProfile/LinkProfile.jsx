@@ -5,7 +5,7 @@ import iconPath from "../../images/icon__COLOR_icon-main.svg";
 const LinkProfile = function ({ pathLink, onClose }) {
   return (
     <Link to={pathLink} className="header__profile-icons" onClick={onClose}>
-      <span className="header__profile-acaunt">Аккаунт</span>
+      <span className="header__profile-account">Аккаунт</span>
       <img
         className="header__profile-icon"
         src={iconPath}

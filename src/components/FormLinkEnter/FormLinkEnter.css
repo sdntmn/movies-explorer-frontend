@@ -30,12 +30,18 @@
   font-size: 11px;
   line-height: 13px;
   padding-bottom: 20px;
+  max-width: 400px;
+}
+
+.form__text-edit-color {
+  color: rgba(61, 220, 132, 1);
 }
 
 @media (max-width: 640px) {
   .form__text-edit {
     font-size: 12px;
     line-height: 15px;
+    max-width: 260px;
   }
 }
 
@@ -75,6 +81,7 @@
   font-size: 14px;
   line-height: 17px;
   color: rgba(255, 255, 255, 1);
+  transition: visibility 0s, background 0.3s;
 }
 
 @media (max-width: 640px) {
@@ -86,12 +93,12 @@
 }
 
 .form__button:hover {
-  opacity: 0.8;
+  background: rgba(66, 133, 244, .8);
 }
 
-.form__button:disabled {
+.form__button_disabled {
   opacity: 0.2;
-  cursor: default;
+  pointer-events: none;
 }
 
 .form__button-edit {
