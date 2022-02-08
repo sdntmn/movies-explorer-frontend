@@ -114,6 +114,7 @@ const App = function () {
       .finally(() => {
         setTimeout(function () {
           setIsDataProcessing(false);
+          setErrors("");
         }, 1500);
       });
   }
